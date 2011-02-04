@@ -13,6 +13,7 @@ namespace spaceconquest
 {
     /// <summary>
     /// This is the main type for your game
+    /// ted's back
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
