@@ -19,6 +19,19 @@ namespace spaceconquest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        GraphicsDevice device;
+
+        private enum ScreenState
+        {
+            //class out each of these states so they have a draw call
+            Main,
+            MapSelect,
+            Game,
+            GlobalLobby,
+            GameLobby,
+            ClientConnect,
+
+        }
 
         public Game1()
         {
@@ -35,6 +48,11 @@ namespace spaceconquest
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.IsFullScreen = false;
+            graphics.ApplyChanges();
+            Window.Title = ":: Space Conquest ::";
 
             base.Initialize();
         }
@@ -47,8 +65,12 @@ namespace spaceconquest
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            device = graphics.GraphicsDevice;
 
             // TODO: use this.Content to load your game content here
+
+            
+
         }
 
         /// <summary>
@@ -75,7 +97,7 @@ namespace spaceconquest
 
             base.Update(gameTime);
         }
-
+        
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
