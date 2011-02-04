@@ -21,6 +21,10 @@ namespace spaceconquest
         SpriteBatch spriteBatch;
         GraphicsDevice device;
 
+        private SpriteFont mainFont;
+
+        private TitleScreen titleScreen;
+
         private enum ScreenState
         {
             //class out each of these states so they have a draw call
@@ -54,6 +58,7 @@ namespace spaceconquest
             graphics.ApplyChanges();
             Window.Title = ":: Space Conquest ::";
 
+
             base.Initialize();
         }
 
@@ -68,8 +73,10 @@ namespace spaceconquest
             device = graphics.GraphicsDevice;
 
             // TODO: use this.Content to load your game content here
+            mainFont = Content.Load<SpriteFont>("TitleFont");
 
-            
+
+            titleScreen = new TitleScreen(spriteBatch, mainFont);
 
         }
 
@@ -107,6 +114,11 @@ namespace spaceconquest
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            //titleScreen uses spritebatch object
+            titleScreen.Draw();
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
