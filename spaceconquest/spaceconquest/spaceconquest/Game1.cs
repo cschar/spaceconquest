@@ -23,19 +23,7 @@ namespace spaceconquest
 
         private SpriteFont mainFont;
 
-        private TitleScreen titleScreen;
-
-        private enum ScreenState
-        {
-            //class out each of these states so they have a draw call
-            Main,
-            MapSelect,
-            Game,
-            GlobalLobby,
-            GameLobby,
-            ClientConnect,
-
-        }
+        
 
         public Game1()
         {
@@ -57,6 +45,7 @@ namespace spaceconquest
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
             Window.Title = ":: Space Conquest ::";
+            this.IsMouseVisible = true;
 
 
             base.Initialize();
@@ -75,8 +64,7 @@ namespace spaceconquest
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");
 
-
-            titleScreen = new TitleScreen(spriteBatch, mainFont);
+            MenuManager.Init(spriteBatch, mainFont);
 
         }
 
@@ -88,6 +76,8 @@ namespace spaceconquest
         {
             // TODO: Unload any non ContentManager content here
         }
+
+
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -101,7 +91,11 @@ namespace spaceconquest
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            
+            
+            MenuManager.screen.Update();
+            
+            
             base.Update(gameTime);
         }
         
@@ -111,13 +105,13 @@ namespace spaceconquest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
             //titleScreen uses spritebatch object
-            titleScreen.Draw();
+            MenuManager.screen.Draw();
             spriteBatch.End();
 
             base.Draw(gameTime);
