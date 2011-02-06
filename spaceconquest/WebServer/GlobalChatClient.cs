@@ -10,25 +10,30 @@ namespace spaceconquest
 {
 
     public struct ChatLog{
-        String playerName;
-        String message;
-        DateTime time;
+        public String playerName;
+        public String message;
+        public DateTime time;
     }
 
    public class GlobalChatClient
     {
-        private List<ChatLog> chatHistory;
+        private List<ChatLog> chatLogs;
         private String httpSource;
 
         //Constructor
         public GlobalChatClient(String serverAddress ){
-            chatHistory = new List<ChatLog>();
+            chatLogs = new List<ChatLog>();
             httpSource = serverAddress;
         }
 
+
+        public List<ChatLog> GetLogs()
+        {
+            UpdateLog();
+            return this.chatLogs;
+        }
         
-        
-        public void UpdateLog(){
+        private void UpdateLog(){
 
 
             List<String> chatLogs = new List<string>();
@@ -39,7 +44,7 @@ namespace spaceconquest
                 //HttpWebRequest chatReq =
                  //   (HttpWebRequest)WebRequest.Create(httpSource);
                 HttpWebRequest chatReq =
-                   (HttpWebRequest)WebRequest.Create("http://localhost:8080/?GetInfo=1");
+                   (HttpWebRequest)WebRequest.Create(httpSource);
                 HttpWebResponse chatResp = (HttpWebResponse)chatReq.GetResponse();
 
                 Stream resStream = chatResp.GetResponseStream();

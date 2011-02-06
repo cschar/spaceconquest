@@ -1,7 +1,6 @@
 using System;
-using System.Threading;
 
-namespace spaceconquest
+namespace GUITest
 {
 #if WINDOWS || XBOX
     static class Program
@@ -13,8 +12,7 @@ namespace spaceconquest
         {
             using (Game1 game = new Game1())
             {
-                
-                	game.Run();
+                game.Run();
             }
         }
     }
