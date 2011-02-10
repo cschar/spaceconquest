@@ -110,9 +110,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu Components\MenuList.cs" />
+    <Compile Include="Menu Components\MenuComponent.cs" />
     <Compile Include="MenuManager.cs" />
     <Compile Include="Menu Screens\Screen.cs" />
-    <Compile Include="MenuButton.cs" />
+    <Compile Include="Menu Components\MenuButton.cs" />
     <Compile Include="Menu Screens\ClientConnectScreen.cs" />
     <Compile Include="Menu Screens\GameLobbyScreen.cs" />
     <Compile Include="Menu Screens\GameScreen.cs" />
@@ -164,6 +166,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
