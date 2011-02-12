@@ -19,10 +19,10 @@ namespace spaceconquest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        GraphicsDevice device;
-
+        public static GraphicsDevice device;
         private SpriteFont mainFont;
-
+        RasterizerState wireFrameState;
+        Hex3D h, h2;
         
 
         public Game1()
@@ -48,6 +48,7 @@ namespace spaceconquest
             this.IsMouseVisible = true;
 
 
+
             base.Initialize();
         }
 
@@ -61,11 +62,21 @@ namespace spaceconquest
             spriteBatch = new SpriteBatch(GraphicsDevice);
             device = graphics.GraphicsDevice;
 
+
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");
 
             MenuManager.Init(spriteBatch, mainFont);
 
+            wireFrameState = new RasterizerState()
+            {
+                FillMode = FillMode.WireFrame,
+                CullMode = CullMode.None,
+            };
+
+
+            h = new Hex3D(0, 0, null);
+            h2 = new Hex3D(2, 0, null);
         }
 
         /// <summary>
@@ -105,14 +116,43 @@ namespace spaceconquest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
-
+            device.Clear(Color.Black);
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
             //titleScreen uses spritebatch object
-            MenuManager.screen.Draw();
+            //MenuManager.screen.Draw();
+            
             spriteBatch.End();
+
+
+            GraphicsDevice.RasterizerState = wireFrameState;
+
+            float time = (float)gameTime.TotalGameTime.TotalSeconds;
+
+            float yaw = 0;// time * 0.4f;
+            float pitch = 0;// time * 0.7f;
+            float roll = 0;// time * 1.1f;
+
+            Vector3 cameraPosition = new Vector3(0, 0, 10f);
+
+            float aspect = GraphicsDevice.Viewport.AspectRatio;
+
+            Matrix world = Matrix.Identity;
+            //Matrix world = Matrix.CreateFromYawPitchRoll(yaw, pitch, roll);
+            Matrix view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
+            Matrix projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 20);
+            Matrix orthog = Matrix.CreateOrthographic(800, 600, 1, 20);
+
+            Color color = Color.Green;
+            h.Draw(world, view, orthog, color);
+            h2.Draw(world, view, orthog, color);
+
+
+
+            // Reset the fill mode renderstate.
+            //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+
 
             base.Draw(gameTime);
         }
