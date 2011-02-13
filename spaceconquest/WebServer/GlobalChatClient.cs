@@ -30,24 +30,34 @@ namespace spaceconquest
         public List<ChatLog> GetLogs()
         {
             UpdateLog();
+            // TODO: create deep copy here
             return this.chatLogs;
         }
-        
+
         private void UpdateLog(){
 
 
-            List<String> chatLogs = new List<string>();
+           
 
 
             try
             {
                 //HttpWebRequest chatReq =
                  //   (HttpWebRequest)WebRequest.Create(httpSource);
+                //string question = "?GetInfo=1";
+                string question = "";
                 HttpWebRequest chatReq =
-                   (HttpWebRequest)WebRequest.Create(httpSource);
-                HttpWebResponse chatResp = (HttpWebResponse)chatReq.GetResponse();
+                   (HttpWebRequest)WebRequest.Create(httpSource + question);
+                //HttpWebResponse resp = (HttpWebResponse)chatReq.GetResponse();
+                Console.WriteLine("attempting req");
+                WebRequest req = WebRequest.Create(httpSource + "?GetInfo=1");
+                
+                WebResponse resp = req.GetResponse();
+                Console.WriteLine("requestReceived[]");
+                
 
-                Stream resStream = chatResp.GetResponseStream();
+               // Stream resStream = chatResp.GetResponseStream();
+                Stream resStream = resp.GetResponseStream();
 
 
                 //used on each read operation
@@ -77,7 +87,11 @@ namespace spaceconquest
                     }
                 }
                 while (count > 0); // any more data to read?
-
+                Console.WriteLine("Stream Read --> ");
+                Console.WriteLine(sb.ToString());
+                    
+                //empty logs and get fresh batch
+                chatLogs.Clear();
 
                 //Parse the stringBuffer into lists
                 count = 0;
@@ -86,7 +100,19 @@ namespace spaceconquest
                 {
                     if (sb[i] == '\n')
                     {
-                        chatLogs.Add(sb2.ToString());
+                        //log should be greater than 3 characters in length
+                        if (sb2.ToString().Length > 14)
+                        {
+                            string parsed_log = sb2.ToString();
+                            ChatLog log = new ChatLog();
+                            int msgStart = sb2.ToString().IndexOf(':');
+                            log.message = sb2.ToString().Substring(msgStart);
+                            log.playerName = sb2.ToString().Substring(0,msgStart );
+
+
+                            chatLogs.Add(log);
+                        }
+
                         sb2.Clear();
                     }
                     else
@@ -98,14 +124,15 @@ namespace spaceconquest
             }
             catch (WebException e)
             {
-                throw e;
-                //Console.WriteLine("WebException in GlobalChatClient-->Update");
+                //throw e;
+                Console.WriteLine("WebException in GlobalChatClient-->Update");
             }
 
-        foreach (String s in chatLogs)
-        {
-            Console.WriteLine(s);
-        }
+            Console.WriteLine("updated== @ " + DateTime.Now.TimeOfDay.ToString());
+            Console.WriteLine("Returned {0} chatLogs ", chatLogs.Count);
+           
+
+        return;
         
         
         }//end update method

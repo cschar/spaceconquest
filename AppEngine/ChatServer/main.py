@@ -17,6 +17,7 @@ class MainHandler(webapp.RequestHandler):
         
         if str(self.request.get('GetInfo')) == '1':
             doPage = False
+            #self.response.out.write(' <html> <body> ')
         else:
             doPage = True
 
@@ -32,12 +33,19 @@ class MainHandler(webapp.RequestHandler):
         for chat in chats:
             if doPage: 
                 self.response.out.write('''<div style="margin: 2px; padding:10px; background-color: #CDCDCD;"> ''');
-            self.response.out.write( '@ ' + str(chat.date) + ' -> ' + chat.author + ' wrote : ' + chat.content  + '\n')
+            
+            if len(chat.author) > 10:
+                name = chat.author[:10]
+
+            else:
+                name = chat.author
+
+            self.response.out.write( name + ' : ' + chat.content  + '\n')
             if doPage:
                 self.response.out.write('</div>')
-
-        if doPage:
-            self.response.out.write('</body></html>')
+        
+		
+                self.response.out.write('</body></html>')
 
 class SubmitHandler(webapp.RequestHandler):
     def get(self):        
