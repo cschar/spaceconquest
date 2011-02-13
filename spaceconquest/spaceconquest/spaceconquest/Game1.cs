@@ -76,7 +76,7 @@ namespace spaceconquest
 
 
             h = new Hex3D(0, 0, null);
-            h2 = new Hex3D(2, 0, null);
+            h2 = new Hex3D(1, 0, null);
         }
 
         /// <summary>
@@ -118,40 +118,23 @@ namespace spaceconquest
         {
             device.Clear(Color.Black);
             // TODO: Add your drawing code here
+
+            //GraphicsDevice.RasterizerState = wireFrameState;//
+            // Reset the fill mode renderstate.
+            GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+
             spriteBatch.Begin();
 
             //titleScreen uses spritebatch object
-            //MenuManager.screen.Draw();
+            MenuManager.screen.Draw();
             
             spriteBatch.End();
 
-
-            GraphicsDevice.RasterizerState = wireFrameState;
-
-            float time = (float)gameTime.TotalGameTime.TotalSeconds;
-
-            float yaw = 0;// time * 0.4f;
-            float pitch = 0;// time * 0.7f;
-            float roll = 0;// time * 1.1f;
-
-            Vector3 cameraPosition = new Vector3(0, 0, 10f);
-
-            float aspect = GraphicsDevice.Viewport.AspectRatio;
-
-            Matrix world = Matrix.Identity;
-            //Matrix world = Matrix.CreateFromYawPitchRoll(yaw, pitch, roll);
-            Matrix view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-            Matrix projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 20);
-            Matrix orthog = Matrix.CreateOrthographic(800, 600, 1, 20);
-
-            Color color = Color.Green;
-            h.Draw(world, view, orthog, color);
-            h2.Draw(world, view, orthog, color);
+            
 
 
 
-            // Reset the fill mode renderstate.
-            //GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+            
 
 
             base.Draw(gameTime);
