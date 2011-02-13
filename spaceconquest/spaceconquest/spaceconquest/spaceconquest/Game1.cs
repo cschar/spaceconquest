@@ -19,11 +19,23 @@ namespace spaceconquest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public static GraphicsDevice device;
+        GraphicsDevice device;
+
         private SpriteFont mainFont;
-        RasterizerState wireFrameState;
-        Hex3D h, h2;
-        
+
+        private TitleScreen titleScreen;
+
+        private enum ScreenState
+        {
+            //class out each of these states so they have a draw call
+            Main,
+            MapSelect,
+            Game,
+            GlobalLobby,
+            GameLobby,
+            ClientConnect,
+
+        }
 
         public Game1()
         {
@@ -45,8 +57,6 @@ namespace spaceconquest
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
             Window.Title = ":: Space Conquest ::";
-            this.IsMouseVisible = true;
-
 
 
             base.Initialize();
@@ -62,21 +72,12 @@ namespace spaceconquest
             spriteBatch = new SpriteBatch(GraphicsDevice);
             device = graphics.GraphicsDevice;
 
-
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");
 
-            MenuManager.Init(spriteBatch, mainFont);
 
-            wireFrameState = new RasterizerState()
-            {
-                FillMode = FillMode.WireFrame,
-                CullMode = CullMode.None,
-            };
+            titleScreen = new TitleScreen(spriteBatch, mainFont);
 
-
-            h = new Hex3D(0, 0, null);
-            h2 = new Hex3D(1, 0, null);
         }
 
         /// <summary>
@@ -87,8 +88,6 @@ namespace spaceconquest
         {
             // TODO: Unload any non ContentManager content here
         }
-
-
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -102,11 +101,7 @@ namespace spaceconquest
                 this.Exit();
 
             // TODO: Add your update logic here
-            
-            
-            MenuManager.screen.Update();
-            
-            
+
             base.Update(gameTime);
         }
         
@@ -116,26 +111,14 @@ namespace spaceconquest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            device.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
             // TODO: Add your drawing code here
-
-            //GraphicsDevice.RasterizerState = wireFrameState;//
-            // Reset the fill mode renderstate.
-            GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
-
             spriteBatch.Begin();
 
             //titleScreen uses spritebatch object
-            MenuManager.screen.Draw();
-            
+            titleScreen.Draw();
             spriteBatch.End();
-
-            
-
-
-
-            
-
 
             base.Draw(gameTime);
         }
