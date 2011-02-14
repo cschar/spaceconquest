@@ -117,6 +117,7 @@
     <Compile Include="Game Structures\HexObsolete.cs" />
     <Compile Include="Game Structures\Galaxy.cs" />
     <Compile Include="Game Structures\Map.cs" />
+    <Compile Include="Menu Components\TextInput.cs" />
     <Compile Include="Menu Components\MenuList.cs" />
     <Compile Include="Menu Components\MenuComponent.cs" />
     <Compile Include="MenuManager.cs" />

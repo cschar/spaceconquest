@@ -74,9 +74,7 @@ namespace spaceconquest
                 CullMode = CullMode.None,
             };
 
-
-            h = new Hex3D(0, 0, null);
-            h2 = new Hex3D(1, 0, null);
+            
         }
 
         /// <summary>
