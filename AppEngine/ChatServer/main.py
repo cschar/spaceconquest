@@ -28,7 +28,7 @@ class MainHandler(webapp.RequestHandler):
 ''');
 
         chatlog_query = ChatLog.all().order('-date')
-        chats = chatlog_query.fetch(5)
+        chats = chatlog_query.fetch(10)
         
         for chat in chats:
             if doPage: 
@@ -36,9 +36,14 @@ class MainHandler(webapp.RequestHandler):
             
             if len(chat.author) > 10:
                 name = chat.author[:10]
-
+                
             else:
                 name = chat.author
+
+            #This makes sure all names are 10 characters in length
+            while ( len(name) < 10):
+                    name = name + " " 
+
 
             self.response.out.write( name + ' : ' + chat.content  + '\n')
             if doPage:
