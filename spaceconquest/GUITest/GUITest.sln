@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010 Express for Windows Phone
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spaceconquest", "spaceconquest\spaceconquest\spaceconquest.csproj", "{113B86A3-BF98-49BE-9903-580D7ACA46E0}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUITest", "GUITest\GUITest\GUITest.csproj", "{CD03FCBE-3052-4132-9197-6497995F3442}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spaceconquestContent", "spaceconquest\spaceconquestContent\spaceconquestContent.contentproj", "{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUITestContent", "GUITest\GUITestContent\GUITestContent.contentproj", "{21F75D6F-122D-40E0-B8DA-561951890192}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "WebServer\WebServer.csproj", "{1874BFF3-E7EE-4645-9C76-E15190457E52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "..\spaceconquest\WebServer\WebServer.csproj", "{1874BFF3-E7EE-4645-9C76-E15190457E52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUIModule", "..\GUITest\GUIModule\GUIModule.csproj", "{84E6E7B8-7199-4F40-915B-965937520DFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUIModule", "GUIModule\GUIModule.csproj", "{84E6E7B8-7199-4F40-915B-965937520DFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,22 +19,22 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Debug|x86.ActiveCfg = Debug|x86
-		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Debug|x86.Build.0 = Debug|x86
-		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Release|Any CPU.ActiveCfg = Release|x86
-		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Release|Mixed Platforms.Build.0 = Release|x86
-		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Release|x86.ActiveCfg = Release|x86
-		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Release|x86.Build.0 = Release|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Debug|x86.ActiveCfg = Debug|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Release|Any CPU.ActiveCfg = Release|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Release|x86.ActiveCfg = Release|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Debug|x86.ActiveCfg = Debug|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Debug|x86.Build.0 = Debug|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Release|Any CPU.ActiveCfg = Release|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Release|Mixed Platforms.Build.0 = Release|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Release|x86.ActiveCfg = Release|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Release|x86.Build.0 = Release|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Debug|x86.ActiveCfg = Debug|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Release|Any CPU.ActiveCfg = Release|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Release|x86.ActiveCfg = Release|x86
 		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
