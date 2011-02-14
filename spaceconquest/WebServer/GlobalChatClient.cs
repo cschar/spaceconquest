@@ -27,36 +27,26 @@ namespace spaceconquest
         }
 
 
+        /// <summary>
+        /// Method that fetches the last 10 chatlogs on the server
+        /// </summary>
+        /// <returns></returns>
         public List<ChatLog> GetLogs()
         {
-            UpdateLog();
+            UpdateLocalLogList();
             // TODO: create deep copy here
             return this.chatLogs;
         }
 
-        private void UpdateLog(){
-
-
-           
-
-
+        private void UpdateLocalLogList(){
             try
             {
-                //HttpWebRequest chatReq =
-                 //   (HttpWebRequest)WebRequest.Create(httpSource);
-                //string question = "?GetInfo=1";
-                string question = "";
-                HttpWebRequest chatReq =
-                   (HttpWebRequest)WebRequest.Create(httpSource + question);
-                //HttpWebResponse resp = (HttpWebResponse)chatReq.GetResponse();
-                Console.WriteLine("attempting req");
+                Console.WriteLine("attempting globalchat http req");
                 WebRequest req = WebRequest.Create(httpSource + "?GetInfo=1");
                 
                 WebResponse resp = req.GetResponse();
                 Console.WriteLine("requestReceived[]");
                 
-
-               // Stream resStream = chatResp.GetResponseStream();
                 Stream resStream = resp.GetResponseStream();
 
 
@@ -87,7 +77,9 @@ namespace spaceconquest
                     }
                 }
                 while (count > 0); // any more data to read?
-                Console.WriteLine("Stream Read --> ");
+               
+                
+                
                 Console.WriteLine(sb.ToString());
                     
                 //empty logs and get fresh batch
@@ -101,7 +93,7 @@ namespace spaceconquest
                     if (sb[i] == '\n')
                     {
                         //log should be greater than 3 characters in length
-                        if (sb2.ToString().Length > 14)
+                        if (sb2.ToString().Length > 11)
                         {
                             string parsed_log = sb2.ToString();
                             ChatLog log = new ChatLog();
@@ -124,17 +116,12 @@ namespace spaceconquest
             }
             catch (WebException e)
             {
-                //throw e;
-                Console.WriteLine("WebException in GlobalChatClient-->Update");
+                throw e;
+                
             }
 
-            Console.WriteLine("updated== @ " + DateTime.Now.TimeOfDay.ToString());
-            Console.WriteLine("Returned {0} chatLogs ", chatLogs.Count);
-           
 
-        return;
-        
-        
+            return;           
         }//end update method
 
 
