@@ -18,9 +18,11 @@ namespace spaceconquest
         Texture2D texture;
         Rectangle area;
         Vector2 stringvector;
+        GlobalChatClient chat;
 
-        public TextInput(Rectangle r)
+        public TextInput(Rectangle r, GlobalChatClient g)
         {
+            chat = g;
             area = r;
             texture = new Texture2D(MenuManager.batch.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
             texture.SetData(new[] { Color.White });
@@ -64,6 +66,7 @@ namespace spaceconquest
             if (keystate.IsKeyDown(Keys.Space) && oldstate.IsKeyUp(Keys.Space)) { input += ' '; }
             if (keystate.IsKeyDown(Keys.Back) && oldstate.IsKeyUp(Keys.Back)) { if (input.Length > 0) input = input.Substring(0, input.Length - 1); }
             if (keystate.IsKeyDown(Keys.D1) && oldstate.IsKeyUp(Keys.D1)) { input += '1'; }
+            if (keystate.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter)) { chat.SendMessage("me", input); input = ""; chat.UpdateLocalLogList(); }
 
             oldstate = keystate;
             stringvector = new Vector2(area.Center.X, area.Center.Y) - (MenuManager.font.MeasureString(input) / 2);

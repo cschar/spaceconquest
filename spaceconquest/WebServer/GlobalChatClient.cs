@@ -24,8 +24,12 @@ namespace spaceconquest
         public GlobalChatClient(String serverAddress ){
             chatLogs = new List<ChatLog>();
             httpSource = serverAddress;
+            lastUpdate = DateTime.Now;
         }
 
+
+        private DateTime lastUpdate;
+        private TimeSpan interval = new TimeSpan(0, 0, 4);
 
         /// <summary>
         /// Method that fetches the last 10 chatlogs on the server
@@ -33,12 +37,17 @@ namespace spaceconquest
         /// <returns></returns>
         public List<ChatLog> GetLogs()
         {
-            UpdateLocalLogList();
+            if (DateTime.Now.Subtract(lastUpdate).CompareTo(interval) > 0)
+            {
+                Console.WriteLine("Updating-dasf-das0f");
+                UpdateLocalLogList();
+                lastUpdate = DateTime.Now;
+            }
             // TODO: create deep copy here
             return this.chatLogs;
         }
 
-        private void UpdateLocalLogList(){
+        public void UpdateLocalLogList(){
             try
             {
                 Console.WriteLine("attempting globalchat http req");

@@ -21,6 +21,7 @@ namespace spaceconquest
         SpriteBatch spriteBatch;
         public static GraphicsDevice device;
         private SpriteFont mainFont;
+        public static SpriteFont textFont;
         RasterizerState wireFrameState;
         Hex3D h, h2;
         
@@ -65,6 +66,7 @@ namespace spaceconquest
 
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");
+            textFont = Content.Load<SpriteFont>("TextFont");
 
             MenuManager.Init(spriteBatch, mainFont);
 

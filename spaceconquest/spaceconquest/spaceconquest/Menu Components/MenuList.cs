@@ -37,6 +37,11 @@ namespace spaceconquest
             menucomponents.Add(new MenuButton(new Rectangle(area.Left + padding, area.Top + (menucomponents.Count*(height+padding))+padding, area.Width - (2 * padding), height), batch, font, t, c));    
         }
 
+        public void AddNewTextLineDefault(int height, int width, String t)
+        {
+            menucomponents.Add(new TextLine(new Rectangle(area.Left + padding, area.Top + (menucomponents.Count * (height + padding)) + padding, area.Width - (2 * padding), height), t));
+        }
+
         public override bool Contains(int x, int y)
         {
             return area.Contains(x, y);
