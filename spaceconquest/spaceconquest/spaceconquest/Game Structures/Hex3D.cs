@@ -14,11 +14,16 @@ namespace spaceconquest
 
     class Hex3D
     {
+        Color color = Color.Green;
         public int x;
         public int y;
-        SolarSystem hexgrid;
+        SolarSystem3D hexgrid;
         public static int radius = 50;
         public static int spacing = 5;
+
+        //used to test the bounds for mouse projection
+        BoundingSphere boundsphere;
+
 
         // During the process of constructing a primitive model, vertex
         // and index data is stored on the CPU in these managed lists.
@@ -34,15 +39,16 @@ namespace spaceconquest
         BasicEffect basicEffect;
 
 
-        public Hex3D(int xx, int yy, SolarSystem ss)
+        public Hex3D(int xx, int yy, SolarSystem3D ss)
         {
             x = xx;
             y = yy;
             hexgrid = ss;
 
-
-
             Vector2 center = getCenter();
+
+            boundsphere = new BoundingSphere(new Vector3(center, 1), radius);
+
             float xshift = (float)Math.Cos(Math.PI / (double)6) * radius;
             float yshift = (float)Math.Sin(Math.PI / (double)6) * radius;
 
@@ -93,6 +99,13 @@ namespace spaceconquest
 
         }
 
+        public void Update(Ray mouseray)
+        {
+            if (mouseray.Intersects(boundsphere) != null) { color = Color.Red; }
+            else color = Color.Green;
+        }
+
+
         protected void InitializePrimitive(GraphicsDevice graphicsDevice)
         {
             // Create a vertex declaration, describing the format of our vertex data.
@@ -139,7 +152,7 @@ namespace spaceconquest
             }
         }
 
-        public void Draw(Matrix world, Matrix view, Matrix projection, Color color)
+        public void Draw(Matrix world, Matrix view, Matrix projection)
         {
             // Set BasicEffect parameters.
             basicEffect.World = world;

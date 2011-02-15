@@ -15,8 +15,9 @@ namespace spaceconquest
         public int x;
         public int y;
         SolarSystem hexgrid;
-        public static int pixelradius = 50;
-        Texture2D texture;
+        public static int radius = 196/2;
+        public static int spacing = 5;
+        public Vector2 position;
 
 
         public Hex(int xx, int yy, SolarSystem ss)
@@ -25,41 +26,43 @@ namespace spaceconquest
             y = yy;
             hexgrid = ss;
 
-            texture = new Texture2D(Game1.device, 1, 1, true, SurfaceFormat.Color);
-            texture.SetData(new[] { Color.White });
-            
+
+            position = getScreenCenter(Point.Zero);
            
         }
 
-        public Point getScreenCenter(Point offset)
+        public Vector2 getScreenCenter(Point offset)
         {
-            int diagonal = (int)((Hex.pixelradius * 2) / (Math.Sqrt(2)));
-            return new Point(offset.X + this.x * Hex.pixelradius + this.y * diagonal,offset.Y + this.y * diagonal);
+            
+            float xshift = (float)Math.Cos(Math.PI / (double)6) * radius + spacing;
+            float yshift = (float)Math.Sin(Math.PI / (double)6) * radius + spacing;
+
+            return new Vector2(  offset.X + (this.x * xshift * 2) + (xshift * this.y), offset.Y + (yshift + radius) * this.y);
         }
 
 
 
         public void Draw()
         {
-
+            MenuManager.batch.Draw(Game1.hextexture, position, Color.Green);
         }
 
 
-        public void DrawReallyCrooked()
-        {
-            Point offset = Point.Zero;
-            offset = new Point(100, 100);
-            Point center = getScreenCenter(offset);
-            int xshift = (int) Math.Round((Math.Cos(Math.PI / (double)3) * pixelradius));
-            int yshift = (int) Math.Round((Math.Sin(Math.PI / (double)3) * pixelradius)); 
-            MenuManager.batch.Draw (texture, new Rectangle(center.X + pixelradius, center.Y, pixelradius, 3), null, Color.Blue, (float)((double)2*Math.PI/(double)3), new Vector2 (0f, 0f), SpriteEffects.None, 1f);
-            MenuManager.batch.Draw (texture, new Rectangle(center.X - xshift, center.Y + yshift, pixelradius, 3), Color.Blue);
-            MenuManager.batch.Draw(texture, new Rectangle(center.X - pixelradius, center.Y, pixelradius, 3), null, Color.Blue, (float)((double)Math.PI / (double)3), new Vector2(0f, 0f), SpriteEffects.None, 1f);
+        //public void DrawReallyCrooked()
+        //{
+        //    Point offset = Point.Zero;
+        //    offset = new Point(100, 100);
+        //    Point center = getScreenCenter(offset);
+        //    int xshift = (int) Math.Round((Math.Cos(Math.PI / (double)3) * pixelradius));
+        //    int yshift = (int) Math.Round((Math.Sin(Math.PI / (double)3) * pixelradius)); 
+        //    MenuManager.batch.Draw (texture, new Rectangle(center.X + pixelradius, center.Y, pixelradius, 3), null, Color.Blue, (float)((double)2*Math.PI/(double)3), new Vector2 (0f, 0f), SpriteEffects.None, 1f);
+        //    MenuManager.batch.Draw (texture, new Rectangle(center.X - xshift, center.Y + yshift, pixelradius, 3), Color.Blue);
+        //    MenuManager.batch.Draw(texture, new Rectangle(center.X - pixelradius, center.Y, pixelradius, 3), null, Color.Blue, (float)((double)Math.PI / (double)3), new Vector2(0f, 0f), SpriteEffects.None, 1f);
 
-            MenuManager.batch.Draw(texture, new Rectangle(center.X - pixelradius, center.Y, pixelradius, 3), null, Color.Blue, -(float)((double)Math.PI / (double)3), new Vector2(0f, 0f), SpriteEffects.None, 1f);
-            MenuManager.batch.Draw (texture, new Rectangle(center.X - xshift, center.Y - yshift, pixelradius, 3), Color.Blue);
-            MenuManager.batch.Draw (texture, new Rectangle(center.X + pixelradius, center.Y, pixelradius, 3), null, Color.Blue, -(float)((double)2 * Math.PI / (double)3), new Vector2(0f, 0f), SpriteEffects.None, 1f);
-        }
+        //    MenuManager.batch.Draw(texture, new Rectangle(center.X - pixelradius, center.Y, pixelradius, 3), null, Color.Blue, -(float)((double)Math.PI / (double)3), new Vector2(0f, 0f), SpriteEffects.None, 1f);
+        //    MenuManager.batch.Draw (texture, new Rectangle(center.X - xshift, center.Y - yshift, pixelradius, 3), Color.Blue);
+        //    MenuManager.batch.Draw (texture, new Rectangle(center.X + pixelradius, center.Y, pixelradius, 3), null, Color.Blue, -(float)((double)2 * Math.PI / (double)3), new Vector2(0f, 0f), SpriteEffects.None, 1f);
+        //}
 
         
     }

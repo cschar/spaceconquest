@@ -110,9 +110,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game Structures\SolarSystem3D.cs" />
     <Compile Include="Game Structures\Hex3D.cs" />
     <Compile Include="3D stuff\VertexPositionNormal.cs" />
-    <Compile Include="Game Structures\Class1.cs" />
     <Compile Include="Game Structures\SolarSystem.cs" />
     <Compile Include="Game Structures\HexObsolete.cs" />
     <Compile Include="Game Structures\Galaxy.cs" />
