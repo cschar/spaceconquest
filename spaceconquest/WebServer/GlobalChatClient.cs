@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 
 namespace spaceconquest
@@ -29,27 +30,57 @@ namespace spaceconquest
 
 
         private DateTime lastUpdate;
-        private TimeSpan interval = new TimeSpan(0, 0, 4);
-
+        private TimeSpan interval = new TimeSpan(0, 0, 5);
+        private Thread fetcher;
         /// <summary>
         /// Method that fetches the last 10 chatlogs on the server
+        /// Will call another Thread to do the HTTP fetch
         /// </summary>
         /// <returns></returns>
         public List<ChatLog> GetLogs()
         {
             if (DateTime.Now.Subtract(lastUpdate).CompareTo(interval) > 0)
             {
-                Console.WriteLine("Updating-dasf-das0f");
-                UpdateLocalLogList();
+                Console.WriteLine("Updating-GlobalChat, interval is set to" + interval.Seconds + " seconds ");
+                fetcher = new Thread(new ThreadStart(this.UpdateLocalLogList));
+                //UpdateLocalLogList();
+                fetcher.Start();
                 lastUpdate = DateTime.Now;
             }
-            // TODO: create deep copy here
-            return this.chatLogs;
+            //If there are updated Logs transfer them over
+            if ((LogsUpdated == true) && (busyUpdating == false))
+            {
+                //set our chatLogs to updateList
+                this.chatLogs = this.updateList;
+                LogsUpdated = false;
+            }
+
+            return CreateDeepListCopy(this.chatLogs);
         }
+
+        private List<ChatLog> updateList;
+
+        private List<ChatLog> CreateDeepListCopy(List<ChatLog> list)
+        {
+                List<ChatLog> deepCpy = new List<ChatLog>();
+                foreach (ChatLog aLog in list)
+                {
+                    ChatLog newLog = new ChatLog();
+                    newLog.message = aLog.message;
+                    newLog.time = aLog.time;
+                    newLog.playerName = aLog.playerName;
+                    deepCpy.Add(newLog);
+                }
+                return deepCpy;
+        }
+
+        private Boolean busyUpdating = false;
+        private Boolean LogsUpdated = false;
 
         public void UpdateLocalLogList(){
             try
             {
+                busyUpdating = true;
                 Console.WriteLine("attempting globalchat http req");
                 WebRequest req = WebRequest.Create(httpSource + "?GetInfo=1");
                 
@@ -92,7 +123,10 @@ namespace spaceconquest
                 Console.WriteLine(sb.ToString());
                     
                 //empty logs and get fresh batch
-                chatLogs.Clear();
+                //chatLogs.Clear();
+                //unsafe for multithreading
+
+               updateList = new List<ChatLog>();
 
                 //Parse the stringBuffer into lists
                 count = 0;
@@ -111,7 +145,8 @@ namespace spaceconquest
                             log.playerName = sb2.ToString().Substring(0,msgStart );
 
 
-                            chatLogs.Add(log);
+                            updateList.Add(log);
+                                
                         }
 
                         sb2.Clear();
@@ -129,6 +164,8 @@ namespace spaceconquest
                 
             }
 
+            busyUpdating = false;
+            LogsUpdated = true;
 
             return;           
         }//end update method
