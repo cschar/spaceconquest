@@ -24,7 +24,6 @@ namespace spaceconquest
         public static SpriteFont textFont;
         public static Texture2D hextexture;
         RasterizerState wireFrameState;
-        Hex3D h, h2;
         
 
         public Game1()
@@ -64,6 +63,8 @@ namespace spaceconquest
             spriteBatch = new SpriteBatch(GraphicsDevice);
             device = graphics.GraphicsDevice;
 
+            //Building a hex
+            HexModel.InitializePrimitive(device);
 
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");

@@ -19,7 +19,7 @@ namespace spaceconquest
 
         public GameScreen()
         {
-            solar = new SolarSystem3D(2, new Rectangle(0,0,800, 600));
+            solar = new SolarSystem3D(3, new Rectangle(0,0,800, 600));
         }
 
         public void Update()
