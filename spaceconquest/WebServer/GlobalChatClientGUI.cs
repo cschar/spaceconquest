@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Media;
  
 namespace spaceconquest
 {
-    public class GlobalChatClientGUI : GUIModule.GUIObject
+    public class GlobalChatClientGUI 
     {
         private spaceconquest.GlobalChatClient chatClient;
         private string ROOT_SERVER_URL
