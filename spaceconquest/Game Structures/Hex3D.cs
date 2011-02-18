@@ -56,7 +56,11 @@ namespace spaceconquest
 
         public void Draw(Matrix world, Matrix view, Matrix projection)
         {
-            HexModel.Draw(Matrix.CreateTranslation(getCenter()), view, projection, color);
+            world.Translation = world.Translation + getCenter();
+           
+
+
+            HexModel.Draw(world, view, projection, color);
         }
 
         

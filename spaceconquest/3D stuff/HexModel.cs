@@ -123,21 +123,11 @@ namespace spaceconquest
             basicEffect.DiffuseColor = newcolor.ToVector3();
             basicEffect.VertexColorEnabled = true;
             //basicEffect.Alpha = color.A / 255.0f;
-            basicEffect.EmissiveColor = newcolor.ToVector3();
+            //basicEffect.EmissiveColor = newcolor.ToVector3();
 
             GraphicsDevice device = basicEffect.GraphicsDevice;
             device.DepthStencilState = DepthStencilState.Default;
-
-            if (color.A < 255)
-            {
-                // Set renderstates for alpha blended rendering.
-                device.BlendState = BlendState.AlphaBlend;
-            }
-            else
-            {
-                // Set renderstates for opaque rendering.
-                device.BlendState = BlendState.Opaque;
-            }
+            device.BlendState = BlendState.AlphaBlend;
 
             // Draw the model, using BasicEffect.
             Draw(basicEffect);

@@ -93,15 +93,18 @@ namespace spaceconquest
             {
                 h.Update(mouseray);
             }
+
         }
 
-        public void Draw()
+        public void Draw(Vector3 offset)
         {
             Vector3 cameraPosition = new Vector3(0, 0, 10f);
 
             //float aspect = Game1.device.Viewport.AspectRatio;
 
-            world = Matrix.Identity;
+            //world = Matrix.Identity;
+            world = Matrix.CreateTranslation(offset);
+
             //Matrix world = Matrix.CreateFromYawPitchRoll(yaw, pitch, roll);
             view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
             //projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 20);
@@ -112,6 +115,9 @@ namespace spaceconquest
                 //if (screenarea.Contains((int)h.getCenter().X, (int)h.getCenter().Y)) { h.Draw(world, view, orthog, color); }
                 h.Draw(world, view, projection);
             }
+
+
+            //draw menu stuff here
         }
     }
 }

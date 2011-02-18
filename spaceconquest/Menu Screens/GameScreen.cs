@@ -17,19 +17,29 @@ namespace spaceconquest
         SolarSystem3D solar; //current solar system
         //maybe make solar system and galaxy implement the same interface so we can draw either of them in here
 
+        public static float scrollspeed = 2f;
+        Vector3 offset;
+
         public GameScreen()
         {
-            solar = new SolarSystem3D(3, new Rectangle(0,0,800, 600));
+            solar = new SolarSystem3D(5, new Rectangle(0,0,800, 600));
+            offset = new Vector3(0,0,0);
         }
 
         public void Update()
         {
+            KeyboardState keystate = Keyboard.GetState();
+            if (keystate.IsKeyDown(Keys.Left)) { offset.X = offset.X + scrollspeed; }
+            if (keystate.IsKeyDown(Keys.Right)) { offset.X = offset.X - scrollspeed; }
+            if (keystate.IsKeyDown(Keys.Down)) { offset.Y = offset.Y + scrollspeed; }
+            if (keystate.IsKeyDown(Keys.Up)) { offset.Y = offset.Y - scrollspeed; }
+
             solar.Update();
         }
 
         public void Draw()
         {
-            solar.Draw();
+            solar.Draw(offset);
         }
     }
 }
