@@ -83,12 +83,19 @@ namespace spaceconquest
 	        Vector3 far = new Vector3( mouseposition.X, mouseposition.Y , 1);
             near = viewport.Unproject(near, projection, view, world);
             far = viewport.Unproject(far, projection, view, world);
+            
 
             Vector3 direction = far - near;
             direction.Normalize();
             Ray mouseray = new Ray(near, direction);
 
-            if (mouseray.Intersects(plane) == null) { return; }
+            float? nintersection = mouseray.Intersects(plane);
+            if (!nintersection.HasValue) { return; }
+            float intersection = nintersection.Value;
+
+         
+            mouseray = new Ray(((direction * intersection) + near),Vector3.Zero); //this "ray" is now just the point where the mouseray intersects the plane
+
             foreach (Hex3D h in hexlist)
             {
                 h.Update(mouseray);

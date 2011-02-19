@@ -23,7 +23,7 @@ namespace spaceconquest
         float xr = 0;
         float yr = 0;
         float zr = 0;
-        float height = 400;
+        float height = 700;
 
         Vector3 offset;
 
@@ -41,15 +41,18 @@ namespace spaceconquest
             if (keystate.IsKeyDown(Keys.Down)) { offset.Y = offset.Y + scrollspeed; }
             if (keystate.IsKeyDown(Keys.Up)) { offset.Y = offset.Y - scrollspeed; }
 
-            if (keystate.IsKeyDown(Keys.Z)) { xr += rotatespeed; }
+            //if (keystate.IsKeyDown(Keys.Z)) { xr += rotatespeed; }
             if (keystate.IsKeyDown(Keys.X)) { yr += rotatespeed; }
             if (keystate.IsKeyDown(Keys.C)) { zr += rotatespeed; }
-            if (keystate.IsKeyDown(Keys.A)) { xr -= rotatespeed; }
+            //if (keystate.IsKeyDown(Keys.A)) { xr -= rotatespeed; }
             if (keystate.IsKeyDown(Keys.S)) { yr -= rotatespeed; }
             if (keystate.IsKeyDown(Keys.D)) { zr -= rotatespeed; }
 
             if (keystate.IsKeyDown(Keys.Q)) { height += zoomspeed; }
             if (keystate.IsKeyDown(Keys.E)) { height -= zoomspeed; }
+
+            if (yr > 0) { yr = 0; }
+            if (yr < (-Math.PI / (float)2)) { yr = (float)(-Math.PI / (float)2); }
 
             solar.Update();
         }
