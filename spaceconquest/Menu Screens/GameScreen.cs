@@ -17,12 +17,19 @@ namespace spaceconquest
         SolarSystem3D solar; //current solar system
         //maybe make solar system and galaxy implement the same interface so we can draw either of them in here
 
-        public static float scrollspeed = 2f;
+        public static float scrollspeed = 6f;
+        public static float rotatespeed = .01f;
+        public static float zoomspeed = 10f;
+        float xr = 0;
+        float yr = 0;
+        float zr = 0;
+        float height = 400;
+
         Vector3 offset;
 
         public GameScreen()
         {
-            solar = new SolarSystem3D(5, new Rectangle(0,0,800, 600));
+            solar = new SolarSystem3D(10, new Rectangle(0,0,800, 600));
             offset = new Vector3(0,0,0);
         }
 
@@ -34,12 +41,23 @@ namespace spaceconquest
             if (keystate.IsKeyDown(Keys.Down)) { offset.Y = offset.Y + scrollspeed; }
             if (keystate.IsKeyDown(Keys.Up)) { offset.Y = offset.Y - scrollspeed; }
 
+            if (keystate.IsKeyDown(Keys.Z)) { xr += rotatespeed; }
+            if (keystate.IsKeyDown(Keys.X)) { yr += rotatespeed; }
+            if (keystate.IsKeyDown(Keys.C)) { zr += rotatespeed; }
+            if (keystate.IsKeyDown(Keys.A)) { xr -= rotatespeed; }
+            if (keystate.IsKeyDown(Keys.S)) { yr -= rotatespeed; }
+            if (keystate.IsKeyDown(Keys.D)) { zr -= rotatespeed; }
+
+            if (keystate.IsKeyDown(Keys.Q)) { height += zoomspeed; }
+            if (keystate.IsKeyDown(Keys.E)) { height -= zoomspeed; }
+
             solar.Update();
         }
 
         public void Draw()
         {
-            solar.Draw(offset);
+            
+            solar.Draw(offset,xr,yr,zr,height);
         }
     }
 }

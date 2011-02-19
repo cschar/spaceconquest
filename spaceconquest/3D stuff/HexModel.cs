@@ -122,6 +122,7 @@ namespace spaceconquest
             basicEffect.Projection = projection;
             basicEffect.DiffuseColor = newcolor.ToVector3();
             basicEffect.VertexColorEnabled = true;
+            
             //basicEffect.Alpha = color.A / 255.0f;
             //basicEffect.EmissiveColor = newcolor.ToVector3();
 

@@ -96,19 +96,20 @@ namespace spaceconquest
 
         }
 
-        public void Draw(Vector3 offset)
+        public void Draw(Vector3 offset, float xr, float yr, float zr, float height)
         {
-            Vector3 cameraPosition = new Vector3(0, 0, 10f);
+            Vector3 cameraPosition = new Vector3(0, 0, height);
+            
+            float aspect = Game1.device.Viewport.AspectRatio;
 
-            //float aspect = Game1.device.Viewport.AspectRatio;
+            world = Matrix.Identity;
+            //world = Matrix.CreateTranslation(offset);
 
-            //world = Matrix.Identity;
-            world = Matrix.CreateTranslation(offset);
-
-            //Matrix world = Matrix.CreateFromYawPitchRoll(yaw, pitch, roll);
             view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-            //projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 20);
-            projection = Matrix.CreateOrthographic(800, 600, 1, 20);
+            view = Matrix.CreateFromYawPitchRoll(xr, yr, zr) * Matrix.CreateTranslation(offset) * view;
+
+            projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 10000);
+            //projection = Matrix.CreateOrthographic(800, 600, 1, 20);
 
             foreach (Hex3D h in hexlist)
             {

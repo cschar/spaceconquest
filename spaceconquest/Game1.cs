@@ -69,8 +69,6 @@ namespace spaceconquest
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");
             textFont = Content.Load<SpriteFont>("TextFont");
-            hextexture = Content.Load<Texture2D>("hexagon");
-
 
             MenuManager.Init(spriteBatch, mainFont);
 
@@ -126,6 +124,7 @@ namespace spaceconquest
             //GraphicsDevice.RasterizerState = wireFrameState;//
             // Reset the fill mode renderstate.
             GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+            
 
             spriteBatch.Begin();
 
