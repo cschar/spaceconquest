@@ -49,14 +49,7 @@ namespace spaceconquest
                 }
             }
 
-
-            //for (int i = 0; i < (radius * 2) + 1; i++)
-            //{
-            //    for (int j = 0; j < (radius * 2) + 1; j++)
-            //    {
-            //        hexmap[i, j] = new Hex3D(i - radius, j - radius, this);
-            //    }
-            //}
+            getHex(0, 0).AddObject(new Sun(getHex(0, 0)));
         }
 
         private int HowManyHexes(int x)
@@ -118,12 +111,21 @@ namespace spaceconquest
             projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 10000);
             //projection = Matrix.CreateOrthographic(800, 600, 1, 20);
 
+
+            foreach (Hex3D h in hexlist)
+            {
+
+                h.DrawObject(world, view, projection);
+            }
+
+
             foreach (Hex3D h in hexlist)
             {
                 //if (screenarea.Contains((int)h.getCenter().X, (int)h.getCenter().Y)) { h.Draw(world, view, orthog, color); }
                 h.Draw(world, view, projection);
             }
 
+           
 
             //draw menu stuff here
         }

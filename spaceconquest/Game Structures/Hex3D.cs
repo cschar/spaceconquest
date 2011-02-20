@@ -14,12 +14,14 @@ namespace spaceconquest
 
     class Hex3D
     {
-        Color color = Color.Green;
+        public static Color hexcolor = Color.Green;
+        Color color = hexcolor;
         public int x;
         public int y;
         SolarSystem3D hexgrid;
         public static int radius = HexModel.radius;
         public static int spacing = HexModel.spacing;
+        GameObject gameobject;
 
         //used to test the bounds for mouse projection
         BoundingSphere boundsphere;
@@ -51,16 +53,25 @@ namespace spaceconquest
         public void Update(Ray mouseray)
         {
             if (mouseray.Intersects(boundsphere) != null) { color = Color.Red; }
-            else color = Color.Green;
+            else color = hexcolor;
         }
 
         public void Draw(Matrix world, Matrix view, Matrix projection)
         {
             world.Translation = world.Translation + getCenter();
-           
-
-
             HexModel.Draw(world, view, projection, color);
+            
+        }
+
+        public void DrawObject(Matrix world, Matrix view, Matrix projection)
+        {
+            
+            if (gameobject != null) { gameobject.Draw(world, view, projection); }
+        }
+
+        public void AddObject(GameObject go)
+        {
+            gameobject = go;
         }
 
         

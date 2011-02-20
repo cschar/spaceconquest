@@ -40,7 +40,7 @@ namespace spaceconquest
 
 
             Vector3 up = new Vector3(0, 0, 1);
-            vertices.Add(new VertexPositionColor(new Vector3(center.X, center.Y, 1), Color.Black));
+            vertices.Add(new VertexPositionColor(new Vector3(center.X, center.Y, 1), new Color()));
             vertices.Add(new VertexPositionColor(new Vector3(center.X + xshift, center.Y + yshift, 1), color));
             vertices.Add(new VertexPositionColor(new Vector3(center.X + xshift, center.Y - yshift, 1), color));
             vertices.Add(new VertexPositionColor(new Vector3(center.X, center.Y - radius, 1), color));

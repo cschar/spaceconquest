@@ -66,6 +66,10 @@ namespace spaceconquest
             //Building a hex
             HexModel.InitializePrimitive(device);
 
+            //Loading the sphere
+            SphereModel.InitializePrimitive(Content.Load<Model>("sphere"));
+            
+
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");
             textFont = Content.Load<SpriteFont>("TextFont");
@@ -123,8 +127,8 @@ namespace spaceconquest
 
             //GraphicsDevice.RasterizerState = wireFrameState;//
             // Reset the fill mode renderstate.
-            GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
-            
+            GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            //GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
             spriteBatch.Begin();
 
