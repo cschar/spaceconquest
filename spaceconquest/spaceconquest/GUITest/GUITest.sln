@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUITest", "GUITest\GUITest\GUITest.csproj", "{CD03FCBE-3052-4132-9197-6497995F3442}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUITestContent", "GUITest\GUITestContent\GUITestContent.contentproj", "{21F75D6F-122D-40E0-B8DA-561951890192}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "..\spaceconquest\WebServer\WebServer.csproj", "{1874BFF3-E7EE-4645-9C76-E15190457E52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUIModule", "GUIModule\GUIModule.csproj", "{84E6E7B8-7199-4F40-915B-965937520DFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Debug|x86.ActiveCfg = Debug|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Debug|x86.Build.0 = Debug|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Release|Any CPU.ActiveCfg = Release|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Release|Mixed Platforms.Build.0 = Release|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Release|x86.ActiveCfg = Release|x86
+		{CD03FCBE-3052-4132-9197-6497995F3442}.Release|x86.Build.0 = Release|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Debug|x86.ActiveCfg = Debug|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Release|Any CPU.ActiveCfg = Release|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{21F75D6F-122D-40E0-B8DA-561951890192}.Release|x86.ActiveCfg = Release|x86
+		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Release|x86.ActiveCfg = Release|Any CPU
+		{84E6E7B8-7199-4F40-915B-965937520DFA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{84E6E7B8-7199-4F40-915B-965937520DFA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{84E6E7B8-7199-4F40-915B-965937520DFA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{84E6E7B8-7199-4F40-915B-965937520DFA}.Debug|x86.ActiveCfg = Debug|x86
+		{84E6E7B8-7199-4F40-915B-965937520DFA}.Debug|x86.Build.0 = Debug|x86
+		{84E6E7B8-7199-4F40-915B-965937520DFA}.Release|Any CPU.ActiveCfg = Release|x86
+		{84E6E7B8-7199-4F40-915B-965937520DFA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{84E6E7B8-7199-4F40-915B-965937520DFA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{84E6E7B8-7199-4F40-915B-965937520DFA}.Release|x86.ActiveCfg = Release|x86
+		{84E6E7B8-7199-4F40-915B-965937520DFA}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

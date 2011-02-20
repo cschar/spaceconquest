@@ -14,14 +14,17 @@ namespace spaceconquest
 
     class Hex3D
     {
+        public int distance = -1;
         public static Color hexcolor = Color.Green;
-        Color color = hexcolor;
+        public Color color = hexcolor;
         public int x;
         public int y;
         SolarSystem3D hexgrid;
         public static int radius = HexModel.radius;
         public static int spacing = HexModel.spacing;
         GameObject gameobject;
+        public Boolean passable = true; 
+        public List<Hex3D> neighbors;
 
         //used to test the bounds for mouse projection
         BoundingSphere boundsphere;
@@ -34,7 +37,7 @@ namespace spaceconquest
             x = xx;
             y = yy;
             hexgrid = ss;
-
+            neighbors = new List<Hex3D>();
             boundsphere = new BoundingSphere(getCenter(), radius);
 
             
@@ -73,6 +76,15 @@ namespace spaceconquest
         {
             gameobject = go;
         }
+
+        public GameObject GetGameObject() {
+            return gameobject;
+        }
+
+        public void RemoveObject() {
+            gameobject = null;
+        }
+
 
         
     }
