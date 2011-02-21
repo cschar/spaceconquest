@@ -56,7 +56,7 @@ namespace spaceconquest
         {
            if (this.Contains(mscurrent.X, mscurrent.Y))
            {
-               if ((mscurrent.LeftButton == ButtonState.Released) && (msold.LeftButton == ButtonState.Pressed)) { OnClick(EventArgs.Empty); }
+               if ((mscurrent.LeftButton == ButtonState.Released) && (msold.LeftButton == ButtonState.Pressed)) { Console.WriteLine("derp"); OnClick(EventArgs.Empty); }
                else if (mscurrent.LeftButton == ButtonState.Pressed) { currentcolor = clickedcolor; }
                else { currentcolor = selectedcolor; }
            }

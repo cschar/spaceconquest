@@ -104,8 +104,10 @@ namespace spaceconquest
         }
 
 
-        public Hex3D getHex(int x, int y)//was gonna use lazy initialization
+        public Hex3D getHex(int x, int y)
         {
+            if (x >= ((radius * 2) + 1)) { return null; }
+            if (y >= ((radius * 2) + 1)) { return null; }
             if (hexmap[x + radius, y + radius] == null) { return null; }
             return hexmap[x + radius, y + radius];
         }

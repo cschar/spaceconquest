@@ -20,7 +20,8 @@ namespace spaceconquest
         List<MenuComponent> components = new List<MenuComponent>();
         List<Command> commands = new List<Command>();
         MenuList shipmenu;
-        Command.Action clickedaction;
+        Command.Action clickedaction = Command.Action.None;
+        SlaveDriver driver = new SlaveDriver();
 
         Color selectedcolor = Color.Teal;
         public Hex3D selectedhex = new Hex3D(0,0,null); //ignore this construction, its just to prevent nulls on the first update
@@ -43,17 +44,29 @@ namespace spaceconquest
             shipmenu = new MenuList(new Rectangle(600, 400, 200, 200));
             components.Add(shipmenu);
             shipmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), MenuManager.batch, MenuManager.font, "Move", MoveClick));
+            shipmenu.Add(new MenuButton(new Rectangle(670, 405, 60, 60), MenuManager.batch, MenuManager.font, "Attack", FireClick));
+            shipmenu.Add(new MenuButton(new Rectangle(605, 470, 60, 60), MenuManager.batch, MenuManager.font, "Enter", EnterClick));
+            shipmenu.Add(new MenuButton(new Rectangle(670, 470, 60, 60), MenuManager.batch, MenuManager.font, "Jump", JumpClick));
+            shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), MenuManager.batch, MenuManager.font, "Upgrade", UpgradeClick));
+            shipmenu.Add(new MenuButton(new Rectangle(605, 535, 60, 60), MenuManager.batch, MenuManager.font, "Colonize", ColonizeClick));
+            //shipmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), MenuManager.batch, MenuManager.font, "Build", BuildClick));
         }
 
 
-        void MoveClick(Object o, EventArgs e) { clickedaction = Command.Action.Move; }
+        void MoveClick(Object o, EventArgs e) { clickedaction = Command.Action.Move; Console.WriteLine("clicked move"); }
+        void FireClick(Object o, EventArgs e) { clickedaction = Command.Action.Fire; }
+        void EnterClick(Object o, EventArgs e) { clickedaction = Command.Action.Enter; }
+        void JumpClick(Object o, EventArgs e) { clickedaction = Command.Action.Jump; }
+        void UpgradeClick(Object o, EventArgs e) { clickedaction = Command.Action.Upgrade; }
+        void ColonizeClick(Object o, EventArgs e) { clickedaction = Command.Action.Colonize; }
+        void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; }
 
         public void Update()
         {
             MouseState mousestate = Mouse.GetState();
             KeyboardState keystate = Keyboard.GetState();
 
-
+            if (keystate.IsKeyDown(Keys.Space)) { driver.Recieve(commands); commands = new List<Command>(); driver.Execute(); }
             //////camera controls////
             if (keystate.IsKeyDown(Keys.Left)) { offset.X = offset.X + scrollspeed; }
             if (keystate.IsKeyDown(Keys.Right)) { offset.X = offset.X - scrollspeed; }
@@ -77,22 +90,31 @@ namespace spaceconquest
             solar.Update(); //just resets the color of hexes
             selectedhex.color = selectedcolor;
 
-            ////mouse stuff
+            ////////mouse stuff////////
             if (oldmousehex != null && !oldmousehex.Equals(selectedhex)) oldmousehex.color = Hex3D.hexcolor;
 
             Hex3D mousehex = solar.GetMouseOverHex();
-            if (mousehex != null && !mousehex.Equals(selectedhex)) { mousehex.color = Color.Red; }
+            if (mousehex != null && !mousehex.Equals(selectedhex) && !shipmenu.Contains(mousestate.X, mousestate.Y) ) { mousehex.color = Color.Blue; }
 
-            if ((mousestate.LeftButton == ButtonState.Released) && (oldmousestate.LeftButton == ButtonState.Pressed) && !shipmenu.Contains(mousestate.X,mousestate.Y))
+            if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && mousehex != null)
             {
-                if (mousehex != null) { selectedhex = mousehex; }
+                //selecting a hex
+                if (clickedaction == Command.Action.None)
+                {
+                    selectedhex = mousehex;
+                }
+
+                //selecting a target of a action
+                if (clickedaction != Command.Action.None) //should check for null here but i wont for testing purposes
+                {
+                    Console.WriteLine("a command");
+                    commands.Add(new Command(selectedhex, mousehex, clickedaction));
+                    clickedaction = Command.Action.None;
+                }
             }
 
-            oldmousestate = mousestate;
-            oldmousehex = mousehex;
-
-
-            //stuff to do if a ship is selected
+            
+            /////stuff to do if a ship is selected/////
             GameObject selectedobject = selectedhex.GetGameObject();
 
             if (selectedobject != null && selectedobject is Ship) { shipmenu.Show(); }
@@ -119,6 +141,9 @@ namespace spaceconquest
             {
                 c.Update(mousestate, oldmousestate);
             }
+
+            oldmousestate = mousestate;
+            oldmousehex = mousehex;
         }
 
         public void Draw()

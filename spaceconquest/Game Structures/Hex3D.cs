@@ -114,6 +114,11 @@ namespace spaceconquest
             gameobject = null;
         }
 
+        public override string ToString()
+        {
+            return "(" + x + ", " + y + ")";
+        }
+
 
         
     }
