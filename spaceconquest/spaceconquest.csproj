@@ -112,10 +112,6 @@
   <ItemGroup>
     <Compile Include="3D stuff\SphereModel.cs" />
     <Compile Include="3D stuff\HexModel.cs" />
-    <Compile Include="Game Structures\Ship.cs" />
-    <Compile Include="Game Structures\Planet.cs" />
-    <Compile Include="Game Structures\Player.cs" />
-    <Compile Include="Game Structures\Unit.cs" />
     <Compile Include="Game Structures\GameObject.cs" />
     <Compile Include="Game Structures\SolarSystem3D.cs" />
     <Compile Include="Game Structures\Hex3D.cs" />
@@ -123,7 +119,6 @@
     <Compile Include="Game Structures\Galaxy.cs" />
     <Compile Include="Game Structures\Map.cs" />
     <Compile Include="Game Structures\Sun.cs" />
-    <Compile Include="Game Structures\Warship.cs" />
     <Compile Include="Menu Components\TextLine.cs" />
     <Compile Include="Menu Components\TextInput.cs" />
     <Compile Include="Menu Components\MenuList.cs" />

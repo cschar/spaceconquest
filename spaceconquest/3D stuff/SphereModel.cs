@@ -46,17 +46,17 @@ namespace spaceconquest
 
         
 
-        public static void Draw(Matrix world, Matrix view, Matrix projection, Color newcolor, float scale)
+        public static void Draw(Matrix world, Matrix view, Matrix projection, Color newcolor)
         {
             // Set BasicEffect parameters.
-            basicEffect.World = Matrix.CreateScale(scale)*world;
+            basicEffect.World = Matrix.CreateScale(50f)*world;
             basicEffect.View = view;
             basicEffect.Projection = projection;
             basicEffect.DiffuseColor = newcolor.ToVector3();
             //basicEffect.VertexColorEnabled = true;
 
             //basicEffect.Alpha = color.A / 255.0f;
-            basicEffect.EmissiveColor = newcolor.ToVector3();
+            basicEffect.EmissiveColor = Color.Orange.ToVector3();
 
             GraphicsDevice device = basicEffect.GraphicsDevice;
             device.DepthStencilState = DepthStencilState.Default;

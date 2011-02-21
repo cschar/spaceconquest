@@ -21,7 +21,7 @@ namespace spaceconquest
         public override void Draw(Matrix world, Matrix view, Matrix projection)
         {
             //world = world + Matrix.CreateTranslation(getCenter());
-            SphereModel.Draw( Matrix.CreateTranslation(0,0,0) * world, view, projection, Color.Goldenrod,40);
+            SphereModel.Draw( Matrix.CreateTranslation(0,0,0) * world, view, projection, Color.Goldenrod);
         }
     }
 }

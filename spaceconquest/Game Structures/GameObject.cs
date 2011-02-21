@@ -13,12 +13,9 @@ namespace spaceconquest
 {
     abstract class GameObject
     {
-        protected Hex3D hex;
+        Hex3D hex;
 
-        public void SetHex(Hex3D h) {
-            hex = h;
-            h.AddObject(this);
-        }
+        public void SetHex(Hex3D h) { hex = h; }
 
         public Vector3 getCenter()
         {

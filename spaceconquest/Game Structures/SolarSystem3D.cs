@@ -49,46 +49,7 @@ namespace spaceconquest
                 }
             }
 
-            //BUIDIN' THA MOTHAF**KIN' SUN. 
-            new Warship(getHex(-1, -1));
-            new Sun(getHex(0, 0));
-            new Planet("Earth",Color.Blue,getHex(3, 3));
-            getHex(0,0).passable = false;
-
-            // -1, 1; 0, 1; 0, -1; 1, 0;, -1,0; 1,-1;
-            List<Point> positions = new List<Point>(6);
-            positions.Add(new Point(-1, 1));
-            positions.Add(new Point(1, -1));
-            positions.Add(new Point(0, 1));
-            positions.Add(new Point(0, -1));
-            positions.Add(new Point(-1, 0));
-            positions.Add(new Point(1, 0));
-
-            Console.WriteLine("Positions Made");
-
-            foreach (Point pos in positions) {
-                getHex(pos.X, pos.Y).passable = false; 
-            }
-
-            Console.WriteLine("Starting HexList Loop");
-            foreach (Hex3D h in hexlist) { 
-                Hex3D neighbor;
-                Console.WriteLine("Starting HexList SubLoop for Hex " + h.x + ", ", + h.y);
-                foreach (Point pos in positions) {
-                    Console.WriteLine("Testing hex " + (pos.X+h.x) + ", " + (pos.Y+h.y) + " as a neighbor of " + h.x + ", " + h.y);
-                    try {
-                        neighbor = getHex(h.x + pos.X , h.y + pos.Y);
-                        if (neighbor.passable) {
-                             h.neighbors.Add(neighbor);
-                        }
-                    }
-                    catch (Exception e) {
-                        //NOOP
-                    }
-                } 
-
-            }
-
+            getHex(0, 0).AddObject(new Sun(getHex(0, 0)));
         }
 
         private int HowManyHexes(int x)
