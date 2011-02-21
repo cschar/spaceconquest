@@ -70,24 +70,29 @@ namespace spaceconquest
                 getHex(pos.X, pos.Y).passable = false; 
             }
 
-            Console.WriteLine("Starting HexList Loop");
-            foreach (Hex3D h in hexlist) { 
-                Hex3D neighbor;
-                Console.WriteLine("Starting HexList SubLoop for Hex " + h.x + ", ", + h.y);
-                foreach (Point pos in positions) {
-                    Console.WriteLine("Testing hex " + (pos.X+h.x) + ", " + (pos.Y+h.y) + " as a neighbor of " + h.x + ", " + h.y);
-                    try {
-                        neighbor = getHex(h.x + pos.X , h.y + pos.Y);
-                        if (neighbor.passable) {
-                             h.neighbors.Add(neighbor);
-                        }
-                    }
-                    catch (Exception e) {
-                        //NOOP
-                    }
-                } 
+            //Console.WriteLine("Starting HexList Loop");
+            //foreach (Hex3D h in hexlist)
+            //{
+            //    Hex3D neighbor;
+            //    Console.WriteLine("Starting HexList SubLoop for Hex " + h.x + ", ", +h.y);
+            //    foreach (Point pos in positions)
+            //    {
+            //        Console.WriteLine("Testing hex " + (pos.X + h.x) + ", " + (pos.Y + h.y) + " as a neighbor of " + h.x + ", " + h.y);
+            //        try
+            //        {
+            //            neighbor = getHex(h.x + pos.X, h.y + pos.Y);
+            //            if (neighbor.passable)
+            //            {
+            //                h.getNeighbors().Add(neighbor);
+            //            }
+            //        }
+            //        catch (Exception e)
+            //        {
+            //            //NOOP
+            //        }
+            //    }
 
-            }
+            //}
 
         }
 
@@ -107,32 +112,41 @@ namespace spaceconquest
 
         public void Update()
         {
+            foreach (Hex3D h in hexlist)
+            {
+                h.color = Hex3D.hexcolor;
+            }
+        }
+
+        public Hex3D GetMouseOverHex()
+        {
             MouseState mousestate = Mouse.GetState();
             Point mouseposition = new Point(mousestate.X, mousestate.Y);
             Viewport viewport = Game1.device.Viewport;
 
-            Vector3 near = new Vector3( mouseposition.X, mouseposition.Y , 0);
-	        Vector3 far = new Vector3( mouseposition.X, mouseposition.Y , 1);
+            Vector3 near = new Vector3(mouseposition.X, mouseposition.Y, 0);
+            Vector3 far = new Vector3(mouseposition.X, mouseposition.Y, 1);
             near = viewport.Unproject(near, projection, view, world);
             far = viewport.Unproject(far, projection, view, world);
-            
+
 
             Vector3 direction = far - near;
             direction.Normalize();
             Ray mouseray = new Ray(near, direction);
 
             float? nintersection = mouseray.Intersects(plane);
-            if (!nintersection.HasValue) { return; }
+            if (!nintersection.HasValue) { return null; }
             float intersection = nintersection.Value;
 
-         
-            mouseray = new Ray(((direction * intersection) + near),Vector3.Zero); //this "ray" is now just the point where the mouseray intersects the plane
+
+            mouseray = new Ray(((direction * intersection) + near), Vector3.Zero); //this "ray" is now just the point where the mouseray intersects the plane
 
             foreach (Hex3D h in hexlist)
             {
-                h.Update(mouseray);
+                if (h.IsMouseOver(mouseray)) return h;
             }
 
+            return null;
         }
 
         public void Draw(Vector3 offset, float xr, float yr, float zr, float height)

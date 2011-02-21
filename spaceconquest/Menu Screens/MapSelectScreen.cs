@@ -23,7 +23,7 @@ namespace spaceconquest
             components.Add(new MenuButton(new Rectangle(450, 200, 150, 40), sb, sf, "Load Map",  null ));
             components.Add(new MenuButton(new Rectangle(450, 250, 150, 40), sb, sf, "New Map", MenuManager.ClickNewGame));
 
-            MenuList maplist = new MenuList(new Rectangle(200, 200, 200, 300), sb, sf);
+            MenuList maplist = new MenuList(new Rectangle(200, 200, 200, 300));
             maplist.AddNewButtonDefault(20, 200, "i am a map", delegate(Object o, EventArgs e) { ((MenuButton)o).selected = !((MenuButton)o).selected; });
             maplist.AddNewButtonDefault(20, 200, "i am also a map", delegate(Object o, EventArgs e) { ((MenuButton)o).selected = !((MenuButton)o).selected; });
             components.Add(maplist);

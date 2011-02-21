@@ -47,7 +47,7 @@ namespace spaceconquest
             for (int i = 0; i < j; i++) {
                 if (buildTimes[i] <= 0) {
                     //produce buildQueue.removeAt(i)
-                    foreach (Hex3D neighbor in hex.neighbors) {
+                    foreach (Hex3D neighbor in hex.getNeighbors()) {
                         if (neighbor.GetGameObject() == null) { 
                             buildQueue.ElementAt(i).SetHex(neighbor);
                             buildQueue.RemoveAt(i);

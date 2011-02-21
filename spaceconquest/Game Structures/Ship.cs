@@ -51,7 +51,8 @@ namespace spaceconquest
             if (r <= 0) {
                 return hexes;
             }
-            foreach (Hex3D h in startHex.neighbors) {
+            foreach (Hex3D h in startHex.getNeighbors())
+            {
                 int dist = h.distance;
                 if (dist == -1 || dist < r-1) {
                     hexes.Add(h);

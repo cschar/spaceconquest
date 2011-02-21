@@ -14,17 +14,17 @@ namespace spaceconquest
 
     class Hex3D
     {
-        public int distance = -1;
-        public static Color hexcolor = Color.Green;
+        public int distance = -1; //for the pathfinding algorithm
+        public readonly static Color hexcolor = Color.Green;
         public Color color = hexcolor;
-        public int x;
-        public int y;
+        public readonly int x;
+        public readonly int y;
         SolarSystem3D hexgrid;
-        public static int radius = HexModel.radius;
+        public readonly static int radius = HexModel.radius;
         public static int spacing = HexModel.spacing;
         GameObject gameobject;
         public Boolean passable = true; 
-        public List<Hex3D> neighbors;
+        private List<Hex3D> neighbors;
 
         //used to test the bounds for mouse projection
         BoundingSphere boundsphere;
@@ -37,10 +37,32 @@ namespace spaceconquest
             x = xx;
             y = yy;
             hexgrid = ss;
-            neighbors = new List<Hex3D>();
             boundsphere = new BoundingSphere(getCenter(), radius);
 
             
+        }
+
+        public List<Hex3D> getNeighbors()
+        {// -1, 1; 0, 1; 0, -1; 1, 0;, -1,0; 1,-1;
+
+            if (neighbors != null) { return neighbors; }
+            
+            neighbors = new List<Hex3D>(6);
+            Hex3D n;
+            n = hexgrid.getHex(x - 1, y + 1);
+            if (n != null && n.passable) { neighbors.Add(n); }
+            n = hexgrid.getHex(x , y + 1);
+            if (n != null && n.passable) { neighbors.Add(n); }
+            n = hexgrid.getHex(x , y - 1);
+            if (n != null && n.passable) { neighbors.Add(n); }
+            n = hexgrid.getHex(x + 1, y);
+            if (n != null && n.passable) { neighbors.Add(n); }
+            n = hexgrid.getHex(x - 1, y);
+            if (n != null && n.passable) { neighbors.Add(n); }
+            n = hexgrid.getHex(x + 1, y - 1);
+            if (n != null && n.passable) { neighbors.Add(n); }
+
+            return neighbors;
         }
 
         public Vector3 getCenter()
@@ -53,11 +75,18 @@ namespace spaceconquest
 
         }
 
-        public void Update(Ray mouseray)
+        //public void Update(Ray mouseray)
+        //{
+        //    if (mouseray.Intersects(boundsphere) != null) { color = Color.Red; }
+        //    else color = hexcolor;
+        //}
+
+        public bool IsMouseOver(Ray mouseray)
         {
-            if (mouseray.Intersects(boundsphere) != null) { color = Color.Red; }
-            else color = hexcolor;
+            if (mouseray.Intersects(boundsphere) != null) { return true; }
+            else return false;
         }
+
 
         public void Draw(Matrix world, Matrix view, Matrix projection)
         {

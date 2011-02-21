@@ -25,7 +25,7 @@ namespace spaceconquest
             //buttons.Add(new MenuButton(new Rectangle(325, 200, 150, 40), sb, sf, "Join Game", new MenuButton.ClickActionDelegate(MenuManager.ClickClientConnect) ));
             buttons.Add(new MenuButton(new Rectangle(450, 250, 150, 40), sb, sf, "Host Game", MenuManager.ClickMapSelect ));
             buttons.Add(new TextInput(new Rectangle(50,500,350,40), chatClient));
-            maplist = new MenuList(new Rectangle(50, 50, 350, 450), sb, sf);
+            maplist = new MenuList(new Rectangle(50, 50, 350, 450));
             buttons.Add(maplist);
         }
 

@@ -20,13 +20,14 @@ namespace spaceconquest
         List<MenuComponent> menucomponents;
         Color currentcolor = Color.Teal;
         int padding = 10;
+        bool visible = true;
 
 
-        public MenuList(Rectangle r, SpriteBatch sb, SpriteFont sf)
+        public MenuList(Rectangle r)
         {
             area = r;
-            batch = sb;
-            font = sf;
+            batch = MenuManager.batch;
+            font = MenuManager.font;
             texture = new Texture2D(batch.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
             texture.SetData(new[] { Color.White });
             menucomponents = new List<MenuComponent>();
@@ -49,19 +50,35 @@ namespace spaceconquest
 
         public override void Update(Microsoft.Xna.Framework.Input.MouseState mscurrent, Microsoft.Xna.Framework.Input.MouseState msold)
         {
-            foreach (MenuComponent mc in menucomponents)
+            if (visible)
             {
-                mc.Update(mscurrent,msold);
+                foreach (MenuComponent mc in menucomponents)
+                {
+                    mc.Update(mscurrent, msold);
+                }
             }
         }
 
         public override void Draw()
         {
-            batch.Draw(texture, area, currentcolor);
-            foreach (MenuComponent mc in menucomponents)
+            if (visible)
             {
-                mc.Draw();
+                batch.Draw(texture, area, currentcolor);
+                foreach (MenuComponent mc in menucomponents)
+                {
+                    mc.Draw();
+                }
             }
+        }
+
+        public void Hide()
+        {
+            visible = false;
+        }
+
+        public void Show()
+        {
+            visible = true;
         }
 
 

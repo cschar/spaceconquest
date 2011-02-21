@@ -41,10 +41,6 @@ namespace spaceconquest
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
             SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, Color.Red, 20);
-            foreach (Hex3D h in GetReachable())
-            {
-                h.color = Color.Pink;
-            }
         }
     }
 }
