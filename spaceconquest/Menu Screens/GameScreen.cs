@@ -24,7 +24,8 @@ namespace spaceconquest
         SlaveDriver driver = new SlaveDriver();
 
         Color selectedcolor = Color.Teal;
-        public Hex3D selectedhex = new Hex3D(0,0,null); //ignore this construction, its just to prevent nulls on the first update
+        public Hex3D selectedhex;
+        Hex3D nullhex = new Hex3D(0, 0, null); //i use this because i dont feel like checking for null on the selected hex
         MouseState oldmousestate = Mouse.GetState();
         Hex3D oldmousehex;
 
@@ -39,6 +40,7 @@ namespace spaceconquest
 
         public GameScreen()
         {
+            selectedhex = nullhex;
             solar = new SolarSystem3D(10, new Rectangle(0,0,800, 600));
             offset = new Vector3(0,0,0);
             shipmenu = new MenuList(new Rectangle(600, 400, 200, 200));
@@ -110,6 +112,7 @@ namespace spaceconquest
                     Console.WriteLine("a command");
                     commands.Add(new Command(selectedhex, mousehex, clickedaction));
                     clickedaction = Command.Action.None;
+                    selectedhex = nullhex;
                 }
             }
 

@@ -39,6 +39,7 @@ namespace spaceconquest
                     //hexes.Remove(h);
                 }
             }
+            hex.distance = -1; 
             return hexes;
         }
 
