@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual Studio 2010 Express for Windows Phone
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spaceconquest", "spaceconquest\spaceconquest.csproj", "{113B86A3-BF98-49BE-9903-580D7ACA46E0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spaceconquestContent", "spaceconquest\spaceconquestContent\spaceconquestContent.contentproj", "{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "spaceconquest\WebServer\WebServer.csproj", "{1874BFF3-E7EE-4645-9C76-E15190457E52}"
 EndProject
@@ -27,12 +25,6 @@ Global
 		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Release|Mixed Platforms.Build.0 = Release|x86
 		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Release|x86.ActiveCfg = Release|x86
 		{113B86A3-BF98-49BE-9903-580D7ACA46E0}.Release|x86.Build.0 = Release|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Debug|x86.ActiveCfg = Debug|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Release|Any CPU.ActiveCfg = Release|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Release|x86.ActiveCfg = Release|x86
 		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
