@@ -24,12 +24,15 @@ namespace spaceconquest
         public static SpriteFont textFont;
         public static Texture2D hextexture;
         RasterizerState wireFrameState;
+        public static ContentManager contentManager;
+        public static spaceconquest.Music_stuff.JukeBox jukeBox;
         
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
         }
 
         /// <summary>
@@ -49,7 +52,7 @@ namespace spaceconquest
             this.IsMouseVisible = true;
 
 
-
+            
             base.Initialize();
         }
 
@@ -83,7 +86,14 @@ namespace spaceconquest
                 CullMode = CullMode.None,
             };
 
-            
+
+            /////// USER  C ontent/////////////////////
+            //Sounds
+            contentManager = this.Content;
+            List<string> tmpTracks = new List<string>() { "track1" ,
+                    "track2", "track4"};
+            jukeBox = new Music_stuff.JukeBox(tmpTracks, contentManager);
+            jukeBox.play();    //Play the tunes
         }
 
         /// <summary>

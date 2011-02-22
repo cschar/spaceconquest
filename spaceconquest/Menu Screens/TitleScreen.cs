@@ -21,6 +21,7 @@ namespace spaceconquest
             buttons = new List<MenuButton>();
             buttons.Add(new MenuButton(new Rectangle(325, 200, 150, 40), sb, sf, "Singleplayer", MenuManager.ClickMapSelect ));
             buttons.Add(new MenuButton(new Rectangle(325, 250, 150, 40), sb, sf, "Multiplayer", MenuManager.ClickGlobalLobby ));
+            buttons.Add(new MenuButton(new Rectangle(325, 300, 150, 40), sb, sf, "Sound Options", MenuManager.ClickMusicOptions));
         }
 
         public void Update()

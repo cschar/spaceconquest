@@ -47,5 +47,9 @@ namespace spaceconquest
         public static void ClickNewGame(Object o, EventArgs e) { screen = new GameScreen(); } //at some point this will actually make a new game, now it just shows a hex
        // public static void ClickMapSelect() { screen = new MapSelectScreen(batch, font); } 
 
-    }
+        //screen for changing music
+        public static void ClickMusicOptions(Object o, EventArgs e){ screen = new OptionsScreen(batch, font); }
+        }
+
+    
 }
