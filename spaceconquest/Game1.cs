@@ -68,7 +68,8 @@ namespace spaceconquest
 
             //Loading the sphere
             SphereModel.InitializePrimitive(Content.Load<Model>("sphere"));
-            
+            //Loading the sphere
+            StarField.LoadStarModel(Content.Load<Model>("thing"));
 
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");

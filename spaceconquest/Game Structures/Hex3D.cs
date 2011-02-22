@@ -15,7 +15,7 @@ namespace spaceconquest
     class Hex3D
     {
         public int distance = -1; //for the pathfinding algorithm
-        public readonly static Color hexcolor = Color.Green;
+        public readonly static Color hexcolor = new Color(0,20,0);
         public Color color = hexcolor;
         public readonly int x;
         public readonly int y;

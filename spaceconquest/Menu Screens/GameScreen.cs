@@ -23,7 +23,9 @@ namespace spaceconquest
         Command.Action clickedaction = Command.Action.None;
         SlaveDriver driver = new SlaveDriver();
 
-        Color selectedcolor = Color.Teal;
+        Color selectedcolor = Color.Green;
+        Color movecolor = new Color(0,255,0);
+        Color mousecolor = new Color(0,255,255);
         public Hex3D selectedhex;
         Hex3D nullhex = new Hex3D(0, 0, null); //i use this because i dont feel like checking for null on the selected hex
         MouseState oldmousestate = Mouse.GetState();
@@ -96,7 +98,7 @@ namespace spaceconquest
             if (oldmousehex != null && !oldmousehex.Equals(selectedhex)) oldmousehex.color = Hex3D.hexcolor;
 
             Hex3D mousehex = solar.GetMouseOverHex();
-            if (mousehex != null && !mousehex.Equals(selectedhex) && !shipmenu.Contains(mousestate.X, mousestate.Y) ) { mousehex.color = Color.Blue; }
+            
 
             if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && mousehex != null)
             {
@@ -127,7 +129,7 @@ namespace spaceconquest
             {
                 foreach (Hex3D h in ((Ship)selectedobject).GetReachable())
                 {
-                    h.color = Color.Pink;
+                    h.color = movecolor;
                 }
             }
             if (selectedobject != null && selectedobject is Warship)
@@ -137,7 +139,10 @@ namespace spaceconquest
                     h.color = Color.Red;
                 }
             }
-            
+
+
+            //Color the mousedover hex
+            if (mousehex != null && !mousehex.Equals(selectedhex) && !shipmenu.Contains(mousestate.X, mousestate.Y)) { mousehex.color = mousecolor; }
 
             //update the 2d stuff
             foreach (MenuComponent c in components)

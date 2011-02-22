@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spaceconquest", "spaceconqu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "spaceconquest\WebServer\WebServer.csproj", "{1874BFF3-E7EE-4645-9C76-E15190457E52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "spaceconquestContent", "spaceconquest\spaceconquestContent\spaceconquestContent.contentproj", "{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,12 @@ Global
 		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1874BFF3-E7EE-4645-9C76-E15190457E52}.Release|x86.ActiveCfg = Release|Any CPU
+		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Debug|x86.ActiveCfg = Debug|x86
+		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Release|Any CPU.ActiveCfg = Release|x86
+		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{F7AFEF31-5074-4840-A51C-D9A0CFE383C2}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

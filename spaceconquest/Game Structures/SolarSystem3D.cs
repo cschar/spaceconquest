@@ -15,6 +15,7 @@ namespace spaceconquest
     {
         Rectangle screenarea;
 
+        StarField stars = new StarField(5000);
         Hex3D[,] hexmap;
         List<Hex3D> hexlist;
 
@@ -169,6 +170,7 @@ namespace spaceconquest
             projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 10000);
             //projection = Matrix.CreateOrthographic(800, 600, 1, 20);
 
+            stars.Draw(world, view, projection);
 
             foreach (Hex3D h in hexlist)
             {

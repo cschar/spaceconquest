@@ -7,7 +7,7 @@ namespace spaceconquest
 {
     abstract class Ship:Unit
     {
-        int speed = 6;
+        int speed = 3;
         public void move(Hex3D target) {
             hex.RemoveObject();
             SetHex(target);
