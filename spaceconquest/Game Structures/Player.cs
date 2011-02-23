@@ -7,6 +7,7 @@ namespace spaceconquest
 {
     class Player
     {
+        public static Player dummy;
         int id;
         int metal;
         int score;

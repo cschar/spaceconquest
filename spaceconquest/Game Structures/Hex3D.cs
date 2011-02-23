@@ -19,7 +19,7 @@ namespace spaceconquest
         public Color color;
         public readonly int x;
         public readonly int y;
-        SolarSystem3D hexgrid;
+        public readonly SolarSystem3D hexgrid;
         public readonly static int radius = HexModel.radius;
         public static int spacing = HexModel.spacing;
         GameObject gameobject;

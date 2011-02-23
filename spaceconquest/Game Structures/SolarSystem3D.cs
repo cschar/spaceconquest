@@ -13,7 +13,7 @@ namespace spaceconquest
 {
     class SolarSystem3D : Space
     {
-
+        public readonly int index;
         StarField stars = new StarField(2000);
         Hex3D[,] hexmap;
         List<Hex3D> hexlist;
@@ -29,9 +29,9 @@ namespace spaceconquest
         Matrix view;
         Matrix projection;
 
-        public SolarSystem3D(int r, int p, Color hcolor)
+        public SolarSystem3D(int r, int p, Color hcolor, int idex)
         {
-
+            index = idex;
             radius = r;
             plane = new Plane(0, 0, 1, 1);
 
@@ -56,7 +56,7 @@ namespace spaceconquest
             sun = new Sun(getHex(0, 0));
             //getHex(0, 0).passable = false; i changed the sun constructor to handle the passibility stuff.
 
-            new Planet("Earth",Color.Blue,getHex(3, 3));
+            new Player(new Planet("Earth",Color.Blue,getHex(3, 3)), "Ted");
             if (p > 1) new Planet("Garth", Color.Green, getHex(3, -4));
             if (p > 2) new Planet("Mars", Color.Red, getHex(-4, -1));
 

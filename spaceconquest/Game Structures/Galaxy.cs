@@ -37,23 +37,23 @@ namespace spaceconquest
             //pretty much hardcoding positions in
             if (size < 2)
             {
-                systems.Add(new SolarSystem3D(8, rand.Next(4), new Color(rand.Next(30), rand.Next(30), rand.Next(30)))); //figure out the parameters. 
+                systems.Add(new SolarSystem3D(8, rand.Next(4), new Color(rand.Next(150), rand.Next(150), rand.Next(150)), 0)); //figure out the parameters. 
                 positions.Add(new Vector3(0, 0, 0));
             }
 
             if (size >= 2)
             {
-                systems.Add(new SolarSystem3D(8, rand.Next(4), new Color(rand.Next(30), rand.Next(30), rand.Next(30)))); //figure out the parameters. 
+                systems.Add(new SolarSystem3D(8, rand.Next(4), new Color(rand.Next(150), rand.Next(150), rand.Next(150)), 0)); //figure out the parameters. 
                 positions.Add(new Vector3(-300, 300, 0));
 
-                systems.Add(new SolarSystem3D(8, rand.Next(4), new Color(rand.Next(30), rand.Next(30), rand.Next(30)))); //figure out the parameters. 
+                systems.Add(new SolarSystem3D(8, rand.Next(4), new Color(rand.Next(150), rand.Next(150), rand.Next(150)), 1)); //figure out the parameters. 
                 positions.Add(new Vector3(300, 300, 0));
             }
 
             if (size >= 3)
             {
-                
-                systems.Add(new SolarSystem3D(8, rand.Next(4), new Color(rand.Next(30), rand.Next(30), rand.Next(30)))); //figure out the parameters. 
+
+                systems.Add(new SolarSystem3D(8, rand.Next(4), new Color(rand.Next(150), rand.Next(150), rand.Next(150)), 2)); //figure out the parameters. 
                 positions.Add(new Vector3(0, -300, 0));
             }
 
@@ -69,6 +69,18 @@ namespace spaceconquest
             }
 
 
+        }
+
+        public Hex3D GetHex(Tuple<int, int ,int> c)
+        {
+            if (c.Item1 < 0 || c.Item1 >= systems.Count) return null;
+            return systems[c.Item1].getHex(c.Item2, c.Item3);
+        }
+
+        public Hex3D GetHex(int s, int x, int y)
+        {
+            if (s < 0 || s >= systems.Count) return null;
+            return systems[s].getHex(x, y);
         }
 
         public void Update()

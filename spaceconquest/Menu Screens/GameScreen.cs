@@ -21,8 +21,9 @@ namespace spaceconquest
         List<MenuComponent> components = new List<MenuComponent>();
         List<Command> commands = new List<Command>();
         MenuList shipmenu;
+        MenuList planetmenu;
         Command.Action clickedaction = Command.Action.None;
-        SlaveDriver driver = new SlaveDriver();
+        SlaveDriver driver;
 
         Color selectedcolor = Color.Green;
         Color movecolor = new Color(0,255,0);
@@ -52,6 +53,7 @@ namespace spaceconquest
             selectedhex = nullhex;
             galaxy = new Galaxy("Milky Way", 3);
             space = galaxy.systems[0];
+            driver = new SlaveDriver(galaxy);
 
             offset = new Vector3(0,0,0);
             shipmenu = new MenuList(new Rectangle(600, 400, 200, 200));
@@ -63,6 +65,10 @@ namespace spaceconquest
             shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), MenuManager.batch, MenuManager.font, "Upgrade", UpgradeClick));
             shipmenu.Add(new MenuButton(new Rectangle(605, 535, 60, 60), MenuManager.batch, MenuManager.font, "Colonize", ColonizeClick));
             //shipmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), MenuManager.batch, MenuManager.font, "Build", BuildClick));
+
+            planetmenu = new MenuList(new Rectangle(600, 400, 200, 200));
+            components.Add(planetmenu);
+            planetmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), MenuManager.batch, MenuManager.font, "Ship", BuildClick));
         }
 
 
@@ -72,7 +78,9 @@ namespace spaceconquest
         void JumpClick(Object o, EventArgs e) { clickedaction = Command.Action.Jump; space = galaxy; }
         void UpgradeClick(Object o, EventArgs e) { clickedaction = Command.Action.Upgrade; }
         void ColonizeClick(Object o, EventArgs e) { clickedaction = Command.Action.Colonize; }
-        void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; }
+        //void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; }
+
+        void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; commands.Add(new Command(selectedhex, selectedhex, Command.Action.Build, new Warship(new Hex3D(0, 0, null, Color.AliceBlue)))); clickedaction = Command.Action.None; }
 
         public void Update()
         {
@@ -179,6 +187,11 @@ namespace spaceconquest
                     h.color = movecolor;
                 }
             }
+
+            //planetmenu
+            if (selectedobject != null && selectedobject is Planet) { planetmenu.Show(); }
+            else { planetmenu.Hide(); }
+
 
 
             //Color the mousedover hex

@@ -113,6 +113,8 @@
     <Compile Include="3D stuff\StarField.cs" />
     <Compile Include="3D stuff\SphereModel.cs" />
     <Compile Include="3D stuff\HexModel.cs" />
+    <Compile Include="Game Structures\Client.cs" />
+    <Compile Include="Game Structures\MiddleMan.cs" />
     <Compile Include="Game Structures\SlaveDriver.cs" />
     <Compile Include="Game Structures\Command.cs" />
     <Compile Include="Game Structures\Ship.cs" />

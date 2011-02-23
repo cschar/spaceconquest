@@ -17,7 +17,7 @@ namespace spaceconquest
         private Color hue;
         private String name;
         private List<Unit> buildQueue;
-        private List<int> buildTimes;
+        private List<int> buildTimes ;
 
 
         public override void kill(){
@@ -30,11 +30,13 @@ namespace spaceconquest
             this.hue = c;
             this.name = n;
             loc.defaultcolor = Color.Black;
+            buildQueue = new List<Unit>();
+            buildTimes = new List<int>();
             //loc.passable = false;
         }
 
         //Will cange to Ship ship when we have the class. 
-        public void build(Unit ship) {
+        public void build(Ship ship) {
             int cost = 0;
             if (affiliation.payMetal(cost)) {
                 buildQueue.Add(ship);

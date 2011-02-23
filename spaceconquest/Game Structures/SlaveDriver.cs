@@ -7,9 +7,14 @@ namespace spaceconquest
 {
     class SlaveDriver
     {
-        //Galaxy galaxy;
+        Galaxy galaxy;
         HashSet<Command> commands = new HashSet<Command>(); //hashset so that we ignore multiple commands to one unit
+        Player player;
 
+        public SlaveDriver(Galaxy g)
+        {
+            galaxy = g;
+        }
 
         public void Recieve(List<Command> cl)
         {
@@ -29,6 +34,8 @@ namespace spaceconquest
                 ExecuteCommand(c);
             }
             commands.Clear();
+
+            ((Planet)galaxy.GetHex(0, 3, 3).GetGameObject()).upkeep();
         }
 
         private bool ExecuteCommand(Command c)
@@ -37,31 +44,41 @@ namespace spaceconquest
             GameObject subject;
             if (c.action == Command.Action.Move)
             {
-                subject = c.starthex.GetGameObject();
+                subject = galaxy.GetHex(c.start).GetGameObject();
                 if (subject != null && subject is Ship)
                 {
-                    if (c.targethex.GetGameObject() != null) { return false; }
-                    ((Ship)subject).move(c.targethex);
+                    if (galaxy.GetHex(c.target).GetGameObject() != null) { return false; }
+                    ((Ship)subject).move(galaxy.GetHex(c.target));
                     return true;
                 }
             }
             if (c.action == Command.Action.Fire)
             {
-                subject = c.starthex.GetGameObject();
+                subject = galaxy.GetHex(c.start).GetGameObject();
                 if (subject != null && subject is Warship)
                 {
-                    if (c.targethex.GetGameObject() == null) { return false; }
-                    ((Warship)subject).Attack((Unit)c.targethex.GetGameObject()); //i should probly check that the target is a unit
+                    if (galaxy.GetHex(c.target).GetGameObject() == null) { return false; }
+                    ((Warship)subject).Attack((Unit)galaxy.GetHex(c.target).GetGameObject()); //i should probly check that the target is a unit
                     return true;
                 }
             }
             if (c.action == Command.Action.Jump)
             {
-                subject = c.starthex.GetGameObject();
+                subject = galaxy.GetHex(c.start).GetGameObject();
                 if (subject != null && subject is Ship)
                 {
-                    if (c.targethex.GetGameObject() != null) { return false; }
-                    ((Ship)subject).move(c.targethex);
+                    if (galaxy.GetHex(c.target).GetGameObject() != null) { return false; }
+                    ((Ship)subject).move(galaxy.GetHex(c.target));
+                    return true;
+                }
+            }
+            if (c.action == Command.Action.Build)
+            {
+                subject = galaxy.GetHex(c.start).GetGameObject();
+                if (subject != null && subject is Planet)
+                {
+                    //if (galaxy.GetHex(c.target).GetGameObject() != null) { return false; }
+                    ((Planet)subject).build(c.ship);
                     return true;
                 }
             }
