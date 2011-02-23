@@ -22,12 +22,15 @@ namespace spaceconquest
 
         public override void kill(){
             this.affiliation = null;
+            this.hue = Color.Gray;
         }
 
         public Planet(String n, Color c, Hex3D loc) {
             this.SetHex(loc);
             this.hue = c;
             this.name = n;
+            loc.defaultcolor = Color.Black;
+            //loc.passable = false;
         }
 
         //Will cange to Ship ship when we have the class. 

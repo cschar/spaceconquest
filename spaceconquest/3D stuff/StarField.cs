@@ -13,14 +13,14 @@ namespace spaceconquest
 {
     class StarField
     {
-        static Model star;
+        public static Model star;
         int number;
         Random rand;
         List<Vector3> starlist;
-        static int distance = 2000;
-        static int size = 5;
+        static int distance = 5000;
+        static int size = 10;
         //Color color = Color.White;
-        BasicEffect effect;
+        static BasicEffect effect;
         
         public StarField(int n)
         {
@@ -67,7 +67,11 @@ namespace spaceconquest
             effect.World = world;
             effect.View = view;
             effect.Projection = projection;
+            effect.EnableDefaultLighting();
             //effect.VertexColorEnabled = true;
+            Game1.device.DepthStencilState = DepthStencilState.Default;
+            Game1.device.BlendState = BlendState.AlphaBlend;
+
 
             foreach (Vector3 pos in starlist)
             {

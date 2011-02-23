@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -14,8 +14,9 @@ namespace spaceconquest
     class GameScreen : Screen
     {
         //in the future, the map would be here to but i dont have a map class yet
-        SolarSystem3D solar; //current solar system
-        //maybe make solar system and galaxy implement the same interface so we can draw either of them in here
+        Galaxy galaxy;
+        //SolarSystem3D solar; //current solar system
+        Space space; //what we're currently looking at, can be galaxy or solarsystem
 
         List<MenuComponent> components = new List<MenuComponent>();
         List<Command> commands = new List<Command>();
@@ -27,9 +28,15 @@ namespace spaceconquest
         Color movecolor = new Color(0,255,0);
         Color mousecolor = new Color(0,255,255);
         public Hex3D selectedhex;
-        Hex3D nullhex = new Hex3D(0, 0, null); //i use this because i dont feel like checking for null on the selected hex
+        Hex3D nullhex = new Hex3D(0, 0, null, Color.Gray); //i use this because i dont feel like checking for null on the selected hex
+
+        MouseState mousestate;
+        KeyboardState keystate;
         MouseState oldmousestate = Mouse.GetState();
+        KeyboardState oldkeystate = Keyboard.GetState();
+        Hex3D mousehex;
         Hex3D oldmousehex;
+        SolarSystem3D oldmousesystem;
 
         public static float scrollspeed = 6f;
         public static float rotatespeed = .01f;
@@ -43,7 +50,9 @@ namespace spaceconquest
         public GameScreen()
         {
             selectedhex = nullhex;
-            solar = new SolarSystem3D(10, new Rectangle(0,0,800, 600));
+            galaxy = new Galaxy("Milky Way", 3);
+            space = galaxy.systems[0];
+
             offset = new Vector3(0,0,0);
             shipmenu = new MenuList(new Rectangle(600, 400, 200, 200));
             components.Add(shipmenu);
@@ -60,17 +69,17 @@ namespace spaceconquest
         void MoveClick(Object o, EventArgs e) { clickedaction = Command.Action.Move; Console.WriteLine("clicked move"); }
         void FireClick(Object o, EventArgs e) { clickedaction = Command.Action.Fire; }
         void EnterClick(Object o, EventArgs e) { clickedaction = Command.Action.Enter; }
-        void JumpClick(Object o, EventArgs e) { clickedaction = Command.Action.Jump; }
+        void JumpClick(Object o, EventArgs e) { clickedaction = Command.Action.Jump; space = galaxy; }
         void UpgradeClick(Object o, EventArgs e) { clickedaction = Command.Action.Upgrade; }
         void ColonizeClick(Object o, EventArgs e) { clickedaction = Command.Action.Colonize; }
         void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; }
 
         public void Update()
         {
-            MouseState mousestate = Mouse.GetState();
-            KeyboardState keystate = Keyboard.GetState();
+            mousestate = Mouse.GetState();
+            keystate = Keyboard.GetState();
 
-            if (keystate.IsKeyDown(Keys.Space)) { driver.Recieve(commands); commands = new List<Command>(); driver.Execute(); }
+            if (keystate.IsKeyDown(Keys.Space) && oldkeystate.IsKeyUp(Keys.Space)) { driver.Recieve(commands); commands = new List<Command>(); driver.Execute(); }
             //////camera controls////
             if (keystate.IsKeyDown(Keys.Left)) { offset.X = offset.X + scrollspeed; }
             if (keystate.IsKeyDown(Keys.Right)) { offset.X = offset.X - scrollspeed; }
@@ -78,11 +87,11 @@ namespace spaceconquest
             if (keystate.IsKeyDown(Keys.Up)) { offset.Y = offset.Y - scrollspeed; }
 
             //if (keystate.IsKeyDown(Keys.Z)) { xr += rotatespeed; }
-            if (keystate.IsKeyDown(Keys.X)) { yr += rotatespeed; }
-            if (keystate.IsKeyDown(Keys.C)) { zr += rotatespeed; }
+            if (keystate.IsKeyDown(Keys.S)) { yr += rotatespeed; }
+            if (keystate.IsKeyDown(Keys.D)) { zr += rotatespeed; }
             //if (keystate.IsKeyDown(Keys.A)) { xr -= rotatespeed; }
-            if (keystate.IsKeyDown(Keys.S)) { yr -= rotatespeed; }
-            if (keystate.IsKeyDown(Keys.D)) { zr -= rotatespeed; }
+            if (keystate.IsKeyDown(Keys.W)) { yr -= rotatespeed; }
+            if (keystate.IsKeyDown(Keys.A)) { zr -= rotatespeed; }
 
             if (keystate.IsKeyDown(Keys.Q)) { height += zoomspeed; }
             if (keystate.IsKeyDown(Keys.E)) { height -= zoomspeed; }
@@ -91,14 +100,30 @@ namespace spaceconquest
             if (yr < (-Math.PI / (float)2)) { yr = (float)(-Math.PI / (float)2); }
 
 
-            solar.Update(); //just resets the color of hexes
+            space.Update(); //just resets the color of hexes
+            if (space is SolarSystem3D) UpdateSolar();
+            if (space is Galaxy) UpdateGalaxy();
+
+            //update the 2d stuff
+            foreach (MenuComponent c in components)
+            {
+                c.Update(mousestate, oldmousestate);
+            }
+
+            oldmousestate = mousestate;
+            oldmousehex = mousehex;
+            oldkeystate = keystate;
+        }
+
+        public void UpdateSolar()
+        {
             selectedhex.color = selectedcolor;
 
             ////////mouse stuff////////
-            if (oldmousehex != null && !oldmousehex.Equals(selectedhex)) oldmousehex.color = Hex3D.hexcolor;
+            if (oldmousehex != null && !oldmousehex.Equals(selectedhex)) oldmousehex.color = oldmousehex.defaultcolor;
 
-            Hex3D mousehex = solar.GetMouseOverHex();
-            
+            mousehex = ((SolarSystem3D)space).GetMouseOverHex();
+
 
             if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && mousehex != null)
             {
@@ -112,26 +137,34 @@ namespace spaceconquest
                 if (clickedaction != Command.Action.None) //should check for null here but i wont for testing purposes
                 {
                     Console.WriteLine("a command");
+                    if (selectedhex.GetGameObject() is Ship && clickedaction == Command.Action.Move)
+                    {
+                        if (!((Ship)(selectedhex.GetGameObject())).GetReachable().Contains(mousehex)) { return; }
+                        ((Ship)(selectedhex.GetGameObject())).SetGhost(mousehex);
+                    }
+                    if (selectedhex.GetGameObject() is Warship && clickedaction == Command.Action.Fire)
+                    {
+                        if (!((Warship)(selectedhex.GetGameObject())).GetShootable().Contains(mousehex)) { return; }
+                        //((Ship)(selectedhex.GetGameObject())).SetGhost(mousehex);
+                    }
+                    if (selectedhex.GetGameObject() is Ship && clickedaction == Command.Action.Jump)
+                    {
+                        ((Ship)(selectedhex.GetGameObject())).SetGhost(mousehex);
+                    }
+
                     commands.Add(new Command(selectedhex, mousehex, clickedaction));
                     clickedaction = Command.Action.None;
                     selectedhex = nullhex;
                 }
             }
 
-            
+
             /////stuff to do if a ship is selected/////
             GameObject selectedobject = selectedhex.GetGameObject();
 
             if (selectedobject != null && selectedobject is Ship) { shipmenu.Show(); }
             else { shipmenu.Hide(); }
 
-            if (selectedobject != null && selectedobject is Ship)
-            {
-                foreach (Hex3D h in ((Ship)selectedobject).GetReachable())
-                {
-                    h.color = movecolor;
-                }
-            }
             if (selectedobject != null && selectedobject is Warship)
             {
                 foreach (Hex3D h in ((Warship)selectedobject).GetShootable())
@@ -139,25 +172,44 @@ namespace spaceconquest
                     h.color = Color.Red;
                 }
             }
+            if (selectedobject != null && selectedobject is Ship)
+            {
+                foreach (Hex3D h in ((Ship)selectedobject).GetReachable())
+                {
+                    h.color = movecolor;
+                }
+            }
 
 
             //Color the mousedover hex
             if (mousehex != null && !mousehex.Equals(selectedhex) && !shipmenu.Contains(mousestate.X, mousestate.Y)) { mousehex.color = mousecolor; }
 
-            //update the 2d stuff
-            foreach (MenuComponent c in components)
+        }
+
+        public void UpdateGalaxy()
+        {
+            SolarSystem3D mousesystem = galaxy.GetMouseOverSystem();
+            if (oldmousesystem != null) oldmousesystem.sun.color = Color.Goldenrod;
+            if (mousesystem != null) mousesystem.sun.color = Color.Green;
+
+            if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && mousesystem != null)
             {
-                c.Update(mousestate, oldmousestate);
+                if (clickedaction == Command.Action.Jump )
+                {
+                    //commands.Add(new Command(selectedhex, mousesystem.getHex(-2, -2), Command.Action.Jump));
+                    space = mousesystem;
+                    //selectedhex = nullhex;
+                    clickedaction = Command.Action.Jump;
+                }
             }
 
-            oldmousestate = mousestate;
-            oldmousehex = mousehex;
+            oldmousesystem = mousesystem;
         }
 
         public void Draw()
         {
             
-            solar.Draw(offset,xr,yr,zr,height);
+            space.Draw(offset,xr,yr,zr,height);
 
             //2D stuff
             foreach (MenuComponent c in components)

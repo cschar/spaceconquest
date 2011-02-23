@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -13,15 +13,30 @@ namespace spaceconquest
 {
     class Sun : GameObject
     {
+        public Color color = Color.Goldenrod;
         public Sun(Hex3D h)
         {
             SetHex(h);
+            h.passable = false;
+            h.defaultcolor = Color.Black;
+
+            foreach (Hex3D n in h.getNeighbors())
+            {
+                n.passable = false;
+                n.defaultcolor = Color.Black;
+
+            }
+        }
+
+        public bool IsMouseOver(Ray mouseray,Matrix world)
+        {
+            if (mouseray.Intersects((SphereModel.sphere.Meshes[0].BoundingSphere.Transform( Matrix.CreateScale(80) * world))) != null) { return true; }
+            else return false;
         }
 
         public override void Draw(Matrix world, Matrix view, Matrix projection)
         {
-            //world = world + Matrix.CreateTranslation(getCenter());
-            SphereModel.Draw( Matrix.CreateTranslation(0,0,0) * world, view, projection, Color.Goldenrod,80);
+            SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, color, 80);
         }
     }
 }

@@ -14,9 +14,6 @@ namespace spaceconquest
     static class SphereModel
     {
         public static Model sphere;
-        public static int radius = 50;
-        public static int spacing = 5;
-        //public static Color color = Color.White;
         public static BasicEffect basicEffect;
 
         public static void InitializePrimitive(Model m)

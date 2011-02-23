@@ -118,6 +118,7 @@
     <Compile Include="Game Structures\Ship.cs" />
     <Compile Include="Game Structures\Planet.cs" />
     <Compile Include="Game Structures\Player.cs" />
+    <Compile Include="Game Structures\Space.cs" />
     <Compile Include="Game Structures\Unit.cs" />
     <Compile Include="Game Structures\GameObject.cs" />
     <Compile Include="Game Structures\SolarSystem3D.cs" />

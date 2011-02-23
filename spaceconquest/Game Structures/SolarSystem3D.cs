@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -11,13 +11,14 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
-    class SolarSystem3D
+    class SolarSystem3D : Space
     {
-        Rectangle screenarea;
 
-        StarField stars = new StarField(5000);
+        StarField stars = new StarField(2000);
         Hex3D[,] hexmap;
         List<Hex3D> hexlist;
+        public List<SolarSystem3D> neighbors = new List<SolarSystem3D>();
+        public readonly Sun sun;
 
         int radius;
         int hexcount;
@@ -28,9 +29,9 @@ namespace spaceconquest
         Matrix view;
         Matrix projection;
 
-        public SolarSystem3D(int r, Rectangle sa)
+        public SolarSystem3D(int r, int p, Color hcolor)
         {
-            screenarea = sa;
+
             radius = r;
             plane = new Plane(0, 0, 1, 1);
 
@@ -44,7 +45,7 @@ namespace spaceconquest
                 for (int j = -radius; j <= radius; j++)
                 {
                     if (Math.Abs(i + j) > radius) { continue; }
-                    Hex3D temp = new Hex3D(i, j, this);
+                    Hex3D temp = new Hex3D(i, j, this, hcolor);
                     hexlist.Add(temp);
                     hexmap[i + radius, j + radius] = temp;
                 }
@@ -52,48 +53,13 @@ namespace spaceconquest
 
             //BUIDIN' THA MOTHAF**KIN' SUN. 
             new Warship(getHex(-1, -1));
-            new Sun(getHex(0, 0));
+            sun = new Sun(getHex(0, 0));
+            //getHex(0, 0).passable = false; i changed the sun constructor to handle the passibility stuff.
+
             new Planet("Earth",Color.Blue,getHex(3, 3));
-            getHex(0,0).passable = false;
+            if (p > 1) new Planet("Garth", Color.Green, getHex(3, -4));
+            if (p > 2) new Planet("Mars", Color.Red, getHex(-4, -1));
 
-            // -1, 1; 0, 1; 0, -1; 1, 0;, -1,0; 1,-1;
-            List<Point> positions = new List<Point>(6);
-            positions.Add(new Point(-1, 1));
-            positions.Add(new Point(1, -1));
-            positions.Add(new Point(0, 1));
-            positions.Add(new Point(0, -1));
-            positions.Add(new Point(-1, 0));
-            positions.Add(new Point(1, 0));
-
-            Console.WriteLine("Positions Made");
-
-            foreach (Point pos in positions) {
-                getHex(pos.X, pos.Y).passable = false; 
-            }
-
-            //Console.WriteLine("Starting HexList Loop");
-            //foreach (Hex3D h in hexlist)
-            //{
-            //    Hex3D neighbor;
-            //    Console.WriteLine("Starting HexList SubLoop for Hex " + h.x + ", ", +h.y);
-            //    foreach (Point pos in positions)
-            //    {
-            //        Console.WriteLine("Testing hex " + (pos.X + h.x) + ", " + (pos.Y + h.y) + " as a neighbor of " + h.x + ", " + h.y);
-            //        try
-            //        {
-            //            neighbor = getHex(h.x + pos.X, h.y + pos.Y);
-            //            if (neighbor.passable)
-            //            {
-            //                h.getNeighbors().Add(neighbor);
-            //            }
-            //        }
-            //        catch (Exception e)
-            //        {
-            //            //NOOP
-            //        }
-            //    }
-
-            //}
 
         }
 
@@ -120,7 +86,7 @@ namespace spaceconquest
         {
             foreach (Hex3D h in hexlist)
             {
-                h.color = Hex3D.hexcolor;
+                h.color = h.defaultcolor;
             }
         }
 
@@ -165,7 +131,7 @@ namespace spaceconquest
             //world = Matrix.CreateTranslation(offset);
 
             view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-            view = Matrix.CreateFromYawPitchRoll(xr, yr, zr) * Matrix.CreateTranslation(offset) * view;
+            view = Matrix.CreateFromYawPitchRoll(0, 0, zr) * Matrix.CreateTranslation(offset) * Matrix.CreateFromYawPitchRoll(xr, yr, 0) * view;
 
             projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 10000);
             //projection = Matrix.CreateOrthographic(800, 600, 1, 20);
@@ -184,10 +150,6 @@ namespace spaceconquest
                 //if (screenarea.Contains((int)h.getCenter().X, (int)h.getCenter().Y)) { h.Draw(world, view, orthog, color); }
                 h.Draw(world, view, projection);
             }
-
-           
-
-            //draw menu stuff here
         }
     }
 }

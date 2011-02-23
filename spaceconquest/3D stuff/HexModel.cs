@@ -15,7 +15,7 @@ namespace spaceconquest
     {
         public static int radius = 50;
         public static int spacing = 5;
-        public static Color color = new Color(255, 255, 255, 0);
+        public static Color color = new Color(255, 255, 255, 255);
 
         // During the process of constructing a primitive model, vertex
         // and index data is stored on the CPU in these managed lists.

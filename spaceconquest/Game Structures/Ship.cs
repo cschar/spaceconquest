@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +7,14 @@ namespace spaceconquest
 {
     abstract class Ship:Unit
     {
-        int speed = 3;
+        int speed = 2;
+        protected Hex3D ghosthex;
+
+
         public void move(Hex3D target) {
             hex.RemoveObject();
             SetHex(target);
+            ghosthex = null;
         }
 
         public Ship() { 
@@ -27,7 +31,7 @@ namespace spaceconquest
         public override void kill()
         {
             hex.RemoveObject();
-            affiliation.army.Remove(this);
+            if (affiliation != null) affiliation.army.Remove(this);
         }
 
         public List<Hex3D> GetReachable()
@@ -54,6 +58,7 @@ namespace spaceconquest
             }
             foreach (Hex3D h in startHex.getNeighbors())
             {
+                //if (!h.passable) continue;
                 int dist = h.distance;
                 if (dist == -1 || dist < r-1) {
                     hexes.Add(h);
@@ -64,6 +69,10 @@ namespace spaceconquest
             return hexes;
         }
 
+        public void SetGhost(Hex3D h)
+        {
+            ghosthex = h;
+        }
 
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
