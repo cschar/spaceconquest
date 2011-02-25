@@ -2,26 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
     class Player
     {
-        public static Player dummy;
         int id;
         int metal;
         int score;
         public static int playerIDs = 0;
         String name;
         public List<Unit> army;
-        Planet startingPlanet;
-        //some sort of color
+        public readonly Planet startingPlanet;
+        public Color color;
 
         public Player(Planet start, String n) {
-
+            Random rand = new Random(n.GetHashCode());
+            color = new Color(rand.Next(255), rand.Next(255), rand.Next(255));
             army = new List<Unit>();
             army.Add(start);
             start.setAffiliation(this);
+            startingPlanet = start;
             metal = 1000000;
             score = 0;
             name = n; 

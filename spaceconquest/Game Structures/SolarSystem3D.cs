@@ -18,6 +18,7 @@ namespace spaceconquest
         Hex3D[,] hexmap;
         List<Hex3D> hexlist;
         public List<SolarSystem3D> neighbors = new List<SolarSystem3D>();
+        public List<Planet> planets = new List<Planet>(); 
         public readonly Sun sun;
 
         int radius;
@@ -28,6 +29,51 @@ namespace spaceconquest
         Matrix world;
         Matrix view;
         Matrix projection;
+
+        public SolarSystem3D(int r, int p, Color hcolor, int ind, Int64 seed) {
+            index = ind;
+            radius = r;
+            plane = new Plane(0, 0, 1, 1);
+
+            hexmap = new Hex3D[(radius * 2) + 1, (radius * 2) + 1];
+
+            hexcount = HowManyHexes(radius);
+            hexlist = new List<Hex3D>(hexcount);
+
+            for (int i = -radius; i <= radius; i++)
+            {
+                for (int j = -radius; j <= radius; j++)
+                {
+                    if (Math.Abs(i + j) > radius) { continue; }
+                    Hex3D temp = new Hex3D(i, j, this, hcolor);
+                    hexlist.Add(temp);
+                    hexmap[i + radius, j + radius] = temp;
+                }
+            }
+            sun = new Sun(getHex(0, 0));
+            List<Hex3D> cands = new List<Hex3D>();
+            foreach (Hex3D h in hexlist) {
+                int j = Math.Abs(h.x) + Math.Abs(h.y);
+                if(!(j < 1 || (j == 2 && Math.Max(h.x, h.y) == 1))) {
+                    cands.Add(h);
+                }
+                
+            }
+            Int64 popper = seed;
+ 
+
+            for (int i = 0; i < p; i++) {
+                popper = CommonRNG.getRandom(popper);
+                int popIndex = (int)(popper%cands.Count);
+                Hex3D hTemp = cands.ElementAt(popIndex);
+                cands.RemoveAt(popIndex);
+                Planet pTemp = new Planet(index + "-" + i, hTemp);
+                planets.Add(pTemp);
+            }
+
+
+
+        }
 
         public SolarSystem3D(int r, int p, Color hcolor, int idex)
         {
@@ -56,9 +102,9 @@ namespace spaceconquest
             sun = new Sun(getHex(0, 0));
             //getHex(0, 0).passable = false; i changed the sun constructor to handle the passibility stuff.
 
-            new Player(new Planet("Earth",Color.Blue,getHex(3, 3)), "Ted");
-            if (p > 1) new Planet("Garth", Color.Green, getHex(3, -4));
-            if (p > 2) new Planet("Mars", Color.Red, getHex(-4, -1));
+           // new Player(new Planet("Earth",Color.Blue,getHex(3, 3)), "Ted");
+           // if (p > 1) new Planet("Garth", Color.Green, getHex(3, -4));
+            //if (p > 2) new Planet("Mars", Color.Red, getHex(-4, -1));
 
 
         }

@@ -13,7 +13,7 @@ namespace spaceconquest
 {
     class GameScreen : Screen
     {
-        //in the future, the map would be here to but i dont have a map class yet
+        Map map;
         Galaxy galaxy;
         //SolarSystem3D solar; //current solar system
         Space space; //what we're currently looking at, can be galaxy or solarsystem
@@ -51,9 +51,11 @@ namespace spaceconquest
         public GameScreen()
         {
             selectedhex = nullhex;
-            galaxy = new Galaxy("Milky Way", 3);
-            space = galaxy.systems[0];
-            driver = new SlaveDriver(galaxy);
+            map = new Map(2, 0, "test galaxy", (long)1056905764);
+            galaxy = map.galaxy;
+            //galaxy = new Galaxy("Milky Way", 3);
+            space = map.GetHomeSystem();
+            driver = new SlaveDriver(map);
 
             offset = new Vector3(0,0,0);
             shipmenu = new MenuList(new Rectangle(600, 400, 200, 200));

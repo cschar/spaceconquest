@@ -14,20 +14,19 @@ namespace spaceconquest
 {
     class Planet:Unit
     {
-        private Color hue;
         private String name;
         private List<Unit> buildQueue;
         private List<int> buildTimes ;
 
 
+
         public override void kill(){
             this.affiliation = null;
-            this.hue = Color.Gray;
+            //this.hue = Color.Gray;
         }
 
-        public Planet(String n, Color c, Hex3D loc) {
+        public Planet(String n, Hex3D loc) {
             this.SetHex(loc);
-            this.hue = c;
             this.name = n;
             loc.defaultcolor = Color.Black;
             buildQueue = new List<Unit>();
@@ -55,6 +54,7 @@ namespace spaceconquest
                     foreach (Hex3D neighbor in hex.getNeighbors()) {
                         if (neighbor.GetGameObject() == null) { 
                             buildQueue.ElementAt(i).SetHex(neighbor);
+                            buildQueue.ElementAt(i).setAffiliation(affiliation);
                             buildQueue.RemoveAt(i);
                             buildTimes.RemoveAt(i);
                             i--;
@@ -70,7 +70,8 @@ namespace spaceconquest
         public override void Draw(Matrix world, Matrix view, Matrix projection)
         {
             //world = world + Matrix.CreateTranslation(getCenter());
-            SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, hue, 30);
+            if (affiliation == null) { SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, Color.Gray, 30); }
+            else SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 30);
         }
 
 

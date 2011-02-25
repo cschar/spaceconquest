@@ -22,17 +22,81 @@ namespace spaceconquest
         Matrix view;
         Matrix projection;
 
+        public Galaxy(String g, int size, Int64 seed) {
+            gName = g;
+            systems = new List<SolarSystem3D>(size);
+            positions = new List<Vector3>(size);
+            float radialIncrement = (float)(Math.PI * 2 / size);
+            Int64 P2 = seed;
+            for (int i = 0; i < size; i++) {
+                Int64 Red = CommonRNG.getRandom(P2);
+                Int64 Blue = CommonRNG.getRandom(Red);
+                Int64 Green = CommonRNG.getRandom(Blue);
+                Int64 Size1 = CommonRNG.getRandom(Green);
+                Int64 Size2 = CommonRNG.getRandom(Size1);
+                Int64 P1 = CommonRNG.getRandom(Size2);
+                P2 = CommonRNG.getRandom(P1);
+                Red = Red % 150;
+                Green = Green % 150;
+                Blue = Blue % 150;
+                Console.WriteLine("RGB = " + (float)Red + ", " + (float)Green + ", " + (byte)Blue);
+                int iRed = ((int)Red);
+                int iBlue = ((int)Blue);
+                int iGreen = ((int)Green);
+                int iP1 = ((int)P1);
+                int iP2 = ((int)P2);
+                int iS1 = ((int)Size1);
+                int iS2 = ((int)Size2);
+                iP2 %= 3;
+                iP1 %= 3;
+                iS1 %= 3;
+                iS2 %= 3;
+
+                Console.WriteLine("P1, P2 = " + iP1 + ", " + iP2);
+                Console.WriteLine("R1, R2 = " + iS1 + ", " + iS2);
+
+
+
+                systems.Add(new SolarSystem3D((int)(5+iS1+iS2), (int)(1+iP1+iP2), new Color(iRed, iBlue, iGreen), i, P2));
+                positions.Add(new Vector3((float)(300*Math.Cos(i * radialIncrement)), (float)(300*Math.Sin(i* radialIncrement)), 0));
+            }
+
+            CommonRNG.resetSeed();
+
+            for (int i = 0; i < size; i++) {
+                SolarSystem3D sTemp = systems.ElementAt(i);
+                List<SolarSystem3D> nTemp = sTemp.neighbors;
+                int sCount = systems.Count;
+                SolarSystem3D s1 = systems.ElementAt((i + 1 + sCount) % sCount);
+                SolarSystem3D s2 = systems.ElementAt((i - 1 + sCount) % sCount);
+                nTemp.Add(s1);
+                nTemp.Add(s2);
+                s2.neighbors.Add(sTemp);
+                s1.neighbors.Add(sTemp);
+
+                Int64 link = seed;
+                for (int j = i+2; j <= size; j++) {
+                    if (i != j) {
+                        link = CommonRNG.getRandom(link);
+                        if (link % size == 0) {
+                            s1 = systems.ElementAt(j % size);
+                            s1.neighbors.Add(sTemp);
+                            nTemp.Add(s1);
+                        }
+ 
+                    }
+                }
+            }
+
+
+        }
+
         public Galaxy(String g, int size)
         {
             gName = g;
             systems = new List<SolarSystem3D>(size);
             positions = new List<Vector3>(size);
             Random rand = new Random();
-            //for (int i = 0; i < size; i++)
-            //{
-            //    systems.Add(new SolarSystem3D(8, rand.Next(4), new Color(rand.Next(30), rand.Next(30), rand.Next(30)))); //figure out the parameters. 
-            //    positions.Add(new Vector3(rand.Next(100), rand.Next(100), rand.Next(100)));
-            //}
 
             //pretty much hardcoding positions in
             if (size < 2)

@@ -13,7 +13,7 @@ namespace spaceconquest
 {
     abstract class GameObject
     {
-        protected Hex3D hex;
+        public Hex3D hex;
 
         public void SetHex(Hex3D h) {
             hex = h;

@@ -7,13 +7,15 @@ namespace spaceconquest
 {
     class SlaveDriver
     {
+        Map map;
         Galaxy galaxy;
         HashSet<Command> commands = new HashSet<Command>(); //hashset so that we ignore multiple commands to one unit
-        Player player;
+        //Player player;
 
-        public SlaveDriver(Galaxy g)
+        public SlaveDriver(Map m)
         {
-            galaxy = g;
+            map = m;
+            galaxy = map.galaxy;
         }
 
         public void Recieve(List<Command> cl)
@@ -35,7 +37,13 @@ namespace spaceconquest
             }
             commands.Clear();
 
-            ((Planet)galaxy.GetHex(0, 3, 3).GetGameObject()).upkeep();
+            foreach (Player p in map.players)
+            {
+                foreach (Unit u in p.army)
+                {
+                    if (u is Planet) { ((Planet)u).upkeep(); }
+                }
+            }
         }
 
         private bool ExecuteCommand(Command c)

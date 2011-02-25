@@ -70,5 +70,7 @@ namespace spaceconquest
             return buildTime;
         }
 
+        //public abstract void upkeep();
+
     }
 }
