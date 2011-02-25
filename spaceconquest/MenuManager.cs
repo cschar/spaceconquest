@@ -16,9 +16,8 @@ namespace spaceconquest
         public static SpriteBatch batch;
         public static SpriteFont font;
 
-        public enum ScreenState
+        public enum ScreenState //does this even do anything?
         {
-            //class out each of these states so they have a draw call
             Main,
             MapSelect,
             Game,
@@ -43,7 +42,8 @@ namespace spaceconquest
         public static void ClickMapSelect(Object o, EventArgs e) { screen = new MapSelectScreen(batch, font); }
         public static void ClickGlobalLobby(Object o, EventArgs e) { screen = new GlobalLobbyScreen(batch, font); }
         public static void ClickGameLobby(Object o, EventArgs e) { screen = new GameLobbyScreen(batch, font); }
-
+        public static void ClickClientConnect(Object o, EventArgs e) { screen = new ClientConnectScreen((String)o); }
+        public static void ClickHost(Object o, EventArgs e) { screen = new HostScreen((String)o); }
         public static void ClickNewGame(Object o, EventArgs e) { screen = new GameScreen(); } //at some point this will actually make a new game, now it just shows a hex
        // public static void ClickMapSelect() { screen = new MapSelectScreen(batch, font); } 
 

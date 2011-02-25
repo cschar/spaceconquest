@@ -16,29 +16,55 @@ namespace spaceconquest
         public List<MenuComponent> buttons;
         private MouseState mousestateold = Mouse.GetState();
         private GlobalChatClient chatClient;
-        MenuList maplist;
+        MenuList chatlist;
+        TextInput ipbox;
 
         public GlobalLobbyScreen(SpriteBatch sb, SpriteFont sf)
         {
             chatClient = new GlobalChatClient("http://openportone.appspot.com/");
             buttons = new List<MenuComponent>();
-            //buttons.Add(new MenuButton(new Rectangle(325, 200, 150, 40), sb, sf, "Join Game", new MenuButton.ClickActionDelegate(MenuManager.ClickClientConnect) ));
-            buttons.Add(new MenuButton(new Rectangle(450, 250, 150, 40), sb, sf, "Host Game", MenuManager.ClickMapSelect ));
-            buttons.Add(new TextInput(new Rectangle(50,500,350,40), chatClient));
-            maplist = new MenuList(new Rectangle(50, 50, 350, 450));
-            buttons.Add(maplist);
+            ipbox = new TextInput(new Rectangle(450, 200, 150, 40), Nothing); //not addded to the list
+
+            buttons.Add(new MenuButton(new Rectangle(450, 250, 150, 40), sb, sf, "Join Game", JoinGame));
+            buttons.Add(new MenuButton(new Rectangle(450, 300, 150, 40), sb, sf, "Host Game", HostGame ));
+
+            buttons.Add(new TextInput(new Rectangle(50,500,350,40), ChatSend));
+            chatlist = new MenuList(new Rectangle(50, 50, 350, 450));
+            
+            buttons.Add(chatlist);
+        }
+
+        public void Nothing(String input){}
+
+        public void HostGame(Object o, EventArgs e)
+        {
+            MenuManager.ClickHost("127.0.0.1", EventArgs.Empty);
+        }
+
+        public void JoinGame(Object o, EventArgs e)
+        {
+            MenuManager.ClickClientConnect(ipbox.input, EventArgs.Empty);
+        }
+
+        public void ChatSend(String input)
+        {
+            chatClient.SendMessage("me", input); chatClient.UpdateLocalLogList();
         }
 
         public void Update()
         {
             MouseState mousestate = Mouse.GetState();
-            foreach (MenuComponent mb in buttons)
+            if (ipbox.Contains(mousestate.X, mousestate.Y)) { ipbox.Update(mousestate, mousestateold); }
+            else
             {
-                mb.Update(mousestate, mousestateold);
+                foreach (MenuComponent mb in buttons)
+                {
+                    mb.Update(mousestate, mousestateold);
+                }
             }
             mousestateold = mousestate;
 
-            maplist.Clear();
+            chatlist.Clear();
             List<ChatLog> newChats = chatClient.GetLogs();
 
             foreach (ChatLog c in newChats)
@@ -54,11 +80,11 @@ namespace spaceconquest
                     finalMessage = init.Substring(0, 31) + "\n";
                     if (nameSaid == false)
                     {
-                        maplist.AddNewTextLineDefault(20, 200, c.playerName + finalMessage);
+                        chatlist.AddNewTextLineDefault(20, 200, c.playerName + finalMessage);
                     }
                     else
                     {
-                        maplist.AddNewTextLineDefault(20, 200, "          " + finalMessage);
+                        chatlist.AddNewTextLineDefault(20, 200, "          " + finalMessage);
                     
                     }
                     nameSaid = true;
@@ -67,11 +93,11 @@ namespace spaceconquest
                 }
                 if (nameSaid == false)
                 {
-                    maplist.AddNewTextLineDefault(20, 200, c.playerName + init);
+                    chatlist.AddNewTextLineDefault(20, 200, c.playerName + init);
                 }
                 else
                 {
-                    maplist.AddNewTextLineDefault(20, 200, "          " + init);
+                    chatlist.AddNewTextLineDefault(20, 200, "          " + init);
 
                 }
             }
@@ -83,6 +109,7 @@ namespace spaceconquest
             {
                 mb.Draw();
             }
+            ipbox.Draw();
         }
     }
 }

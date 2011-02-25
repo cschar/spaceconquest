@@ -133,6 +133,7 @@
     <Compile Include="Menu Components\TextInput.cs" />
     <Compile Include="Menu Components\MenuList.cs" />
     <Compile Include="Menu Components\MenuComponent.cs" />
+    <Compile Include="Menu Screens\HostScreen.cs" />
     <Compile Include="Menu Screens\OptionsScreen.cs" />
     <Compile Include="MenuManager.cs" />
     <Compile Include="Menu Screens\Screen.cs" />

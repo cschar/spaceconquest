@@ -17,7 +17,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace spaceconquest
 {
-    class ClientConnectScreen : Screen
+    class HostScreen : Screen
     {
         List<MenuComponent> components = new List<MenuComponent>();
         private MouseState mousestateold = Mouse.GetState();
@@ -27,7 +27,7 @@ namespace spaceconquest
         Socket listensocket;
 
 
-        public ClientConnectScreen(String ipstring)
+        public HostScreen(String ipstring)
         {
             ip = IPAddress.Parse(ipstring);
             end = new IPEndPoint(ip, 6112);
@@ -37,9 +37,9 @@ namespace spaceconquest
             components.Add(new TextInput(new Rectangle(50, 500, 350, 40), ChatSend));
             components.Add(chatlist);
 
-           // HostThread ht = new HostThread(listensocket, end, chatlist);
-           // Thread t2 = new Thread(new ThreadStart(ht.SendRecieve));
-           // t2.Start();
+            HostThread ht = new HostThread(listensocket, end, chatlist);
+            Thread t2 = new Thread(new ThreadStart(ht.SendRecieve));
+            t2.Start();
         }
 
         public void ChatSend(String input)
@@ -47,7 +47,7 @@ namespace spaceconquest
             //chatlist.AddNewTextLineDefault(20, 200, input);
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            MessageThread mt = new MessageThread(socket,end,input);
+            MessageThread mt = new MessageThread(socket, end, input);
             Thread t = new Thread(new ThreadStart(mt.SendRecieve));
             t.Start();
         }
@@ -58,7 +58,7 @@ namespace spaceconquest
             MouseState mousestate = Mouse.GetState();
             foreach (MenuComponent mb in components)
             {
-                mb.Update(mousestate,mousestateold);
+                mb.Update(mousestate, mousestateold);
             }
             mousestateold = mousestate;
         }
