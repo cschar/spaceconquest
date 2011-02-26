@@ -30,24 +30,25 @@ namespace spaceconquest
         public ClientConnectScreen(String ipstring)
         {
             ip = IPAddress.Parse(ipstring);
-            end = new IPEndPoint(ip, 6112);
+            end = new IPEndPoint(ip, 6114);
             listensocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             chatlist = new MenuList(new Rectangle(50, 50, 350, 450));
             components.Add(new TextInput(new Rectangle(50, 500, 350, 40), ChatSend));
             components.Add(chatlist);
 
-           // HostThread ht = new HostThread(listensocket, end, chatlist);
-           // Thread t2 = new Thread(new ThreadStart(ht.SendRecieve));
-           // t2.Start();
+           HostThread ht = new HostThread(listensocket, end, chatlist, ipstring);
+           Thread t2 = new Thread(new ThreadStart(ht.SendRecieve));
+           t2.Start();
         }
 
         public void ChatSend(String input)
         {
-            //chatlist.AddNewTextLineDefault(20, 200, input);
+            chatlist.AddNewTextLineDefault(20, 200, input);
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            end = new IPEndPoint(ip, 6113);
 
-            MessageThread mt = new MessageThread(socket,end,input);
+            MessageThread mt = new MessageThread(socket, end, input);
             Thread t = new Thread(new ThreadStart(mt.SendRecieve));
             t.Start();
         }
@@ -58,7 +59,7 @@ namespace spaceconquest
             MouseState mousestate = Mouse.GetState();
             foreach (MenuComponent mb in components)
             {
-                mb.Update(mousestate,mousestateold);
+                mb.Update(mousestate, mousestateold);
             }
             mousestateold = mousestate;
         }
@@ -106,14 +107,16 @@ namespace spaceconquest
             NetworkStream stream;
             BinaryFormatter formatter;
             MenuList chatlist;
+            String ipstring;
 
-            public HostThread(Socket s, EndPoint e, MenuList cl)
+            public HostThread(Socket s, EndPoint e, MenuList cl, String ip)
             {
                 socket = s;
                 end = e;
                 socket.Bind(end);
                 formatter = new BinaryFormatter();
                 chatlist = cl;
+                ipstring = ip;
             }
 
             public void SendRecieve()
@@ -132,6 +135,7 @@ namespace spaceconquest
                     stream = new NetworkStream(accept);
                     message = (String)formatter.Deserialize(stream);
                     chatlist.AddNewTextLineDefault(20, 200, message);
+                    if (message.Equals("!start")) {MenuManager.ForceJoinGame( ipstring ,EventArgs.Empty);}
                 }
             }
         }

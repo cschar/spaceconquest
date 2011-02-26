@@ -5,10 +5,12 @@ using System.Text;
 
 namespace spaceconquest
 {
+    [Serializable]
     abstract class Ship:Unit
     {
+       
         int speed = 2;
-        protected Hex3D ghosthex;
+        [NonSerialized] protected Hex3D ghosthex;
 
 
         public void move(Hex3D target) {

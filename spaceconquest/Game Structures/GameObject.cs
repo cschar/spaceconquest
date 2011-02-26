@@ -11,9 +11,10 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
+    [Serializable]
     abstract class GameObject
     {
-        public Hex3D hex;
+        [NonSerialized] public Hex3D hex;
 
         public void SetHex(Hex3D h) {
             hex = h;

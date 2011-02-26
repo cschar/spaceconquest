@@ -25,8 +25,8 @@ namespace spaceconquest
             buttons = new List<MenuComponent>();
             ipbox = new TextInput(new Rectangle(450, 200, 150, 40), Nothing); //not addded to the list
 
-            buttons.Add(new MenuButton(new Rectangle(450, 250, 150, 40), sb, sf, "Join Game", JoinGame));
-            buttons.Add(new MenuButton(new Rectangle(450, 300, 150, 40), sb, sf, "Host Game", HostGame ));
+            buttons.Add(new MenuButton(new Rectangle(450, 250, 150, 40), "Join Game", JoinGame));
+            buttons.Add(new MenuButton(new Rectangle(450, 300, 150, 40), "Host Game", HostGame ));
 
             buttons.Add(new TextInput(new Rectangle(50,500,350,40), ChatSend));
             chatlist = new MenuList(new Rectangle(50, 50, 350, 450));

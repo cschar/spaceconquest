@@ -12,14 +12,15 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
+    [Serializable]
     abstract class Unit:GameObject
     {
         protected int buildTime = 1;
         protected int buildCost = 1;
-        protected Player affiliation;
+        [NonSerialized] protected Player affiliation;
         protected int health = 1;
         protected int maxHealth = 1;
-        protected Model model = null;
+        //protected Model model = null;
 
         public Unit(Player p) {
             affiliation = p;

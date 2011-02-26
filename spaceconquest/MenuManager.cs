@@ -44,11 +44,16 @@ namespace spaceconquest
         public static void ClickGameLobby(Object o, EventArgs e) { screen = new GameLobbyScreen(batch, font); }
         public static void ClickClientConnect(Object o, EventArgs e) { screen = new ClientConnectScreen((String)o); }
         public static void ClickHost(Object o, EventArgs e) { screen = new HostScreen((String)o); }
-        public static void ClickNewGame(Object o, EventArgs e) { screen = new GameScreen(); } //at some point this will actually make a new game, now it just shows a hex
+
+        //public static void ClickClientConnect(Object o, EventArgs e) { screen = new GameScreen(false); }
+        public static void ClickStartGame(Object o, EventArgs e) { screen = new GameScreen(true, null); }
+        public static void ForceJoinGame(Object o, EventArgs e) { screen = new GameScreen(false,(String)o); }
+
+        public static void ClickNewGame(Object o, EventArgs e) { screen = new GameScreen(true, null); } //at some point this will actually make a new game, now it just shows a hex
        // public static void ClickMapSelect() { screen = new MapSelectScreen(batch, font); } 
 
         //screen for changing music
-        public static void ClickMusicOptions(Object o, EventArgs e){ screen = new OptionsScreen(batch, font); }
+        public static void ClickMusicOptions(Object o, EventArgs e){ screen = new OptionsScreen(); }
         }
 
     

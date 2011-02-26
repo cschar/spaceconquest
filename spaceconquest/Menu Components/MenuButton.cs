@@ -14,8 +14,8 @@ namespace spaceconquest
     class MenuButton : MenuComponent
     {
         Rectangle area;
-        SpriteBatch batch;
-        SpriteFont font;
+        SpriteBatch batch = MenuManager.batch;
+        SpriteFont font = MenuManager.font;
         String text;
         Texture2D texture;
         Vector2 stringvector;
@@ -25,11 +25,9 @@ namespace spaceconquest
         Color currentcolor;
         public bool selected = false;
 
-        public MenuButton(Rectangle r, SpriteBatch sb, SpriteFont sf, String t, EventHandler c)
+        public MenuButton(Rectangle r, String t, EventHandler c)
         {
             area = r;
-            batch = sb;
-            font = sf;
             text = t;
             texture = new Texture2D(batch.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
             texture.SetData(new[] { Color.White });

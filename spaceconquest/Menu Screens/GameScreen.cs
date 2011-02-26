@@ -13,17 +13,19 @@ namespace spaceconquest
 {
     class GameScreen : Screen
     {
+        bool host;
         Map map;
         Galaxy galaxy;
         //SolarSystem3D solar; //current solar system
         Space space; //what we're currently looking at, can be galaxy or solarsystem
 
         List<MenuComponent> components = new List<MenuComponent>();
-        List<Command> commands = new List<Command>();
+        //List<Command> commands = new List<Command>();
         MenuList shipmenu;
         MenuList planetmenu;
         Command.Action clickedaction = Command.Action.None;
         SlaveDriver driver;
+        MiddleMan middleman;
 
         Color selectedcolor = Color.Green;
         Color movecolor = new Color(0,255,0);
@@ -48,29 +50,33 @@ namespace spaceconquest
         float height = 700;
         Vector3 offset;
 
-        public GameScreen()
+        public GameScreen(bool h, String ipstring)
         {
+            host = h;
             selectedhex = nullhex;
             map = new Map(2, 0, "test galaxy", (long)1056905764);
             galaxy = map.galaxy;
             //galaxy = new Galaxy("Milky Way", 3);
             space = map.GetHomeSystem();
             driver = new SlaveDriver(map);
+            if (host) middleman = new Host(driver, 1);
+            else middleman = new Client(ipstring,driver);
+
 
             offset = new Vector3(0,0,0);
             shipmenu = new MenuList(new Rectangle(600, 400, 200, 200));
             components.Add(shipmenu);
-            shipmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), MenuManager.batch, MenuManager.font, "Move", MoveClick));
-            shipmenu.Add(new MenuButton(new Rectangle(670, 405, 60, 60), MenuManager.batch, MenuManager.font, "Attack", FireClick));
-            shipmenu.Add(new MenuButton(new Rectangle(605, 470, 60, 60), MenuManager.batch, MenuManager.font, "Enter", EnterClick));
-            shipmenu.Add(new MenuButton(new Rectangle(670, 470, 60, 60), MenuManager.batch, MenuManager.font, "Jump", JumpClick));
-            shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), MenuManager.batch, MenuManager.font, "Upgrade", UpgradeClick));
-            shipmenu.Add(new MenuButton(new Rectangle(605, 535, 60, 60), MenuManager.batch, MenuManager.font, "Colonize", ColonizeClick));
+            shipmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), "Move", MoveClick));
+            shipmenu.Add(new MenuButton(new Rectangle(670, 405, 60, 60), "Attack", FireClick));
+            shipmenu.Add(new MenuButton(new Rectangle(605, 470, 60, 60), "Enter", EnterClick));
+            shipmenu.Add(new MenuButton(new Rectangle(670, 470, 60, 60), "Jump", JumpClick));
+            shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), "Upgrade", UpgradeClick));
+            shipmenu.Add(new MenuButton(new Rectangle(605, 535, 60, 60), "Colonize", ColonizeClick));
             //shipmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), MenuManager.batch, MenuManager.font, "Build", BuildClick));
 
             planetmenu = new MenuList(new Rectangle(600, 400, 200, 200));
             components.Add(planetmenu);
-            planetmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), MenuManager.batch, MenuManager.font, "Ship", BuildClick));
+            planetmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), "Ship", BuildClick));
         }
 
 
@@ -82,14 +88,15 @@ namespace spaceconquest
         void ColonizeClick(Object o, EventArgs e) { clickedaction = Command.Action.Colonize; }
         //void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; }
 
-        void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; commands.Add(new Command(selectedhex, selectedhex, Command.Action.Build, new Warship(new Hex3D(0, 0, null, Color.AliceBlue)))); clickedaction = Command.Action.None; }
+        void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; middleman.AddCommand(new Command(selectedhex, selectedhex, Command.Action.Build, new Warship(new Hex3D(0, 0, null, Color.AliceBlue)))); clickedaction = Command.Action.None; }
 
         public void Update()
         {
+            if (middleman.DriverReady()) { middleman.DriverReset();  driver.Execute(); }
             mousestate = Mouse.GetState();
             keystate = Keyboard.GetState();
 
-            if (keystate.IsKeyDown(Keys.Space) && oldkeystate.IsKeyUp(Keys.Space)) { driver.Recieve(commands); commands = new List<Command>(); driver.Execute(); }
+            if (keystate.IsKeyDown(Keys.Space) && oldkeystate.IsKeyUp(Keys.Space)) { middleman.EndTurn(); }
             //////camera controls////
             if (keystate.IsKeyDown(Keys.Left)) { offset.X = offset.X + scrollspeed; }
             if (keystate.IsKeyDown(Keys.Right)) { offset.X = offset.X - scrollspeed; }
@@ -162,7 +169,7 @@ namespace spaceconquest
                         ((Ship)(selectedhex.GetGameObject())).SetGhost(mousehex);
                     }
 
-                    commands.Add(new Command(selectedhex, mousehex, clickedaction));
+                    middleman.AddCommand(new Command(selectedhex, mousehex, clickedaction));
                     clickedaction = Command.Action.None;
                     selectedhex = nullhex;
                 }
