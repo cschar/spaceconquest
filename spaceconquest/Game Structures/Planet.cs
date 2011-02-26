@@ -67,15 +67,22 @@ namespace spaceconquest
         }
 
 
+
+        private float angle = 0;
+        private float angleIncr = 0.3f;
+
         public override void Draw(Matrix world, Matrix view, Matrix projection)
         {
             //world = world + Matrix.CreateTranslation(getCenter());
            // if (affiliation == null) { SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, Color.Gray, 30); }
            // else SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 30);
 
-            if (affiliation == null) { PlanetModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, Color.Gray, 30, false); }
-            else PlanetModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 30, true);
-       
+            if (affiliation == null) { PlanetModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, Color.Gray, 30, false, angle); }
+            else PlanetModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 30, true, angle);
+
+            angle += angleIncr;
+            if (angle > 360) angle = 0;
+
         
         }
 

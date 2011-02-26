@@ -48,14 +48,22 @@ namespace spaceconquest
                 Shootable(hexes, n, r - 1);
             }
         }
-
+        private float hoveringHeight = 7;
+        private float hoveringAcc = -0.06f;
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
             Color color = Color.Red; //in the future, this will link to the player's color
 
-            SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, color, 20);
+            StarCruiserModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, color, 1.6f, hoveringHeight);
 
-             if (ghosthex != null) SphereModel.Draw(Matrix.CreateTranslation(ghosthex.getCenter()) * world, view, projection, Color.Multiply(color,.2f) , 20);
+             if (ghosthex != null) StarCruiserModel.Draw(Matrix.CreateTranslation(ghosthex.getCenter()) * world, view, projection, Color.Multiply(color,.2f) , 1.6f, hoveringHeight);
+            
+             //create illusion that ship is hovering in space
+             hoveringHeight += hoveringAcc;
+             if (hoveringHeight > 13 || hoveringHeight < 6) { hoveringAcc *= -1; }
+            
+            
+
         }
     }
 }

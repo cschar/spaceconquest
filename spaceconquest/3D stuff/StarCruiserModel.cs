@@ -11,35 +11,24 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
-    static class PlanetModel
+    static class StarCruiserModel
     {
-        public static Model poplulatedPlanet;
-        public static Model unpoplulatedPlanet;
+        public static Model starCruiser;
         public static BasicEffect basicEffect;
 
-        public static void InitializePrimitive(Model m_unpopulated, Model m_populated)
+        public static void InitializePrimitive(Model m)
         {
-            poplulatedPlanet = m_populated;
-            unpoplulatedPlanet = m_unpopulated;
+            starCruiser = m;
+            
             GraphicsDevice graphicsDevice = Game1.device;
 
             Point center = Point.Zero;
 
-            poplulatedPlanet.Root.Transform = Matrix.CreateScale(20f);
-            unpoplulatedPlanet.Root.Transform = Matrix.CreateScale(20f);
-
-
+            m.Root.Transform = Matrix.CreateScale(10f);
+            
             basicEffect = new BasicEffect(Game1.device);
 
-            foreach (ModelMesh mesh in poplulatedPlanet.Meshes)
-            {
-                foreach (ModelMeshPart part in mesh.MeshParts)
-                {
-                    part.Effect = basicEffect;
-                }
-            }
-
-            foreach (ModelMesh mesh in unpoplulatedPlanet.Meshes)
+            foreach (ModelMesh mesh in starCruiser.Meshes)
             {
                 foreach (ModelMeshPart part in mesh.MeshParts)
                 {
@@ -49,23 +38,25 @@ namespace spaceconquest
 
             // Create a BasicEffect, which will be used to render the primitive.
             //basicEffect = new BasicEffect(graphicsDevice);
-
+            basicEffect.DiffuseColor = new Vector3(50, 50, 50);
             basicEffect.EnableDefaultLighting();
         }
 
 
 
-        public static void Draw(Matrix world, Matrix view, Matrix projection, Color newcolor, float scale, bool isPopulated, float curAngle)
+        public static void Draw(Matrix world, Matrix view, Matrix projection, Color newcolor, float scale, float hoveringHeight)
         {
             // Set BasicEffect parameters.
             Matrix worldMatrix = Matrix.CreateScale(scale) *
-                 Matrix.CreateRotationZ( (float) ((curAngle / 360.0) * 2 * Math.PI)) *
-                 world;
-            basicEffect.World = worldMatrix;
+                Matrix.CreateRotationX((float)(Math.PI)) *
+                Matrix.CreateTranslation(new Vector3(0, 0, hoveringHeight)) * 
+                world;
+
+            basicEffect.World = worldMatrix;          
             basicEffect.View = view;
             basicEffect.Projection = projection;
             basicEffect.DiffuseColor = newcolor.ToVector3();
-            //basicEffect.VertexColorEnabled = true;
+           // basicEffect.VertexColorEnabled = true;
 
             //basicEffect.Alpha = color.A / 255.0f;
             basicEffect.EmissiveColor = newcolor.ToVector3();
@@ -76,19 +67,9 @@ namespace spaceconquest
 
             // Draw the model, using BasicEffect.
 
-            if (isPopulated)
+            foreach (ModelMesh mesh in starCruiser.Meshes)
             {
-                foreach (ModelMesh mesh in poplulatedPlanet.Meshes)
-                {
-                    mesh.Draw();
-                }
-            }
-            else
-            {
-                foreach (ModelMesh mesh in unpoplulatedPlanet.Meshes)
-                {
-                    mesh.Draw();
-                }
+                mesh.Draw();
             }
         }
 

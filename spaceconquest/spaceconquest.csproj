@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3D stuff\PlanetModel.cs" />
+    <Compile Include="3D stuff\StarCruiserModel.cs" />
     <Compile Include="3D stuff\StarField.cs" />
     <Compile Include="3D stuff\SphereModel.cs" />
     <Compile Include="3D stuff\HexModel.cs" />

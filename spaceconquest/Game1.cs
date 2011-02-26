@@ -78,7 +78,8 @@ namespace spaceconquest
             PlanetModel.InitializePrimitive(Content.Load<Model>("planet_unpopulated"),
                     Content.Load<Model>("planet_populated"));
 
-
+            //Loading a StarCruiser model
+            StarCruiserModel.InitializePrimitive(Content.Load<Model>("starcruiser"));
 
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");
