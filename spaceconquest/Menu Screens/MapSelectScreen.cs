@@ -20,8 +20,8 @@ namespace spaceconquest
         public MapSelectScreen(SpriteBatch sb, SpriteFont sf)
         {
             components = new List<MenuComponent>();
-            components.Add(new MenuButton(new Rectangle(450, 200, 150, 40), sb, sf, "Load Map",  null ));
-            components.Add(new MenuButton(new Rectangle(450, 250, 150, 40), sb, sf, "New Map", MenuManager.ClickNewGame));
+            components.Add(new MenuButton(new Rectangle(450, 200, 150, 40), "Load Map",  null ));
+            components.Add(new MenuButton(new Rectangle(450, 250, 150, 40), "New Map", MenuManager.ClickNewGame));
 
             MenuList maplist = new MenuList(new Rectangle(200, 200, 200, 300));
             maplist.AddNewButtonDefault(20, 200, "i am a map", delegate(Object o, EventArgs e) { ((MenuButton)o).selected = !((MenuButton)o).selected; });

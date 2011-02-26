@@ -30,11 +30,12 @@ namespace spaceconquest
         public HostScreen(String ipstring)
         {
             ip = IPAddress.Parse(ipstring);
-            end = new IPEndPoint(ip, 6112);
+            end = new IPEndPoint(ip, 6113);
             listensocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             chatlist = new MenuList(new Rectangle(50, 50, 350, 450));
             components.Add(new TextInput(new Rectangle(50, 500, 350, 40), ChatSend));
+            components.Add(new MenuButton(new Rectangle(450, 200, 150, 40), "Start Game", StartGame));
             components.Add(chatlist);
 
             HostThread ht = new HostThread(listensocket, end, chatlist);
@@ -44,12 +45,19 @@ namespace spaceconquest
 
         public void ChatSend(String input)
         {
-            //chatlist.AddNewTextLineDefault(20, 200, input);
+            chatlist.AddNewTextLineDefault(20, 200, input);
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
+            end = new IPEndPoint(ip, 6114);
             MessageThread mt = new MessageThread(socket, end, input);
             Thread t = new Thread(new ThreadStart(mt.SendRecieve));
             t.Start();
+        }
+
+        public void StartGame(Object o, EventArgs e)
+        {
+            MenuManager.ClickStartGame(o, e);
+            ChatSend("!start");
         }
 
 

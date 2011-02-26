@@ -35,7 +35,7 @@ namespace spaceconquest
 
         public void AddNewButtonDefault(int height, int width, String t, EventHandler c)
         {
-            menucomponents.Add(new MenuButton(new Rectangle(area.Left + padding, area.Top + (menucomponents.Count*(height+padding))+padding, area.Width - (2 * padding), height), batch, font, t, c));    
+            menucomponents.Add(new MenuButton(new Rectangle(area.Left + padding, area.Top + (menucomponents.Count*(height+padding))+padding, area.Width - (2 * padding), height), t, c));    
         }
 
         public void AddNewTextLineDefault(int height, int width, String t)
