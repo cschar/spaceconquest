@@ -73,6 +73,12 @@ namespace spaceconquest
             SphereModel.InitializePrimitive(Content.Load<Model>("sphere"));
             //Loading the sphere
             StarField.LoadStarModel(Content.Load<Model>("thing"));
+            
+            //Loading the Planet 
+            PlanetModel.InitializePrimitive(Content.Load<Model>("planet_unpopulated"),
+                    Content.Load<Model>("planet_populated"));
+
+
 
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");
