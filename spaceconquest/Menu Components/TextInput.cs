@@ -13,16 +13,18 @@ namespace spaceconquest
 {
     class TextInput : MenuComponent
     {
-        String input = "";
+        public String input = "";
         KeyboardState oldstate = Keyboard.GetState();
         Texture2D texture;
         Rectangle area;
         Vector2 stringvector;
-        GlobalChatClient chat;
+        PressedEnter enter;
+       // GlobalChatClient chat;
 
-        public TextInput(Rectangle r, GlobalChatClient g)
+        public TextInput(Rectangle r, PressedEnter e)
         {
-            chat = g;
+            //chat = g;
+            enter = e;
             area = r;
             texture = new Texture2D(MenuManager.batch.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
             texture.SetData(new[] { Color.White });
@@ -63,19 +65,31 @@ namespace spaceconquest
             if (keystate.IsKeyDown(Keys.Y) && oldstate.IsKeyUp(Keys.Y)) { input += 'Y'; }
             if (keystate.IsKeyDown(Keys.Z) && oldstate.IsKeyUp(Keys.Z)) { input += 'Z'; }
             if (keystate.IsKeyDown(Keys.Decimal) && oldstate.IsKeyUp(Keys.Decimal)) { input += '.'; }
+            if (keystate.IsKeyDown(Keys.OemPeriod) && oldstate.IsKeyUp(Keys.OemPeriod)) { input += '.'; }
             if (keystate.IsKeyDown(Keys.Space) && oldstate.IsKeyUp(Keys.Space)) { input += ' '; }
             if (keystate.IsKeyDown(Keys.Back) && oldstate.IsKeyUp(Keys.Back)) { if (input.Length > 0) input = input.Substring(0, input.Length - 1); }
             if (keystate.IsKeyDown(Keys.D1) && oldstate.IsKeyUp(Keys.D1)) { input += '1'; }
-            if (keystate.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter)) { chat.SendMessage("me", input); input = ""; chat.UpdateLocalLogList(); }
+            if (keystate.IsKeyDown(Keys.D2) && oldstate.IsKeyUp(Keys.D2)) { input += '2'; }
+            if (keystate.IsKeyDown(Keys.D3) && oldstate.IsKeyUp(Keys.D3)) { input += '3'; }
+            if (keystate.IsKeyDown(Keys.D4) && oldstate.IsKeyUp(Keys.D4)) { input += '4'; }
+            if (keystate.IsKeyDown(Keys.D5) && oldstate.IsKeyUp(Keys.D5)) { input += '5'; }
+            if (keystate.IsKeyDown(Keys.D6) && oldstate.IsKeyUp(Keys.D6)) { input += '6'; }
+            if (keystate.IsKeyDown(Keys.D7) && oldstate.IsKeyUp(Keys.D7)) { input += '7'; }
+            if (keystate.IsKeyDown(Keys.D8) && oldstate.IsKeyUp(Keys.D8)) { input += '8'; }
+            if (keystate.IsKeyDown(Keys.D9) && oldstate.IsKeyUp(Keys.D9)) { input += '9'; }
+            if (keystate.IsKeyDown(Keys.D0) && oldstate.IsKeyUp(Keys.D0)) { input += '0'; }
+            if (keystate.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter)) { enter(input); input = ""; }
 
             oldstate = keystate;
             stringvector = new Vector2(area.Center.X, area.Center.Y) - (MenuManager.font.MeasureString(input) / 2);
 
         }
 
+        public delegate void PressedEnter(String s);
+
         public override bool Contains(int x, int y)
         {
-            return false;
+            return area.Contains(x, y);
         }
 
         public override void Draw()
