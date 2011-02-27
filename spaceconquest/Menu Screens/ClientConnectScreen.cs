@@ -37,7 +37,7 @@ namespace spaceconquest
             components.Add(new TextInput(new Rectangle(50, 500, 350, 40), ChatSend));
             components.Add(chatlist);
 
-           HostThread ht = new HostThread(listensocket, end, chatlist, ipstring);
+           HostThread ht = new HostThread(listensocket, end, chatlist, "127.0.0.1");
            Thread t2 = new Thread(new ThreadStart(ht.SendRecieve));
            t2.Start();
         }

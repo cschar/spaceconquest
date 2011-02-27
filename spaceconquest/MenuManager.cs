@@ -42,10 +42,12 @@ namespace spaceconquest
         public static void ClickMapSelect(Object o, EventArgs e) { screen = new MapSelectScreen(batch, font); }
         public static void ClickGlobalLobby(Object o, EventArgs e) { screen = new GlobalLobbyScreen(batch, font); }
         public static void ClickGameLobby(Object o, EventArgs e) { screen = new GameLobbyScreen(batch, font); }
-        public static void ClickClientConnect(Object o, EventArgs e) { screen = new ClientConnectScreen((String)o); }
-        public static void ClickHost(Object o, EventArgs e) { screen = new HostScreen((String)o); }
+        //public static void ClickClientConnect(Object o, EventArgs e) { screen = new ClientConnectScreen((String)o); }
+        //public static void ClickHost(Object o, EventArgs e) { screen = new HostScreen((String)o); }
 
-        //public static void ClickClientConnect(Object o, EventArgs e) { screen = new GameScreen(false); }
+        public static void ClickClientConnect(Object o, EventArgs e) {  screen = new GameScreen(false,"70.55.141.164",1); }
+        public static void ClickHost(Object o, EventArgs e) { screen = new GameScreen(true, null,1); }
+
         public static void ClickStartGame(Object o, EventArgs e) { screen = new GameScreen(true, null,1); }
         public static void ForceJoinGame(Object o, EventArgs e) { screen = new GameScreen(false,(String)o,1); }
 
