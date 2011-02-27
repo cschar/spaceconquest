@@ -56,5 +56,10 @@ namespace spaceconquest
             return instancePlayer.startingPlanet.hex.hexgrid;
         }
 
+        public Player GetInstancePlayer()
+        {
+            return instancePlayer;
+        }
+
     }
 }

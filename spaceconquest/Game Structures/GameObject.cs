@@ -32,5 +32,7 @@ namespace spaceconquest
         }
 
         public abstract void Draw(Matrix world, Matrix view, Matrix projection);
+
+        public virtual void DrawGhost(Matrix world, Matrix view, Matrix projection) {}
     }
 }

@@ -61,6 +61,7 @@ namespace spaceconquest
 
         public void setAffiliation(Player p) {
             this.affiliation = p;
+            p.army.Add(this);
         }
 
         public int getCost() {

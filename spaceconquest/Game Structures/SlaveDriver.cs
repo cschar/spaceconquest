@@ -30,6 +30,8 @@ namespace spaceconquest
 
         public void Execute()
         {
+            commands.OrderBy(Sorter);
+
             Console.WriteLine("Executing " + commands.Count + " Commands");
             foreach (Command c in commands)
             {
@@ -45,6 +47,8 @@ namespace spaceconquest
                 }
             }
         }
+
+        private int Sorter(Command c) { return (int)c.action; }
 
         private bool ExecuteCommand(Command c)
         {
@@ -87,6 +91,18 @@ namespace spaceconquest
                 {
                     //if (galaxy.GetHex(c.target).GetGameObject() != null) { return false; }
                     ((Planet)subject).build(c.ship);
+                    return true;
+                }
+            }
+
+            if (c.action == Command.Action.Colonize)
+            {
+                subject = galaxy.GetHex(c.start).GetGameObject();
+                if (subject != null && subject is Ship)
+                {
+                    if (!(galaxy.GetHex(c.target).GetGameObject() is Planet)) { return false; }
+                    if (((Planet)galaxy.GetHex(c.target).GetGameObject()).getAffiliation() != null  ) { return false; }
+                    ((Planet)galaxy.GetHex(c.target).GetGameObject()).setAffiliation(((Ship)subject).getAffiliation());
                     return true;
                 }
             }

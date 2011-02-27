@@ -20,7 +20,7 @@ namespace spaceconquest
         List<MenuComponent> menucomponents;
         Color currentcolor = Color.Teal;
         int padding = 10;
-        bool visible = true;
+        public bool visible = true;
 
 
         public MenuList(Rectangle r)
@@ -45,7 +45,8 @@ namespace spaceconquest
 
         public override bool Contains(int x, int y)
         {
-            return area.Contains(x, y);
+            if (visible) { return area.Contains(x, y); }
+            else { return false; }
         }
 
         public override void Update(Microsoft.Xna.Framework.Input.MouseState mscurrent, Microsoft.Xna.Framework.Input.MouseState msold)

@@ -128,6 +128,17 @@ namespace spaceconquest
             return hexmap[x + radius, y + radius];
         }
 
+        public List<Hex3D> GetWarpable()
+        {
+            List<Hex3D> hexes = new List<Hex3D>();
+            foreach (Hex3D h in hexlist)
+            {
+                if (Math.Abs(h.x) >= radius - 1 || Math.Abs(h.y) >= radius - 1 || Math.Abs(h.y + h.x) >= radius - 1) { hexes.Add(h); }
+            }
+
+            return hexes;
+        }
+
         public void Update()
         {
             foreach (Hex3D h in hexlist)

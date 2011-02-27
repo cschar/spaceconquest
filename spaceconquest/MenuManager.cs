@@ -46,10 +46,10 @@ namespace spaceconquest
         public static void ClickHost(Object o, EventArgs e) { screen = new HostScreen((String)o); }
 
         //public static void ClickClientConnect(Object o, EventArgs e) { screen = new GameScreen(false); }
-        public static void ClickStartGame(Object o, EventArgs e) { screen = new GameScreen(true, null); }
-        public static void ForceJoinGame(Object o, EventArgs e) { screen = new GameScreen(false,(String)o); }
+        public static void ClickStartGame(Object o, EventArgs e) { screen = new GameScreen(true, null,1); }
+        public static void ForceJoinGame(Object o, EventArgs e) { screen = new GameScreen(false,(String)o,1); }
 
-        public static void ClickNewGame(Object o, EventArgs e) { screen = new GameScreen(true, null); } //at some point this will actually make a new game, now it just shows a hex
+        public static void ClickNewGame(Object o, EventArgs e) { screen = new GameScreen(true, null,0); } //this should be the number of client players, right now we only support 2 players so there.
        // public static void ClickMapSelect() { screen = new MapSelectScreen(batch, font); } 
 
         //screen for changing music

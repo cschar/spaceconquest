@@ -12,7 +12,7 @@ namespace spaceconquest
         public readonly Tuple<int, int, int> start;
         public readonly Tuple<int, int, int> target;
         //public readonly Hex3D targethex;
-        public enum Action {None = 1, Move = 2, Fire = 3, Jump = 4, Enter = 5, Colonize = 6, Upgrade = 7, Build = 8};
+        public enum Action {None = 0, Move = 4, Fire = 1, Jump = 6, Enter = 5, Colonize = 7, Upgrade = 3, Build = 9};
         public readonly Action action;
         public readonly Ship ship;
 
@@ -38,9 +38,10 @@ namespace spaceconquest
 
         public override int GetHashCode() //we're gonna hash by starthex so that only one command per unit will be used. Also by ship so you can queue multiple ships.
         {
-            //int i;
-            //if (action == Action.Move || 
-            return (start.GetHashCode() + action.GetHashCode()).GetHashCode() ;
+            int i;
+            if (action == Action.Move || action == Action.Jump || action == Action.Enter) { i = 1; }
+            else { i = 2; }
+            return (start.GetHashCode() + i.GetHashCode()).GetHashCode() ;
         }
 
     }

@@ -49,5 +49,16 @@ namespace spaceconquest
             }
             return false;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Player)) { return false; }
+            else return id.Equals(((Player)obj).id);
+        }
+
+        public override int GetHashCode()
+        {
+            return id.GetHashCode();
+        }
     }
 }

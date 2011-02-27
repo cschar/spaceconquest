@@ -114,6 +114,7 @@ namespace spaceconquest
                     commands.AddRange((List<Command>)formatter.Deserialize(ns));
                 }
 
+
                 foreach (NetworkStream ns in streamlist)
                 {
                     formatter.Serialize(ns, commands);

@@ -16,7 +16,7 @@ namespace spaceconquest
         public void move(Hex3D target) {
             hex.RemoveObject();
             SetHex(target);
-            ghosthex = null;
+            ghosthex.ClearGhostObject();
         }
 
         public Ship() { 
@@ -39,6 +39,7 @@ namespace spaceconquest
         public List<Hex3D> GetReachable()
         {
             List<Hex3D> hexes = reachable(hex, speed);
+            hexes.Add(hex);
             foreach (Hex3D h in hexes) {
                 h.distance = -1;
                 if (h.GetGameObject() != null) {
@@ -74,6 +75,7 @@ namespace spaceconquest
         public void SetGhost(Hex3D h)
         {
             ghosthex = h;
+            h.SetGhostObject(this);
         }
 
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)

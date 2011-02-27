@@ -23,6 +23,7 @@ namespace spaceconquest
         public readonly static int radius = HexModel.radius;
         public static int spacing = HexModel.spacing;
         GameObject gameobject;
+        GameObject ghostobject;
         public Boolean passable = true; 
         private List<Hex3D> neighbors;
 
@@ -100,7 +101,7 @@ namespace spaceconquest
 
         public void DrawObject(Matrix world, Matrix view, Matrix projection)
         {
-            
+            if (ghostobject != null) { ghostobject.DrawGhost(world, view, projection); }
             if (gameobject != null) { gameobject.Draw(world, view, projection); }
         }
 
@@ -122,7 +123,15 @@ namespace spaceconquest
             return "(" + x + ", " + y + ")";
         }
 
+        public void SetGhostObject(GameObject go)
+        {
+            ghostobject = go;
+        }
 
+        public void ClearGhostObject()
+        {
+            ghostobject = null;
+        }
         
     }
 }

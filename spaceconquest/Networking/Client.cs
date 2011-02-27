@@ -87,20 +87,24 @@ namespace spaceconquest
 
             public void SendRecieve()
             {
-                if (!socket.Connected) { socket.Connect(end); }
-                Console.WriteLine("Connected to host");
-                stream = new NetworkStream(socket);
+                try
+                {
+                    if (!socket.Connected) { socket.Connect(end); }
+                    Console.WriteLine("Connected to host");
+                    stream = new NetworkStream(socket);
 
-                formatter.Serialize(stream, commands);
-                Console.WriteLine("Sent Commands");
+                    formatter.Serialize(stream, commands);
+                    Console.WriteLine("Sent Commands");
 
-                commands = (List<Command>)formatter.Deserialize(stream);
-                Console.WriteLine("Recieved Commands");
+                    commands = (List<Command>)formatter.Deserialize(stream);
+                    Console.WriteLine("Recieved Commands");
 
-                //Console.WriteLine("Disconnecting Socket");
-                //socket.Disconnect(true);
-               // Console.WriteLine("Disconnected");
-                action(commands);
+                    //Console.WriteLine("Disconnecting Socket");
+                    //socket.Disconnect(true);
+                    // Console.WriteLine("Disconnected");
+                    action(commands);
+                }
+                catch (SocketException e) { SendRecieve(); }
             }
             public delegate void Result(List<Command> c);
         }

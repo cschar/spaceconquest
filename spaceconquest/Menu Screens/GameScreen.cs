@@ -18,6 +18,7 @@ namespace spaceconquest
         Galaxy galaxy;
         //SolarSystem3D solar; //current solar system
         Space space; //what we're currently looking at, can be galaxy or solarsystem
+        Player player; //the player using this screen
 
         List<MenuComponent> components = new List<MenuComponent>();
         //List<Command> commands = new List<Command>();
@@ -26,6 +27,8 @@ namespace spaceconquest
         Command.Action clickedaction = Command.Action.None;
         SlaveDriver driver;
         MiddleMan middleman;
+        bool waiting = false;
+        TextLine waitingmessage;
 
         Color selectedcolor = Color.Green;
         Color movecolor = new Color(0,255,0);
@@ -50,18 +53,19 @@ namespace spaceconquest
         float height = 700;
         Vector3 offset;
 
-        public GameScreen(bool h, String ipstring)
+        public GameScreen(bool h, String ipstring, int numclients)
         {
             host = h;
             selectedhex = nullhex;
-            map = new Map(2, 0, "test galaxy", (long)1056905764);
+            if (h) { map = new Map(2, 0, "test galaxy", (long)1056905764); }
+            else { map = new Map(2, numclients, "test galaxy", (long)1056905764); }
             galaxy = map.galaxy;
-            //galaxy = new Galaxy("Milky Way", 3);
+            player = map.GetInstancePlayer();
             space = map.GetHomeSystem();
             driver = new SlaveDriver(map);
-            if (host) middleman = new Host(driver, 1);
+            if (host) middleman = new Host(driver, numclients);
             else middleman = new Client(ipstring,driver);
-
+            
 
             offset = new Vector3(0,0,0);
             shipmenu = new MenuList(new Rectangle(600, 400, 200, 200));
@@ -77,6 +81,8 @@ namespace spaceconquest
             planetmenu = new MenuList(new Rectangle(600, 400, 200, 200));
             components.Add(planetmenu);
             planetmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), "Ship", BuildClick));
+
+            waitingmessage = new TextLine(new Rectangle(0, 0, 400, 20), "Waiting for other players.");
         }
 
 
@@ -92,11 +98,11 @@ namespace spaceconquest
 
         public void Update()
         {
-            if (middleman.DriverReady()) { middleman.DriverReset();  driver.Execute(); }
+            if (middleman.DriverReady()) { middleman.DriverReset(); driver.Execute(); waiting = false; }
             mousestate = Mouse.GetState();
             keystate = Keyboard.GetState();
 
-            if (keystate.IsKeyDown(Keys.Space) && oldkeystate.IsKeyUp(Keys.Space)) { middleman.EndTurn(); }
+            if (keystate.IsKeyDown(Keys.Space) && oldkeystate.IsKeyUp(Keys.Space)) { waiting = true;  middleman.EndTurn(); }
             //////camera controls////
             if (keystate.IsKeyDown(Keys.Left)) { offset.X = offset.X + scrollspeed; }
             if (keystate.IsKeyDown(Keys.Right)) { offset.X = offset.X - scrollspeed; }
@@ -142,7 +148,7 @@ namespace spaceconquest
             mousehex = ((SolarSystem3D)space).GetMouseOverHex();
 
 
-            if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && mousehex != null)
+            if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && !planetmenu.Contains(mousestate.X, mousestate.Y) && mousehex != null)
             {
                 //selecting a hex
                 if (clickedaction == Command.Action.None)
@@ -151,7 +157,7 @@ namespace spaceconquest
                 }
 
                 //selecting a target of a action
-                if (clickedaction != Command.Action.None) //should check for null here but i wont for testing purposes
+                if (clickedaction != Command.Action.None && !waiting) 
                 {
                     Console.WriteLine("a command");
                     if (selectedhex.GetGameObject() is Ship && clickedaction == Command.Action.Move)
@@ -164,8 +170,16 @@ namespace spaceconquest
                         if (!((Warship)(selectedhex.GetGameObject())).GetShootable().Contains(mousehex)) { return; }
                         //((Ship)(selectedhex.GetGameObject())).SetGhost(mousehex);
                     }
+
+                    if (selectedhex.GetGameObject() is Warship && clickedaction == Command.Action.Colonize)
+                    {
+                        if (!((Warship)(selectedhex.GetGameObject())).GetReachable().Contains(mousehex)) { return; }
+                        //((Ship)(selectedhex.GetGameObject())).SetGhost(mousehex);
+                    }
+
                     if (selectedhex.GetGameObject() is Ship && clickedaction == Command.Action.Jump)
                     {
+                        if (!((SolarSystem3D)(space)).GetWarpable().Contains(mousehex)) { return; }
                         ((Ship)(selectedhex.GetGameObject())).SetGhost(mousehex);
                     }
 
@@ -179,7 +193,15 @@ namespace spaceconquest
             /////stuff to do if a ship is selected/////
             GameObject selectedobject = selectedhex.GetGameObject();
 
-            if (selectedobject != null && selectedobject is Ship) { shipmenu.Show(); }
+            if (selectedhex.GetGameObject() is Ship && clickedaction == Command.Action.Jump)
+            {
+                foreach (Hex3D h in ((SolarSystem3D)space).GetWarpable())
+                {
+                    h.color = Color.Blue;
+                }
+            }
+
+            if (selectedobject != null && selectedobject is Ship && ((Ship)selectedobject).getAffiliation().Equals(player)) { shipmenu.Show(); }
             else { shipmenu.Hide(); }
 
             if (selectedobject != null && selectedobject is Warship)
@@ -198,9 +220,8 @@ namespace spaceconquest
             }
 
             //planetmenu
-            if (selectedobject != null && selectedobject is Planet) { planetmenu.Show(); }
+            if (selectedobject != null && selectedobject is Planet && ((Planet)selectedobject).getAffiliation() != null && ((Planet)selectedobject).getAffiliation().Equals(player)) { planetmenu.Show(); }
             else { planetmenu.Hide(); }
-
 
 
             //Color the mousedover hex
@@ -238,6 +259,8 @@ namespace spaceconquest
             {
                 c.Draw();
             }
+
+            if (waiting) { waitingmessage.Draw(); }
         }
     }
 }
