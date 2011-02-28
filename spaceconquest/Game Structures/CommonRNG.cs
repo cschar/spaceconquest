@@ -9,13 +9,13 @@ namespace spaceconquest
     {
         private static Int64 baseSeed = 4856101800003394322;
         private static Int64 reset = 4856101800003394322;
-        static Random rand;
+        public static Random rand;
         public static Int64 getRandom(Int64 seed) {
             //Console.Write("Get Random: " + seed + " -> ");
             rand = new Random((int)seed);
             Int64 ret = rand.Next();
             //baseSeed = baseSeed ^ seed;
-            Console.WriteLine(ret);
+            //Console.WriteLine(ret);
             //return baseSeed ^ seed;
             return ret;
 
@@ -23,7 +23,7 @@ namespace spaceconquest
 
         public static void resetSeed() {
             baseSeed = reset;
-            Console.WriteLine("Random Reset");
+            //Console.WriteLine("Random Reset");
         }
 
     }

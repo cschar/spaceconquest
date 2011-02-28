@@ -13,9 +13,11 @@ namespace spaceconquest
 {
     class Sun : GameObject
     {
-        public Color color = Color.Goldenrod;
+        public Color defaultcolor = new Color(CommonRNG.rand.Next(250), CommonRNG.rand.Next(250), CommonRNG.rand.Next(20));
+        public Color color;
         public Sun(Hex3D h)
         {
+            color = defaultcolor;
             SetHex(h);
             h.passable = false;
             h.defaultcolor = Color.Black;

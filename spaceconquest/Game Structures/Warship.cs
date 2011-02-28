@@ -62,7 +62,14 @@ namespace spaceconquest
 
         public override void DrawGhost(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
-            if (ghosthex != null) StarCruiserModel.Draw(Matrix.CreateTranslation(ghosthex.getCenter()) * world, view, projection, Color.Multiply(affiliation.color, .2f), 1.6f, hoveringHeight);
+            if (ghosthex == null) {return;}
+
+            StarCruiserModel.Draw(Matrix.CreateTranslation(ghosthex.getCenter()) * world, view, projection, Color.Multiply(affiliation.color, .2f), 1.6f, hoveringHeight);
+            if (this.hex.hexgrid == ghosthex.hexgrid)
+            {
+                if (line != null) line.Draw(world, view, projection, affiliation.color);
+                else line = new LineModel(getCenter(), ghosthex.getCenter());
+            }
         }
     }
 }

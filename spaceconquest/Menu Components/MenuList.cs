@@ -21,6 +21,7 @@ namespace spaceconquest
         Color currentcolor = Color.Teal;
         int padding = 10;
         public bool visible = true;
+        public bool showbackround = true;
 
 
         public MenuList(Rectangle r)
@@ -64,7 +65,7 @@ namespace spaceconquest
         {
             if (visible)
             {
-                batch.Draw(texture, area, currentcolor);
+                if (showbackround) batch.Draw(texture, area, currentcolor);
                 foreach (MenuComponent mc in menucomponents)
                 {
                     mc.Draw();

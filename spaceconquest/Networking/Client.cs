@@ -31,7 +31,9 @@ namespace spaceconquest
             ip = IPAddress.Parse(ipstring);
             end = new IPEndPoint(ip, 6112);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            //socket.Bind(new IPEndPoint(IPAddress.Loopback, 0));
             slavedriver = sd;
+            //socket.EnableBroadcast = false;
         }
 
         public bool DriverReady()
@@ -87,8 +89,9 @@ namespace spaceconquest
 
             public void SendRecieve()
             {
-                try
-                {
+               // try
+               // {
+                
                     if (!socket.Connected) { socket.Connect(end); }
                     Console.WriteLine("Connected to host");
                     stream = new NetworkStream(socket);
@@ -103,8 +106,8 @@ namespace spaceconquest
                     //socket.Disconnect(true);
                     // Console.WriteLine("Disconnected");
                     action(commands);
-                }
-                catch (SocketException e) { SendRecieve(); }
+                //}
+                //catch (SocketException e) { Console.WriteLine(e); SendRecieve(); }
             }
             public delegate void Result(List<Command> c);
         }

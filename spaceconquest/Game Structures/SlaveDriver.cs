@@ -41,7 +41,9 @@ namespace spaceconquest
 
             foreach (Player p in map.players)
             {
-                foreach (Unit u in p.army)
+                List<Unit> newlist = new List<Unit>();
+                newlist.AddRange(p.army);
+                foreach (Unit u in newlist)
                 {
                     if (u is Planet) { ((Planet)u).upkeep(); }
                 }

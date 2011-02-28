@@ -27,20 +27,20 @@ namespace spaceconquest
         Socket listensocket;
 
 
-        public ClientConnectScreen(String ipstring)
-        {
-            ip = IPAddress.Parse(ipstring);
-            end = new IPEndPoint(ip, 6114);
-            listensocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        //public ClientConnectScreen(String ipstring)
+        //{
+        //    ip = IPAddress.Parse(ipstring);
+        //    end = new IPEndPoint(ip, 6114);
+        //    listensocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            chatlist = new MenuList(new Rectangle(50, 50, 350, 450));
-            components.Add(new TextInput(new Rectangle(50, 500, 350, 40), ChatSend));
-            components.Add(chatlist);
+        //    chatlist = new MenuList(new Rectangle(50, 50, 350, 450));
+        //    components.Add(new TextInput(new Rectangle(50, 500, 350, 40), ChatSend));
+        //    components.Add(chatlist);
 
-           HostThread ht = new HostThread(listensocket, end, chatlist, "127.0.0.1");
-           Thread t2 = new Thread(new ThreadStart(ht.SendRecieve));
-           t2.Start();
-        }
+        //   HostThread ht = new HostThread(listensocket, end, chatlist, "127.0.0.1");
+        //   Thread t2 = new Thread(new ThreadStart(ht.SendRecieve));
+        //   t2.Start();
+        //}
 
         public void ChatSend(String input)
         {

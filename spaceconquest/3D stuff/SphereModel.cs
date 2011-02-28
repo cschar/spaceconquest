@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.IO;
 
 namespace spaceconquest
 {
@@ -54,6 +55,11 @@ namespace spaceconquest
 
             //basicEffect.Alpha = color.A / 255.0f;
             basicEffect.EmissiveColor = newcolor.ToVector3();
+            //basicEffect.EmissiveColor = new Color(100,100,0).ToVector3();
+            basicEffect.SpecularColor = new Color(255, 255, 0).ToVector3();
+            basicEffect.SpecularPower = 10f;
+            //basicEffect.Texture = Texture2D.FromStream(Game1.device, new FileStream(@"Content\suntexture.png", FileMode.Open));
+           // basicEffect.TextureEnabled = true;
 
             GraphicsDevice device = basicEffect.GraphicsDevice;
             device.DepthStencilState = DepthStencilState.Default;

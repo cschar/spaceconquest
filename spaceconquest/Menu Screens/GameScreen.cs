@@ -29,6 +29,7 @@ namespace spaceconquest
         MiddleMan middleman;
         bool waiting = false;
         TextLine waitingmessage;
+        IconButton galaxybutton;
 
         Color selectedcolor = Color.Green;
         Color movecolor = new Color(0,255,0);
@@ -51,40 +52,54 @@ namespace spaceconquest
         float yr = 0;
         float zr = 0;
         float height = 700;
-        Vector3 offset;
+        Vector3 offset = new Vector3(0,0,0);
 
         public GameScreen(bool h, String ipstring, int numclients)
         {
             host = h;
             selectedhex = nullhex;
-            if (h) { map = new Map(2, 0, "test galaxy", (long)1056905764); }
-            else { map = new Map(2, numclients, "test galaxy", (long)1056905764); }
+            if (h) { map = new Map(2, 0, "test galaxy", (long)1); }
+            else { map = new Map(2, numclients, "test galaxy", (long)1); }
             galaxy = map.galaxy;
             player = map.GetInstancePlayer();
             space = map.GetHomeSystem();
             driver = new SlaveDriver(map);
             if (host) middleman = new Host(driver, numclients);
             else middleman = new Client(ipstring,driver);
-            
 
-            offset = new Vector3(0,0,0);
+            galaxybutton = new IconButton(new Rectangle(40, Game1.device.Viewport.Height-40, 120, 40), "GalaxyButton.png", "SystemButton.png", GalaxyClick);
+            components.Add(galaxybutton);
+
             shipmenu = new MenuList(new Rectangle(600, 400, 200, 200));
             components.Add(shipmenu);
-            shipmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), "Move", MoveClick));
-            shipmenu.Add(new MenuButton(new Rectangle(670, 405, 60, 60), "Attack", FireClick));
-            shipmenu.Add(new MenuButton(new Rectangle(605, 470, 60, 60), "Enter", EnterClick));
-            shipmenu.Add(new MenuButton(new Rectangle(670, 470, 60, 60), "Jump", JumpClick));
-            shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), "Upgrade", UpgradeClick));
-            shipmenu.Add(new MenuButton(new Rectangle(605, 535, 60, 60), "Colonize", ColonizeClick));
+            shipmenu.Add(new IconButton(new Rectangle(605, 405, 60, 60), "MoveButton.png", MoveClick));
+            shipmenu.Add(new IconButton(new Rectangle(670, 405, 60, 60), "AttackButton.png", FireClick));
+            //shipmenu.Add(new MenuButton(new Rectangle(605, 470, 60, 60), "Enter", EnterClick));
+            shipmenu.Add(new IconButton(new Rectangle(670, 470, 60, 60), "JumpButton.png", JumpClick));
+            //shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), "Upgrade", UpgradeClick));
+            shipmenu.Add(new IconButton(new Rectangle(605, 535, 60, 60), "ColonizeButton.png", ColonizeClick));
             //shipmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), MenuManager.batch, MenuManager.font, "Build", BuildClick));
 
             planetmenu = new MenuList(new Rectangle(600, 400, 200, 200));
             components.Add(planetmenu);
-            planetmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), "Ship", BuildClick));
+            planetmenu.Add(new IconButton(new Rectangle(605, 405, 60, 60), "BuildButton.png", BuildClick));
 
             waitingmessage = new TextLine(new Rectangle(0, 0, 400, 20), "Waiting for other players.");
+
+            planetmenu.showbackround = false;
+            shipmenu.showbackround = false;
         }
 
+        void GalaxyClick(Object o, EventArgs e)
+        {
+            ((IconButton)o).toggle = true;
+            if (space is SolarSystem3D) {space = galaxy;}
+            else 
+            {
+                if (oldmousesystem != null) {space = oldmousesystem;}
+                else {space = map.GetHomeSystem();}
+            }
+        }
 
         void MoveClick(Object o, EventArgs e) { clickedaction = Command.Action.Move; Console.WriteLine("clicked move"); }
         void FireClick(Object o, EventArgs e) { clickedaction = Command.Action.Fire; }
@@ -141,6 +156,7 @@ namespace spaceconquest
         public void UpdateSolar()
         {
             selectedhex.color = selectedcolor;
+            ((SolarSystem3D)space).sun.color = ((SolarSystem3D)space).sun.defaultcolor;
 
             ////////mouse stuff////////
             if (oldmousehex != null && !oldmousehex.Equals(selectedhex)) oldmousehex.color = oldmousehex.defaultcolor;
@@ -148,7 +164,7 @@ namespace spaceconquest
             mousehex = ((SolarSystem3D)space).GetMouseOverHex();
 
 
-            if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && !planetmenu.Contains(mousestate.X, mousestate.Y) && mousehex != null)
+            if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && !planetmenu.Contains(mousestate.X, mousestate.Y) && !galaxybutton.Contains(mousestate.X, mousestate.Y) && mousehex != null)
             {
                 //selecting a hex
                 if (clickedaction == Command.Action.None)
@@ -232,18 +248,19 @@ namespace spaceconquest
         public void UpdateGalaxy()
         {
             SolarSystem3D mousesystem = galaxy.GetMouseOverSystem();
-            if (oldmousesystem != null) oldmousesystem.sun.color = Color.Goldenrod;
+            if (oldmousesystem != null) oldmousesystem.sun.color = oldmousesystem.sun.defaultcolor;
             if (mousesystem != null) mousesystem.sun.color = Color.Green;
 
             if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && mousesystem != null)
             {
-                if (clickedaction == Command.Action.Jump )
+                if (clickedaction == Command.Action.Jump)
                 {
                     //commands.Add(new Command(selectedhex, mousesystem.getHex(-2, -2), Command.Action.Jump));
                     space = mousesystem;
                     //selectedhex = nullhex;
                     clickedaction = Command.Action.Jump;
                 }
+                else { space = mousesystem; }
             }
 
             oldmousesystem = mousesystem;

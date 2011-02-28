@@ -84,6 +84,7 @@ namespace spaceconquest
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");
             textFont = Content.Load<SpriteFont>("TextFont");
+            //Texture2D texture = Content.Load<Texture2D>("MoveButton.png");
 
             MenuManager.Init(spriteBatch, mainFont);
 
@@ -149,11 +150,15 @@ namespace spaceconquest
             //GraphicsDevice.RasterizerState = RasterizerState.CullNone;
 
             spriteBatch.Begin();
+            IconButton.batch.Begin(SpriteSortMode.Texture, BlendState.NonPremultiplied); //for nonpremultiplied stuff, like the command buttons
+
 
             //titleScreen uses spritebatch object
             MenuManager.screen.Draw();
-            
+
             spriteBatch.End();
+            IconButton.batch.End();
+            
 
             
 

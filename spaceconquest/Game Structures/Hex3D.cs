@@ -101,8 +101,9 @@ namespace spaceconquest
 
         public void DrawObject(Matrix world, Matrix view, Matrix projection)
         {
+            if (gameobject != null) { gameobject.Draw(world, view, projection); return; }
             if (ghostobject != null) { ghostobject.DrawGhost(world, view, projection); }
-            if (gameobject != null) { gameobject.Draw(world, view, projection); }
+            
         }
 
         public void AddObject(GameObject go)

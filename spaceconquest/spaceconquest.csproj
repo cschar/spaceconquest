@@ -110,6 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="3D stuff\LineModel.cs" />
     <Compile Include="3D stuff\PlanetModel.cs" />
     <Compile Include="3D stuff\StarCruiserModel.cs" />
     <Compile Include="3D stuff\StarField.cs" />

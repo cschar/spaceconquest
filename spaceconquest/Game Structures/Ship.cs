@@ -11,12 +11,14 @@ namespace spaceconquest
        
         int speed = 2;
         [NonSerialized] protected Hex3D ghosthex;
+        [NonSerialized] protected LineModel line;
 
 
         public void move(Hex3D target) {
             hex.RemoveObject();
             SetHex(target);
-            ghosthex.ClearGhostObject();
+            if (ghosthex!=null) ghosthex.ClearGhostObject();
+            line = null;
         }
 
         public Ship() { 
@@ -74,8 +76,14 @@ namespace spaceconquest
 
         public void SetGhost(Hex3D h)
         {
+            Console.WriteLine("setting ghost");
             ghosthex = h;
             h.SetGhostObject(this);
+            if (this.hex.hexgrid == ghosthex.hexgrid)
+            {
+                Console.WriteLine("creating new linemodel");
+                line = new LineModel(getCenter(), ghosthex.getCenter());
+            }
         }
 
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)

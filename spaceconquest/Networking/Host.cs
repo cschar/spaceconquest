@@ -29,10 +29,11 @@ namespace spaceconquest
 
         public Host(SlaveDriver sd, int n)
         {
-            ip = IPAddress.Parse("127.0.0.1");
+            ip = IPAddress.Parse("70.55.141.164");
             end = new IPEndPoint(ip, 6112);
             listensocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listensocket.Bind(end);
+            //listensocket.EnableBroadcast = false;
             slavedriver = sd;
             numclients = n;
         }
@@ -98,7 +99,7 @@ namespace spaceconquest
                 {
                         while (true)
                         {
-                            socket.Listen(10);
+                            socket.Listen(1);
                             Console.WriteLine("Host Listening");
                             accept = socket.Accept();
                             //accept.Listen(10);
