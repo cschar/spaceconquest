@@ -83,10 +83,10 @@ namespace spaceconquest
                 busyUpdating = true;
                 Console.WriteLine("attempting globalchat http req");
                 WebRequest req = WebRequest.Create(httpSource + "?GetInfo=1");
-                
+
                 WebResponse resp = req.GetResponse();
                 Console.WriteLine("requestReceived[]");
-                
+
                 Stream resStream = resp.GetResponseStream();
 
 
@@ -117,16 +117,16 @@ namespace spaceconquest
                     }
                 }
                 while (count > 0); // any more data to read?
-               
-                
-                
-                Console.WriteLine(sb.ToString());
-                    
+
+
+
+                //Console.WriteLine(sb.ToString());
+
                 //empty logs and get fresh batch
                 //chatLogs.Clear();
                 //unsafe for multithreading
 
-               updateList = new List<ChatLog>();
+                updateList = new List<ChatLog>();
 
                 //Parse the stringBuffer into lists
                 count = 0;
@@ -142,11 +142,11 @@ namespace spaceconquest
                             ChatLog log = new ChatLog();
                             int msgStart = sb2.ToString().IndexOf(':');
                             log.message = sb2.ToString().Substring(msgStart);
-                            log.playerName = sb2.ToString().Substring(0,msgStart );
+                            log.playerName = sb2.ToString().Substring(0, msgStart);
 
 
                             updateList.Add(log);
-                                
+
                         }
 
                         sb2.Clear();
@@ -156,16 +156,19 @@ namespace spaceconquest
                         sb2.Append(sb[i]);
                     }
                 }
-              
+
             }
             catch (WebException e)
             {
-                throw e;
-                
-            }
+                Console.WriteLine(e.StackTrace);
 
-            busyUpdating = false;
-            LogsUpdated = true;
+            }
+            finally
+            {
+
+                busyUpdating = false;
+                LogsUpdated = true;
+            }
 
             return;           
         }//end update method
