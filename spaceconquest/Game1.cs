@@ -101,7 +101,7 @@ namespace spaceconquest
             List<string> tmpTracks = new List<string>() { "track1" ,
                     "track2", "track4"};
             jukeBox = new Music_stuff.JukeBox(tmpTracks, contentManager);
-            jukeBox.play();    //Play the tunes
+            //jukeBox.play();    //Play the tunes
         }
 
         /// <summary>

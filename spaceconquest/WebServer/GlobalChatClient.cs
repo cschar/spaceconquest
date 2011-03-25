@@ -62,6 +62,9 @@ namespace spaceconquest
 
         private List<ChatLog> CreateDeepListCopy(List<ChatLog> list)
         {
+            if (list == null) return new List<ChatLog>();
+            else
+            {
                 List<ChatLog> deepCpy = new List<ChatLog>();
                 foreach (ChatLog aLog in list)
                 {
@@ -72,12 +75,15 @@ namespace spaceconquest
                     deepCpy.Add(newLog);
                 }
                 return deepCpy;
-        }
+            }
+           }
 
         private Boolean busyUpdating = false;
         private Boolean LogsUpdated = false;
 
         public void UpdateLocalLogList(){
+            if (busyUpdating == true) return;
+
             try
             {
                 busyUpdating = true;
@@ -160,7 +166,7 @@ namespace spaceconquest
             }
             catch (WebException e)
             {
-                Console.WriteLine(e.StackTrace);
+                Console.WriteLine("Could not update global chat, is the game connected to internet?");
 
             }
             finally
