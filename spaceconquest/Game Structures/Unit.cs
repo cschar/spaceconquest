@@ -17,7 +17,7 @@ namespace spaceconquest
     {
         protected int buildTime = 1;
         protected int buildCost = 1;
-        [NonSerialized] protected Player affiliation;
+        protected Player affiliation;
         protected int health = 1;
         protected int maxHealth = 1;
         //protected Model model = null;

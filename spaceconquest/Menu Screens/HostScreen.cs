@@ -56,7 +56,7 @@ namespace spaceconquest
 
         public void StartGame(Object o, EventArgs e)
         {
-            MenuManager.ClickStartGame(o, e);
+            MenuManager.ClickHost(o, e);
             ChatSend("!start");
         }
 

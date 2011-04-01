@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace spaceconquest
 {
@@ -22,8 +24,9 @@ namespace spaceconquest
 
         List<MenuComponent> components = new List<MenuComponent>();
         //List<Command> commands = new List<Command>();
-        MenuList shipmenu;
-        MenuList planetmenu;
+        CommandMenu shipmenu;
+        CommandMenu planetmenu;
+        StatusMenu statusmenu;
         Command.Action clickedaction = Command.Action.None;
         SlaveDriver driver;
         MiddleMan middleman;
@@ -54,12 +57,16 @@ namespace spaceconquest
         float height = 700;
         Vector3 offset = new Vector3(0,0,0);
 
-        public GameScreen(bool h, String ipstring, int numclients)
+        public GameScreen(bool h, String ipstring, int numclients, Map m)
         {
             host = h;
             selectedhex = nullhex;
-            if (h) { map = new Map(2, 0, "test galaxy", (long)1); }
-            else { map = new Map(2, numclients, "test galaxy", (long)1); }
+            if (m == null)
+            {
+                if (h) { map = new Map(2, 0, "test galaxy", (long)1); }
+                else { map = new Map(2, numclients, "test galaxy", (long)1); }
+            }
+            else { map = m; }
             galaxy = map.galaxy;
             player = map.GetInstancePlayer();
             space = map.GetHomeSystem();
@@ -67,27 +74,32 @@ namespace spaceconquest
             if (host) middleman = new Host(driver, numclients);
             else middleman = new Client(ipstring,driver);
 
-            galaxybutton = new IconButton(new Rectangle(40, Game1.device.Viewport.Height-40, 120, 40), "GalaxyButton.png", "SystemButton.png", GalaxyClick);
+            int x = Game1.device.Viewport.Width;
+            int y = Game1.device.Viewport.Height;
+            galaxybutton = new IconButton(new Rectangle(40, y-40, 120, 40), "GalaxyButton.png", "SystemButton.png", GalaxyClick);
             components.Add(galaxybutton);
 
-            shipmenu = new MenuList(new Rectangle(600, 400, 200, 200));
+            shipmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200));
             components.Add(shipmenu);
-            shipmenu.Add(new IconButton(new Rectangle(605, 405, 60, 60), "MoveButton.png", MoveClick));
-            shipmenu.Add(new IconButton(new Rectangle(670, 405, 60, 60), "AttackButton.png", FireClick));
+            shipmenu.AddNewCommand(0, 0, "MoveButton.png", MoveClick);
+            shipmenu.AddNewCommand(1, 0, "AttackButton.png", FireClick);
             //shipmenu.Add(new MenuButton(new Rectangle(605, 470, 60, 60), "Enter", EnterClick));
-            shipmenu.Add(new IconButton(new Rectangle(670, 470, 60, 60), "JumpButton.png", JumpClick));
+            shipmenu.AddNewCommand(1, 1, "JumpButton.png", JumpClick);
             //shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), "Upgrade", UpgradeClick));
-            shipmenu.Add(new IconButton(new Rectangle(605, 535, 60, 60), "ColonizeButton.png", ColonizeClick));
-            //shipmenu.Add(new MenuButton(new Rectangle(605, 405, 60, 60), MenuManager.batch, MenuManager.font, "Build", BuildClick));
+            shipmenu.AddNewCommand(0, 2, "ColonizeButton.png", ColonizeClick);
 
-            planetmenu = new MenuList(new Rectangle(600, 400, 200, 200));
+            planetmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200));
+            
             components.Add(planetmenu);
-            planetmenu.Add(new IconButton(new Rectangle(605, 405, 60, 60), "BuildButton.png", BuildClick));
+            planetmenu.AddNewCommand(0, 0, "BuildButton.png", BuildClick);
 
             waitingmessage = new TextLine(new Rectangle(0, 0, 400, 20), "Waiting for other players.");
 
             planetmenu.showbackround = false;
             shipmenu.showbackround = false;
+
+            statusmenu = new StatusMenu(new Rectangle(0, y - 150, 300, 150));
+            statusmenu.visible = false;
         }
 
         void GalaxyClick(Object o, EventArgs e)
@@ -116,6 +128,9 @@ namespace spaceconquest
             if (middleman.DriverReady()) { middleman.DriverReset(); driver.Execute(); waiting = false; }
             mousestate = Mouse.GetState();
             keystate = Keyboard.GetState();
+
+            if (keystate.IsKeyDown(Keys.Escape) && oldkeystate.IsKeyUp(Keys.Escape)) { MenuManager.ClickTitle(this, EventArgs.Empty); middleman.Close(); }
+            if (keystate.IsKeyDown(Keys.R) && oldkeystate.IsKeyUp(Keys.R)) { Save(); }
 
             if (keystate.IsKeyDown(Keys.Space) && oldkeystate.IsKeyUp(Keys.Space)) { waiting = true;  middleman.EndTurn(); }
             //////camera controls////
@@ -208,6 +223,9 @@ namespace spaceconquest
 
             /////stuff to do if a ship is selected/////
             GameObject selectedobject = selectedhex.GetGameObject();
+            if (selectedobject != null && selectedobject is Unit) { statusmenu.Update((Unit)selectedobject); statusmenu.Show(); }
+            else { statusmenu.Hide(); }
+
 
             if (selectedhex.GetGameObject() is Ship && clickedaction == Command.Action.Jump)
             {
@@ -278,6 +296,15 @@ namespace spaceconquest
             }
 
             if (waiting) { waitingmessage.Draw(); }
+            if (statusmenu.visible) { statusmenu.Draw(); }
+        }
+
+        public void Save()
+        {
+            FileStream fs = new FileStream(@"Content/savetest.map", FileMode.Create);
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(fs, map);
+            fs.Close();
         }
     }
 }

@@ -11,10 +11,11 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
+    [Serializable]
     class SolarSystem3D : Space
     {
         public readonly int index;
-        StarField stars = new StarField(2000);
+        [NonSerialized] StarField stars = new StarField(2000);
         Hex3D[,] hexmap;
         List<Hex3D> hexlist;
         public List<SolarSystem3D> neighbors = new List<SolarSystem3D>();
@@ -203,6 +204,7 @@ namespace spaceconquest
             projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 10000);
             //projection = Matrix.CreateOrthographic(800, 600, 1, 20);
 
+            if (stars == null) { stars = new StarField(2000); }
             stars.Draw(world, view, projection);
 
             foreach (Hex3D h in hexlist)

@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
+    [Serializable]
     class Sun : GameObject
     {
         public Color defaultcolor = new Color(CommonRNG.rand.Next(250), CommonRNG.rand.Next(250), CommonRNG.rand.Next(20));

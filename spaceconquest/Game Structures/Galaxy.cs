@@ -11,12 +11,13 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
+    [Serializable]
     class Galaxy : Space
     {
         public List<SolarSystem3D> systems;
         public List<Vector3> positions;
         public String gName;
-        StarField stars = new StarField(2000);
+        [NonSerialized] StarField stars = new StarField(2000);
 
         Matrix world;
         Matrix view;
@@ -183,7 +184,8 @@ namespace spaceconquest
             view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
             view = Matrix.CreateFromYawPitchRoll(0, 0, zr) * Matrix.CreateTranslation(offset) * Matrix.CreateFromYawPitchRoll(xr, yr, 0) * view;
             projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 10000);
-            
+
+            if (stars == null) { stars = new StarField(2000); }
             stars.Draw(world, view, projection);
 
             for (int i = 0; i < systems.Count; i++)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -14,7 +15,7 @@ namespace spaceconquest
     [Serializable]
     abstract class GameObject
     {
-        [NonSerialized] public Hex3D hex;
+        public Hex3D hex;
 
         public void SetHex(Hex3D h) {
             hex = h;

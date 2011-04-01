@@ -38,6 +38,11 @@ namespace spaceconquest
             numclients = n;
         }
 
+        public void Close()
+        {
+            listensocket.Dispose();
+        }
+
         public bool DriverReady()
         {
             return done;

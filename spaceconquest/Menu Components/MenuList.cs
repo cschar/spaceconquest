@@ -13,13 +13,13 @@ namespace spaceconquest
 {
     class MenuList : MenuComponent, ICollection<MenuComponent>
     {
-        Rectangle area;
+        protected Rectangle area;
         SpriteBatch batch;
         SpriteFont font;
         Texture2D texture;
-        List<MenuComponent> menucomponents;
-        Color currentcolor = Color.Teal;
-        int padding = 10;
+        protected List<MenuComponent> menucomponents;
+        public Color currentcolor = Color.Teal;
+        protected int padding = 10;
         public bool visible = true;
         public bool showbackround = true;
 

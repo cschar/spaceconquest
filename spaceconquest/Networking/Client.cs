@@ -36,6 +36,11 @@ namespace spaceconquest
             //socket.EnableBroadcast = false;
         }
 
+        public void Close()
+        {
+            socket.Dispose();
+        }
+
         public bool DriverReady()
         {
             return done;

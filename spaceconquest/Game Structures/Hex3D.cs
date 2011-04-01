@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
-
+    [Serializable]
     class Hex3D
     {
         public int distance = -1; //for the pathfinding algorithm

@@ -14,7 +14,7 @@ namespace spaceconquest
     class TextLine : MenuComponent
     {
         Rectangle area;
-        String text;
+        public String text;
         Texture2D texture;
         Vector2 stringvector;
         Color normalcolor;

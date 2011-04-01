@@ -16,12 +16,13 @@ namespace spaceconquest
     {
         int damage = 1;
         int range = 3;
-        ShipModel shipmodel;
+        String modelstring = "starcruiser";
+
 
         public Warship(Hex3D h)
         {
             SetHex(h);
-            shipmodel = ShipModel.shipmodels["starcruiser"];
+            shipmodel = ShipModel.shipmodels[modelstring];
         }
 
         public override void HopOn(Ship c)
@@ -55,6 +56,8 @@ namespace spaceconquest
         private float hoveringAcc = -0.06f;
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
+            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
+
             shipmodel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 1.6f, hoveringHeight);
 
              //create illusion that ship is hovering in space
@@ -64,6 +67,7 @@ namespace spaceconquest
 
         public override void DrawGhost(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
+            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
             if (ghosthex == null) {return;}
 
             shipmodel.Draw(Matrix.CreateTranslation(ghosthex.getCenter()) * world, view, projection, Color.Multiply(affiliation.color, .2f), 1.6f, hoveringHeight);

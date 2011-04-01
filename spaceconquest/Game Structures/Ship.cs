@@ -12,6 +12,7 @@ namespace spaceconquest
         int speed = 2;
         [NonSerialized] protected Hex3D ghosthex;
         [NonSerialized] protected LineModel line;
+        [NonSerialized] protected ShipModel shipmodel;
 
 
         public void move(Hex3D target) {

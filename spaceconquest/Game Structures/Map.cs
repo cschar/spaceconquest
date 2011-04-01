@@ -7,6 +7,7 @@ using System.Text;
 
 namespace spaceconquest
 {
+    [Serializable]
     class Map
     {
         public readonly Galaxy galaxy;

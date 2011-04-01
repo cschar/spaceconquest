@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
+    [Serializable]
     class Asteroid : Unit
     {
         public override void kill(){

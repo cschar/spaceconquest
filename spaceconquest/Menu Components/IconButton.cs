@@ -53,9 +53,11 @@ namespace spaceconquest
             //Console.WriteLine(Game1.contentManager.RootDirectory);
             FileStream fs = new FileStream(@"Content/Buttons/" + t, FileMode.Open);
             texture = Texture2D.FromStream(Game1.device, fs);
+            fs.Close();
 
             FileStream fs2 = new FileStream(@"Content/Buttons/" + t2, FileMode.Open);
             texture2 = Texture2D.FromStream(Game1.device, fs2);
+            fs.Close();
 
             stringvector = new Vector2(area.Center.X, area.Center.Y) - (font.MeasureString(text) / 2);
 

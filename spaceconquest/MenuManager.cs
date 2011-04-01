@@ -45,13 +45,12 @@ namespace spaceconquest
         //public static void ClickClientConnect(Object o, EventArgs e) { screen = new ClientConnectScreen((String)o); }
         //public static void ClickHost(Object o, EventArgs e) { screen = new HostScreen((String)o); }
 
-        public static void ClickClientConnect(Object o, EventArgs e) { screen = new GameScreen(false, (String)o, 1); }
-        public static void ClickHost(Object o, EventArgs e) { screen = new GameScreen(true, null,1); }
+        public static void ClickClientConnect(Object o, EventArgs e) { screen = new GameScreen(false, (String)o, 1, null); }
 
-        public static void ClickStartGame(Object o, EventArgs e) { screen = new GameScreen(true, null,1); }
-        public static void ForceJoinGame(Object o, EventArgs e) { screen = new GameScreen(false,(String)o,1); }
+        public static void ClickHost(Object o, EventArgs e) { screen = new GameScreen(true, null,1, null); }
+        public static void ForceJoinGame(Object o, EventArgs e) { screen = new GameScreen(false,(String)o,1, null); }
 
-        public static void ClickNewGame(Object o, EventArgs e) { screen = new GameScreen(true, null,0); } //this should be the number of client players, right now we only support 2 players so there.
+        public static void ClickNewGame(Object o, EventArgs e) { screen = new GameScreen(true, null,0, null); } //this should be the number of client players, right now we only support 2 players so there.
        // public static void ClickMapSelect() { screen = new MapSelectScreen(batch, font); } 
 
         //screen for changing music

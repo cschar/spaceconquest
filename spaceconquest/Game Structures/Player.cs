@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
+    [Serializable]
     class Player
     {
         int id;
