@@ -110,12 +110,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="3D stuff\AsteroidModel.cs" />
+    <Compile Include="3D stuff\ShipModel.cs" />
     <Compile Include="3D stuff\LineModel.cs" />
     <Compile Include="3D stuff\PlanetModel.cs" />
     <Compile Include="3D stuff\StarCruiserModel.cs" />
     <Compile Include="3D stuff\StarField.cs" />
     <Compile Include="3D stuff\SphereModel.cs" />
     <Compile Include="3D stuff\HexModel.cs" />
+    <Compile Include="Game Structures\Asteroid.cs" />
     <Compile Include="Game Structures\CommonRNG.cs" />
     <Compile Include="Game Structures\SlaveDriver.cs" />
     <Compile Include="Game Structures\Command.cs" />
@@ -127,7 +130,6 @@
     <Compile Include="Game Structures\GameObject.cs" />
     <Compile Include="Game Structures\SolarSystem3D.cs" />
     <Compile Include="Game Structures\Hex3D.cs" />
-    <Compile Include="3D stuff\VertexPositionNormal.cs" />
     <Compile Include="Game Structures\Galaxy.cs" />
     <Compile Include="Game Structures\Map.cs" />
     <Compile Include="Game Structures\Sun.cs" />

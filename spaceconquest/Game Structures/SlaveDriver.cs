@@ -46,6 +46,7 @@ namespace spaceconquest
                 foreach (Unit u in newlist)
                 {
                     if (u is Planet) { ((Planet)u).upkeep(); }
+                    if (u is Asteroid) { ((Asteroid)u).upkeep(); }
                 }
             }
         }
@@ -102,10 +103,18 @@ namespace spaceconquest
                 subject = galaxy.GetHex(c.start).GetGameObject();
                 if (subject != null && subject is Ship)
                 {
-                    if (!(galaxy.GetHex(c.target).GetGameObject() is Planet)) { return false; }
-                    if (((Planet)galaxy.GetHex(c.target).GetGameObject()).getAffiliation() != null  ) { return false; }
-                    ((Planet)galaxy.GetHex(c.target).GetGameObject()).setAffiliation(((Ship)subject).getAffiliation());
-                    return true;
+                    if (galaxy.GetHex(c.target).GetGameObject() is Planet)
+                    {
+                        if (((Planet)galaxy.GetHex(c.target).GetGameObject()).getAffiliation() != null) { return false; }
+                        ((Planet)galaxy.GetHex(c.target).GetGameObject()).setAffiliation(((Ship)subject).getAffiliation());
+                        return true;
+                    }
+                    if (galaxy.GetHex(c.target).GetGameObject() is Asteroid)
+                    {
+                        if (((Asteroid)galaxy.GetHex(c.target).GetGameObject()).getAffiliation() != null) { return false; }
+                        ((Asteroid)galaxy.GetHex(c.target).GetGameObject()).setAffiliation(((Ship)subject).getAffiliation());
+                        return true;
+                    }
                 }
             }
 

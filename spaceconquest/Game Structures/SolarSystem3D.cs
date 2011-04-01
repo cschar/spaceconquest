@@ -71,6 +71,16 @@ namespace spaceconquest
                 planets.Add(pTemp);
             }
 
+            for (int i = 0; i < 3; i++)
+            {
+                popper = CommonRNG.getRandom(popper);
+                int popIndex = (int)(popper % cands.Count);
+                Hex3D hTemp = cands.ElementAt(popIndex);
+                cands.RemoveAt(popIndex);
+                Asteroid pTemp = new Asteroid(hTemp);
+                //planets.Add(pTemp);
+            }
+
 
 
         }

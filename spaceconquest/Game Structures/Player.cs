@@ -50,6 +50,11 @@ namespace spaceconquest
             return false;
         }
 
+        public void giveMetal(int x)
+        {
+            metal = metal + x;
+        }
+
         public override bool Equals(object obj)
         {
             if (!(obj is Player)) { return false; }
