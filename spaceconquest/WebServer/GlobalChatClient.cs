@@ -88,7 +88,7 @@ namespace spaceconquest
             {
                 busyUpdating = true;
                 Console.WriteLine("attempting globalchat http req");
-                WebRequest req = WebRequest.Create(httpSource + "?GetInfo=1");
+                WebRequest req = WebRequest.Create(this.httpSource + "/G");
 
                 WebResponse resp = req.GetResponse();
                 Console.WriteLine("requestReceived[]");
@@ -164,7 +164,7 @@ namespace spaceconquest
                 }
 
             }
-            catch (WebException e)
+            catch (Exception e)
             {
                 Console.WriteLine("Could not update global chat, is the game connected to internet?");
 
@@ -191,7 +191,8 @@ namespace spaceconquest
         public Boolean SendMessage(string name, string message)
         {
             try{
-                HttpWebRequest sendChatReq = (HttpWebRequest) WebRequest.Create(httpSource + "Submit?name="+ name +"&message=" + message);
+                
+                HttpWebRequest sendChatReq = (HttpWebRequest) WebRequest.Create(httpSource + "Submit?name="+ name +"&content=" + message + "&channel=Global");
                 sendChatReq.GetResponse();
                 return true;
             }catch( WebException e){
