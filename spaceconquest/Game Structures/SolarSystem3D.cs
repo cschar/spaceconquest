@@ -109,7 +109,7 @@ namespace spaceconquest
             }
 
             //BUIDIN' THA MOTHAF**KIN' SUN. 
-            new Warship(getHex(-1, -1));
+            //new Warship(getHex(-1, -1));
             sun = new Sun(getHex(0, 0));
             //getHex(0, 0).passable = false; i changed the sun constructor to handle the passibility stuff.
 

@@ -14,7 +14,8 @@ namespace spaceconquest
         //public readonly Hex3D targethex;
         public enum Action {None = 0, Move = 4, Fire = 1, Jump = 6, Enter = 5, Colonize = 7, Upgrade = 3, Build = 9};
         public readonly Action action;
-        public readonly Ship ship;
+        public readonly ShipType shiptype;
+        //public readonly Type shiptype;
 
         public Command(Hex3D sh, Hex3D th, Action a)
         {
@@ -23,12 +24,13 @@ namespace spaceconquest
             action = a;
         }
 
-        public Command(Hex3D sh, Hex3D th, Action a, Ship s)
+        public Command(Hex3D sh, Hex3D th, Action a, ShipType s)
         {
             start = new Tuple<int, int, int>(sh.hexgrid.index, sh.x, sh.y);
             target = new Tuple<int, int, int>(th.hexgrid.index, th.x, th.y);
             action = a;
-            ship = s;
+            shiptype = s;
+            //if (shiptype.IsSubclassOf(Ship)
         }
 
         public override string ToString()

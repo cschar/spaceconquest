@@ -93,7 +93,7 @@ namespace spaceconquest
                 if (subject != null && subject is Planet)
                 {
                     //if (galaxy.GetHex(c.target).GetGameObject() != null) { return false; }
-                    ((Planet)subject).build(c.ship);
+                    ((Planet)subject).build(c.shiptype.CreateShip());
                     return true;
                 }
             }

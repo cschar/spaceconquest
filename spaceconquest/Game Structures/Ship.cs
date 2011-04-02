@@ -1,18 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
     [Serializable]
-    abstract class Ship:Unit
+    class Ship:Unit
     {
        
-        int speed = 2;
+        protected int speed = 2;
         [NonSerialized] protected Hex3D ghosthex;
         [NonSerialized] protected LineModel line;
         [NonSerialized] protected ShipModel shipmodel;
+        protected float hoveringHeight = 7;
+        protected float hoveringAcc = -0.06f;
+        protected String modelstring = "starcruiser";
 
 
         public void move(Hex3D target) {
@@ -29,8 +38,10 @@ namespace spaceconquest
             speed = moveSpeed;
         }
 
-        public abstract void HopOn(Ship c);
-
+        public void HopOn(Ship c)
+        {
+            throw new NotImplementedException();
+        }
 
 
         public override void kill()
@@ -89,7 +100,13 @@ namespace spaceconquest
 
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
-            throw new NotImplementedException();
+            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
+
+            shipmodel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 1.6f, hoveringHeight);
+
+            //create illusion that ship is hovering in space
+            hoveringHeight += hoveringAcc;
+            if (hoveringHeight > 13 || hoveringHeight < 6) { hoveringAcc *= -1; }
         }
     }
 }

@@ -121,7 +121,7 @@ namespace spaceconquest
         void ColonizeClick(Object o, EventArgs e) { clickedaction = Command.Action.Colonize; }
         //void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; }
 
-        void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; middleman.AddCommand(new Command(selectedhex, selectedhex, Command.Action.Build, new Warship(new Hex3D(0, 0, null, Color.AliceBlue)))); clickedaction = Command.Action.None; }
+        void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; middleman.AddCommand(new Command(selectedhex, selectedhex, Command.Action.Build, StarCruiser.creator )); clickedaction = Command.Action.None; }
 
         public void Update()
         {

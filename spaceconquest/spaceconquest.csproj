@@ -114,7 +114,6 @@
     <Compile Include="3D stuff\ShipModel.cs" />
     <Compile Include="3D stuff\LineModel.cs" />
     <Compile Include="3D stuff\PlanetModel.cs" />
-    <Compile Include="3D stuff\StarCruiserModel.cs" />
     <Compile Include="3D stuff\StarField.cs" />
     <Compile Include="3D stuff\SphereModel.cs" />
     <Compile Include="3D stuff\HexModel.cs" />
@@ -159,6 +158,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Menu Screens\TitleScreen.cs" />
+    <Compile Include="Ships\ShipType.cs" />
+    <Compile Include="Ships\StarCruiser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

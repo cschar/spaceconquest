@@ -14,20 +14,13 @@ namespace spaceconquest
     [Serializable]
     class Warship : Ship
     {
-        int damage = 1;
-        int range = 3;
-        String modelstring = "starcruiser";
+        protected int damage = 1;
+        protected int range = 3;
 
-
-        public Warship(Hex3D h)
+        public Warship(String s)
         {
-            SetHex(h);
+            modelstring = s;
             shipmodel = ShipModel.shipmodels[modelstring];
-        }
-
-        public override void HopOn(Ship c)
-        {
-            throw new NotImplementedException();
         }
 
         public void Attack(Unit u)
@@ -52,8 +45,7 @@ namespace spaceconquest
                 Shootable(hexes, n, r - 1);
             }
         }
-        private float hoveringHeight = 7;
-        private float hoveringAcc = -0.06f;
+        
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
             if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
