@@ -119,6 +119,7 @@
     <Compile Include="3D stuff\HexModel.cs" />
     <Compile Include="Game Structures\Asteroid.cs" />
     <Compile Include="Game Structures\CommonRNG.cs" />
+    <Compile Include="Game Structures\QueuedCommand.cs" />
     <Compile Include="Game Structures\SlaveDriver.cs" />
     <Compile Include="Game Structures\Command.cs" />
     <Compile Include="Game Structures\Ship.cs" />
