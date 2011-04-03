@@ -73,7 +73,7 @@ namespace spaceconquest
 
         private void ReturnCommands(List<Command> c)
         {
-            slavedriver.Recieve(c);
+            slavedriver.Receive(c);
             done = true;
         }
 

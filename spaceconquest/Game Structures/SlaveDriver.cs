@@ -10,6 +10,7 @@ namespace spaceconquest
         Map map;
         Galaxy galaxy;
         HashSet<Command> commands = new HashSet<Command>(); //hashset so that we ignore multiple commands to one unit
+        List<QueuedCommand> qcs = new List<QueuedCommand>();
         //Player player;
 
         public SlaveDriver(Map m)
@@ -18,9 +19,9 @@ namespace spaceconquest
             galaxy = map.galaxy;
         }
 
-        public void Recieve(List<Command> cl)
+        public void Receive(List<Command> cl)
         {
-            Console.WriteLine("Recieved " + cl.Count + " Commands");
+            Console.WriteLine("Received " + cl.Count + " Commands");
             cl.Reverse(); //reverse the list because we want the most recent command to each unit to be the one recorded
             foreach (Command c in cl)
             {
@@ -30,14 +31,26 @@ namespace spaceconquest
 
         public void Execute()
         {
-            commands.OrderBy(Sorter);
+            foreach (Command C in commands) {
+                if (C.action != Command.Action.Move)
+                {
+                    qcs.Add(new QueuedCommand(C, galaxy, 0));
+                }
+                else {
+                    qcs.AddRange(QueuedCommand.QueuedCommandList(C, galaxy));
+                }
+                
+            }
+
+            qcs.OrderBy(Sorter);
 
             Console.WriteLine("Executing " + commands.Count + " Commands");
-            foreach (Command c in commands)
+            foreach (QueuedCommand qc in qcs)
             {
-                ExecuteCommand(c);
+                ExecuteCommand(qc);
             }
             commands.Clear();
+            qcs.Clear();
 
             foreach (Player p in map.players)
             {
@@ -51,68 +64,124 @@ namespace spaceconquest
             }
         }
 
-        private int Sorter(Command c) { return (int)c.action; }
+        private int Sorter(QueuedCommand qc) { return qc.priority; }
 
-        private bool ExecuteCommand(Command c)
+
+        private List<Hex3D> Pathfinder(Hex3D s, Hex3D d) { 
+            //Assume d is occupable. 
+            if (s == d) {
+                List<Hex3D> ret = new List<Hex3D>();
+                ret.Add(d);
+                return ret;
+            }
+            List<Hex3D> path = new List<Hex3D>();
+            HashSet<Hex3D> HexFrontier = new HashSet<Hex3D>();
+            HashSet<Hex3D> ExploredHexes = new HashSet<Hex3D>();
+            HashSet<Hex3D> OldHexFrontier = new HashSet<Hex3D>();
+            ExploredHexes.Add(d);
+            OldHexFrontier.Add(d);
+            d.distance = 0;
+            while (true) { 
+                foreach (Hex3D h1 in OldHexFrontier) {
+                    foreach(Hex3D h2 in h1.getNeighbors()) {
+                        if ((h2.distance < 0 || h2.distance > h1.distance + 1) && h2.GetGameObject() == null) {
+                            h2.distance = h1.distance+1;
+                            h2.prev = h1;
+                            HexFrontier.Add(h2);
+                            ExploredHexes.Add(h2);
+                        }
+    
+                    }
+                }
+                if (HexFrontier.Contains(s))
+                    break;
+                if (HexFrontier.Count == 0) {
+                    return null;
+                }
+                OldHexFrontier = HexFrontier;
+                HexFrontier = new HashSet<Hex3D>();
+            }
+            path.Add(s);
+            Hex3D cursor = s;
+            while (cursor != d) {
+                cursor = cursor.prev;
+                path.Add(cursor);
+            }
+            foreach (Hex3D h in ExploredHexes) {
+                h.distance = -1;
+                h.prev = null;
+            }
+            return path;
+        }     
+
+        private bool ExecuteCommand(QueuedCommand c)
         {
-            Console.WriteLine(c.ToString());
-            GameObject subject;
-            if (c.action == Command.Action.Move)
+            //Console.WriteLine(c.ToString());
+            if (c.order == Command.Action.Move)
             {
-                subject = galaxy.GetHex(c.start).GetGameObject();
-                if (subject != null && subject is Ship)
+                if (c.agent != null && c.agent is Ship)
                 {
-                    if (galaxy.GetHex(c.target).GetGameObject() != null) { return false; }
-                    ((Ship)subject).move(galaxy.GetHex(c.target));
+                    /*if (c.targetHex.GetGameObject() != null) { return false; }
+                    ((Ship)c.agent).move(c.targetHex);
+                    return true;*/
+                    //Need to calculate path to target, move one space towards it. 
+                    int diff = Math.Abs(c.targetHex.x - c.agent.hex.x) + Math.Abs(c.targetHex.y - c.agent.hex.y);
+                    List<Hex3D> path = Pathfinder(c.agent.hex, c.targetHex);
+                    if (path == null) { 
+                        //No path. Wait?
+                    }
+                    else if (path.Count <= 1)
+                    {
+                        //Do nothing. Already there.
+                    }
+                    else {
+                        ((Ship)(c.agent)).move(path[1]);
+                    }
+                    
+                }
+            }
+            if (c.order == Command.Action.Fire)
+            {
+                if (c.agent != null && c.agent is Warship)
+                {
+                    if (c.targetHex.GetGameObject() == null) { return false; }
+                    ((Warship)c.agent).Attack((Unit)c.targetHex.GetGameObject()); //i should probly check that the target is a unit
                     return true;
                 }
             }
-            if (c.action == Command.Action.Fire)
+            if (c.order == Command.Action.Jump)
             {
-                subject = galaxy.GetHex(c.start).GetGameObject();
-                if (subject != null && subject is Warship)
+                if (c.agent != null && c.agent is Ship)
                 {
-                    if (galaxy.GetHex(c.target).GetGameObject() == null) { return false; }
-                    ((Warship)subject).Attack((Unit)galaxy.GetHex(c.target).GetGameObject()); //i should probly check that the target is a unit
+                    if (c.targetHex.GetGameObject() != null) { return false; }
+                    ((Ship)c.agent).move(c.targetHex);
                     return true;
                 }
             }
-            if (c.action == Command.Action.Jump)
+            if (c.order == Command.Action.Build)
             {
-                subject = galaxy.GetHex(c.start).GetGameObject();
-                if (subject != null && subject is Ship)
+                if (c.agent != null && c.agent is Planet)
                 {
-                    if (galaxy.GetHex(c.target).GetGameObject() != null) { return false; }
-                    ((Ship)subject).move(galaxy.GetHex(c.target));
-                    return true;
-                }
-            }
-            if (c.action == Command.Action.Build)
-            {
-                subject = galaxy.GetHex(c.start).GetGameObject();
-                if (subject != null && subject is Planet)
-                {
-                    //if (galaxy.GetHex(c.target).GetGameObject() != null) { return false; }
-                    ((Planet)subject).build(c.shiptype.CreateShip());
+                    //if (c.targetHex.GetGameObject() != null) { return false; }
+                    ((Planet)c.agent).build(c.shiptype.CreateShip());
                     return true;
                 }
             }
 
-            if (c.action == Command.Action.Colonize)
+            if (c.order == Command.Action.Colonize)
             {
-                subject = galaxy.GetHex(c.start).GetGameObject();
-                if (subject != null && subject is Ship)
+                if (c.agent != null && c.agent is Ship)
                 {
-                    if (galaxy.GetHex(c.target).GetGameObject() is Planet)
+                    if (c.targetHex.GetGameObject() is Planet)
                     {
-                        if (((Planet)galaxy.GetHex(c.target).GetGameObject()).getAffiliation() != null) { return false; }
-                        ((Planet)galaxy.GetHex(c.target).GetGameObject()).setAffiliation(((Ship)subject).getAffiliation());
+                        if (((Planet)c.targetHex.GetGameObject()).getAffiliation() != null) { return false; }
+                        ((Planet)c.targetHex.GetGameObject()).setAffiliation(((Ship)c.agent).getAffiliation());
                         return true;
                     }
-                    if (galaxy.GetHex(c.target).GetGameObject() is Asteroid)
+                    if (c.targetHex.GetGameObject() is Asteroid)
                     {
-                        if (((Asteroid)galaxy.GetHex(c.target).GetGameObject()).getAffiliation() != null) { return false; }
-                        ((Asteroid)galaxy.GetHex(c.target).GetGameObject()).setAffiliation(((Ship)subject).getAffiliation());
+                        if (((Asteroid)c.targetHex.GetGameObject()).getAffiliation() != null) { return false; }
+                        ((Asteroid)c.targetHex.GetGameObject()).setAffiliation(((Ship)c.agent).getAffiliation());
                         return true;
                     }
                 }

@@ -26,6 +26,7 @@ namespace spaceconquest
         GameObject ghostobject;
         public Boolean passable = true; 
         private List<Hex3D> neighbors;
+        public Hex3D prev = null;
 
         //used to test the bounds for mouse projection
         BoundingSphere boundsphere;
