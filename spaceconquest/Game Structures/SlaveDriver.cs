@@ -44,13 +44,14 @@ namespace spaceconquest
 
             qcs.OrderBy(Sorter);
 
-            Console.WriteLine("Executing " + commands.Count + " Commands");
+            Console.WriteLine("Executing " + qcs.Count + " Commands");
             foreach (QueuedCommand qc in qcs)
             {
                 ExecuteCommand(qc);
             }
             commands.Clear();
             qcs.Clear();
+            Console.WriteLine("Done executing");
 
             foreach (Player p in map.players)
             {
@@ -67,7 +68,8 @@ namespace spaceconquest
         private int Sorter(QueuedCommand qc) { return qc.priority; }
 
 
-        private List<Hex3D> Pathfinder(Hex3D s, Hex3D d) { 
+        private List<Hex3D> Pathfinder(Hex3D s, Hex3D d) {
+            Console.WriteLine(s.ToString() + ", " + d.ToString());
             //Assume d is occupable. 
             if (s == d) {
                 List<Hex3D> ret = new List<Hex3D>();
@@ -83,8 +85,16 @@ namespace spaceconquest
             d.distance = 0;
             while (true) { 
                 foreach (Hex3D h1 in OldHexFrontier) {
+                    //Console.WriteLine("h1 is " + h1.ToString());
+                    //Console.WriteLine("h1 dist is " + h1.distance);
                     foreach(Hex3D h2 in h1.getNeighbors()) {
-                        if ((h2.distance < 0 || h2.distance > h1.distance + 1) && h2.GetGameObject() == null) {
+                        //Console.WriteLine("h2 is " + h2.ToString());
+                        //Console.WriteLine("h2 dist is " + h2.distance);
+                        if (h2 == s)
+                        {
+                            Console.WriteLine("Victory!\n"+h2.distance + " vs. " + h1.distance);
+                        }
+                        if ((h2.distance < 0 || h2.distance > h1.distance + 1) && (h2.GetGameObject() == null || s == h2)) {
                             h2.distance = h1.distance+1;
                             h2.prev = h1;
                             HexFrontier.Add(h2);
@@ -96,6 +106,11 @@ namespace spaceconquest
                 if (HexFrontier.Contains(s))
                     break;
                 if (HexFrontier.Count == 0) {
+                    foreach (Hex3D h in ExploredHexes)
+                    {
+                        h.distance = -1;
+                        h.prev = null;
+                    }
                     return null;
                 }
                 OldHexFrontier = HexFrontier;
@@ -106,6 +121,9 @@ namespace spaceconquest
             while (cursor != d) {
                 cursor = cursor.prev;
                 path.Add(cursor);
+            }
+            if (d.GetGameObject() != null) { 
+                path.Remove(d);
             }
             foreach (Hex3D h in ExploredHexes) {
                 h.distance = -1;
@@ -119,22 +137,27 @@ namespace spaceconquest
             //Console.WriteLine(c.ToString());
             if (c.order == Command.Action.Move)
             {
+                Console.WriteLine("Recognized Move");
                 if (c.agent != null && c.agent is Ship)
                 {
+                    Console.WriteLine("Recognized Ship");
                     /*if (c.targetHex.GetGameObject() != null) { return false; }
                     ((Ship)c.agent).move(c.targetHex);
                     return true;*/
                     //Need to calculate path to target, move one space towards it. 
                     int diff = Math.Abs(c.targetHex.x - c.agent.hex.x) + Math.Abs(c.targetHex.y - c.agent.hex.y);
                     List<Hex3D> path = Pathfinder(c.agent.hex, c.targetHex);
-                    if (path == null) { 
+                    if (path == null) {
+                        Console.WriteLine("null path");
                         //No path. Wait?
                     }
                     else if (path.Count <= 1)
                     {
+                        Console.WriteLine("already there");
                         //Do nothing. Already there.
                     }
                     else {
+                        Console.WriteLine("moving");
                         ((Ship)(c.agent)).move(path[1]);
                     }
                     

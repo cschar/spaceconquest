@@ -15,7 +15,7 @@ namespace spaceconquest
     class Ship:Unit
     {
        
-        int speed = 2;
+        int speed = 8;
         [NonSerialized] protected Hex3D ghosthex;
         [NonSerialized] protected LineModel line;
         [NonSerialized] protected ShipModel shipmodel;
@@ -26,16 +26,29 @@ namespace spaceconquest
         protected double targetangle = 0;
         protected double currentAngle = 0;
         protected Vector3 oldposition = new Vector3(0,0,0);
+        protected List<Vector3> targetpositions = new List<Vector3>();
         private int percenttraveled = 0;
 
 
-        public void move(Hex3D target) {
+        public void movefirst(Hex3D target)
+        {
             hex.RemoveObject();
             oldposition = hex.getCenter();
             percenttraveled = 0;
             SetHex(target);
+            if (ghosthex != null) ghosthex.ClearGhostObject();
+            line = null;
+            targetpositions.Add(target.getCenter());
+        }
+
+        public void move(Hex3D target) {
+            hex.RemoveObject();
+            //oldposition = hex.getCenter();
+            //percenttraveled = 0;
+            SetHex(target);
             if (ghosthex!=null) ghosthex.ClearGhostObject();
             line = null;
+            targetpositions.Add(target.getCenter());
         }
 
         public Ship() { 
@@ -139,7 +152,8 @@ namespace spaceconquest
                 }
            }
 
-            if (percenttraveled < 100) { percenttraveled++; }
+            if (percenttraveled < 100) { percenttraveled = percenttraveled + 2; }
+            //if (percenttraveled >= 100) { percenttraveled = 0; }
             //Console.WriteLine("percenttaveled :: {0} ", percenttraveled);
 
             Vector3 targetvector = hex.getCenter();
