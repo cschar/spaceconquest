@@ -82,6 +82,9 @@ namespace spaceconquest
                 {
                     mesh.Draw();
                 }
+
+                //To DO: Draw Mining Robots
+
             }
             else
             {

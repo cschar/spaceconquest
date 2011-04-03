@@ -46,28 +46,17 @@ namespace spaceconquest
             }
         }
         
-        public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
-        {
-            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
+        //public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
+        //{
+        //    if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
 
-            shipmodel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 1.6f, hoveringHeight);
+        //    shipmodel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 1.6f, hoveringHeight);
 
-             //create illusion that ship is hovering in space
-             hoveringHeight += hoveringAcc;
-             if (hoveringHeight > 13 || hoveringHeight < 6) { hoveringAcc *= -1; }
-        }
+        //     //create illusion that ship is hovering in space
+        //     hoveringHeight += hoveringAcc;
+        //     if (hoveringHeight > 13 || hoveringHeight < 6) { hoveringAcc *= -1; }
+        //}
 
-        public override void DrawGhost(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
-        {
-            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
-            if (ghosthex == null) {return;}
-
-            shipmodel.Draw(Matrix.CreateTranslation(ghosthex.getCenter()) * world, view, projection, Color.Multiply(affiliation.color, .2f), 1.6f, hoveringHeight);
-            if (this.hex.hexgrid == ghosthex.hexgrid)
-            {
-                if (line != null) line.Draw(world, view, projection, affiliation.color);
-                else line = new LineModel(getCenter(), ghosthex.getCenter());
-            }
-        }
+        
     }
 }

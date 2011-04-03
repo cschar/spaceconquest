@@ -92,6 +92,7 @@ namespace spaceconquest
             
             components.Add(planetmenu);
             planetmenu.AddNewCommand(0, 0, "BuildButton.png", BuildClick);
+            planetmenu.AddNewCommand(0, 1, "BuildButton.png", MiningBuildClick);
 
             waitingmessage = new TextLine(new Rectangle(0, 0, 400, 20), "Waiting for other players.");
 
@@ -122,6 +123,7 @@ namespace spaceconquest
         //void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; }
 
         void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; middleman.AddCommand(new Command(selectedhex, selectedhex, Command.Action.Build, StarCruiser.creator )); clickedaction = Command.Action.None; }
+        void MiningBuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; middleman.AddCommand(new Command(selectedhex, selectedhex, Command.Action.Build, MiningShip.creator)); clickedaction = Command.Action.None; }
 
         public void Update()
         {
