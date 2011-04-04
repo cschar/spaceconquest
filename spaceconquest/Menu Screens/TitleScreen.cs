@@ -70,7 +70,7 @@ namespace spaceconquest
            // Matrix view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
             Matrix view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
             Matrix projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 10000);
-            AsteroidModel.Draw(world, view, projection, Color.Gray, 10, false, zr);
+            AsteroidModel.Draw(world, view, projection, Color.Gray, 10, true, zr);
 
 
             //update

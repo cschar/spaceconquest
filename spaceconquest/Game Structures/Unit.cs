@@ -72,7 +72,7 @@ namespace spaceconquest
             return buildTime;
         }
 
-        public void upkeep()
+        public virtual void upkeep()
         {
             if (health < maxHealth) { health++; }
         }

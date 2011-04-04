@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace spaceconquest
 {
+    [Serializable]
     class LineModel
     {
         Vector3 position;

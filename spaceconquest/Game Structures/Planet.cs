@@ -45,7 +45,8 @@ namespace spaceconquest
             }
         }
 
-        public void upkeep() {
+        public override void upkeep() {
+            this.health = this.getMaxHealth();
             if (buildTimes.Count > 0) {
                 buildTimes[0] = Math.Max(0, buildTimes[0]-1);
             }
@@ -76,8 +77,8 @@ namespace spaceconquest
         public override void Draw(Matrix world, Matrix view, Matrix projection)
         {
             //world = world + Matrix.CreateTranslation(getCenter());
-           // if (affiliation == null) { SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, Color.Gray, 30); }
-           // else SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 30);
+            // if (affiliation == null) { SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, Color.Gray, 30); }
+            // else SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 30);
 
             if (affiliation == null) { PlanetModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, Color.Gray, 30, false, angle); }
             else PlanetModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 30, true, angle);
@@ -85,9 +86,12 @@ namespace spaceconquest
             angle += angleIncr;
             if (angle > 360) angle = 0;
 
-        
-        }
+            for (int i = this.health; i > 1; i--)
+            {
+                SphereModel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, new Color(0,50 , 255, 50), 50 + 5 * i);
+            }
 
+        }
 
     }
 }

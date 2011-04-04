@@ -5,6 +5,7 @@ using System.Text;
 
 namespace spaceconquest
 {
+    [Serializable]
     class Carrier : Warship
     {
 
@@ -20,6 +21,16 @@ namespace spaceconquest
             buildTime = 5;
         }
 
+
+        public override void kill()
+        {
+            foreach (Ship s in payload)
+            {
+                s.kill();
+            }
+            base.kill();
+        }
+
         public Boolean LoadShip(Ship s)
         {
             if (!s.hex.getNeighbors().Contains(this.hex) || s is Carrier || load >= capacity)
@@ -32,8 +43,15 @@ namespace spaceconquest
             return true;
         }
 
+        public override void upkeep()
+        {
+            base.upkeep();
+            this.UnloadAll();
+        }
+
         public Boolean UnloadShip(Ship s)
         {
+            
             if (!payload.Contains(s))
                 return false;
             Hex3D target = null;
@@ -49,6 +67,7 @@ namespace spaceconquest
             if (target != null)
             {
                 s.hex = target;
+                payload.Remove(s);
                 target.AddObject(s);
                 return true;
             }
@@ -56,7 +75,7 @@ namespace spaceconquest
         }
         public Boolean UnloadAll() {
             Boolean ret = true;
-            foreach (Ship s in payload) {
+            foreach (Ship s in new List<Ship>(payload)) {
                 ret = ret && UnloadShip(s);
             }
             return ret;

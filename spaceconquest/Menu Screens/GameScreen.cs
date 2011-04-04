@@ -87,6 +87,8 @@ namespace spaceconquest
             shipmenu.AddNewCommand(1, 1, "JumpButton.png", JumpClick);
             //shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), "Upgrade", UpgradeClick));
             shipmenu.AddNewCommand(0, 2, "ColonizeButton.png", ColonizeClick);
+            shipmenu.AddNewCommand(1, 2, "MoveButton.png", EnterClick);
+            //shipmenu.AddNewCommand(2, 2, "JumpButton.png", UnloadClick);
 
             planetmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200),this);
             
@@ -95,6 +97,7 @@ namespace spaceconquest
             planetmenu.AddShipCommand(0, 1, "BuildButton.png", MiningShip.creator);
             planetmenu.AddShipCommand(1, 0, "BuildButton.png", ColonyShip.creator);
             planetmenu.AddShipCommand(1, 1, "BuildButton.png", Transport.creator);
+            planetmenu.AddNewCommand(0, 2, "ColonizeButton.png", UpgradeClick);
 
             waitingmessage = new TextLine(new Rectangle(0, 0, 400, 20), "Waiting for other players.");
 
@@ -120,7 +123,7 @@ namespace spaceconquest
         void FireClick(Object o, EventArgs e) { clickedaction = Command.Action.Fire; }
         void EnterClick(Object o, EventArgs e) { clickedaction = Command.Action.Enter; }
         void JumpClick(Object o, EventArgs e) { clickedaction = Command.Action.Jump; space = galaxy; }
-        void UpgradeClick(Object o, EventArgs e) { clickedaction = Command.Action.Upgrade; }
+        void UpgradeClick(Object o, EventArgs e) { clickedaction = Command.Action.Upgrade; middleman.AddCommand(new Command(selectedhex, mousehex, clickedaction)); clickedaction = Command.Action.None; }
         void ColonizeClick(Object o, EventArgs e) { clickedaction = Command.Action.Colonize; }
         //void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; }
 
@@ -212,6 +215,7 @@ namespace spaceconquest
                     if (selectedhex.GetGameObject() is Ship && clickedaction == Command.Action.Jump)
                     {
                         if (!((SolarSystem3D)(space)).GetWarpable().Contains(mousehex)) { return; }
+                        if (!selectedhex.GetGameObject().hex.hexgrid.neighbors.Contains((SolarSystem3D)(space))) { return; }
                         ((Ship)(selectedhex.GetGameObject())).SetGhost(mousehex);
                     }
 

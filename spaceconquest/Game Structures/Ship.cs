@@ -50,7 +50,7 @@ namespace spaceconquest
             return speed;
         }
 
-        public void upkeep()
+        public override void upkeep()
         {
             if (health < maxHealth) { health++; }
         }

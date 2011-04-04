@@ -19,8 +19,8 @@ namespace spaceconquest
 
         public Command(Hex3D sh, Hex3D th, Action a)
         {
-            start = new Tuple<int,int,int>(sh.hexgrid.index,sh.x,sh.y);
-            target = new Tuple<int, int, int>(th.hexgrid.index, th.x, th.y);
+            if( sh != null) start = new Tuple<int,int,int>(sh.hexgrid.index,sh.x,sh.y);
+            if (th != null) target = new Tuple<int, int, int>(th.hexgrid.index, th.x, th.y);
             action = a;
         }
 

@@ -16,6 +16,7 @@ namespace spaceconquest
     {
         public List<SolarSystem3D> systems;
         public List<Vector3> positions;
+        protected List<LineModel> lines = new List<LineModel>();
         public String gName;
         [NonSerialized] StarField stars = new StarField(2000);
 
@@ -56,8 +57,6 @@ namespace spaceconquest
                 Console.WriteLine("P1, P2 = " + iP1 + ", " + iP2);
                 Console.WriteLine("R1, R2 = " + iS1 + ", " + iS2);
 
-
-
                 systems.Add(new SolarSystem3D((int)(5+iS1+iS2), (int)(1+iP1+iP2), new Color(iRed, iBlue, iGreen), i, P2));
                 positions.Add(new Vector3((float)(300*Math.Cos(i * radialIncrement)), (float)(300*Math.Sin(i* radialIncrement)), 0));
             }
@@ -73,7 +72,9 @@ namespace spaceconquest
                 nTemp.Add(s1);
                 nTemp.Add(s2);
                 s2.neighbors.Add(sTemp);
+                lines.Add(new LineModel(positions[s1.index], positions[sTemp.index]));
                 s1.neighbors.Add(sTemp);
+                lines.Add(new LineModel(positions[s2.index], positions[sTemp.index]));
 
                 Int64 link = seed;
                 for (int j = i+2; j <= size; j++) {
@@ -82,6 +83,7 @@ namespace spaceconquest
                         if (link % size == 0) {
                             s1 = systems.ElementAt(j % size);
                             s1.neighbors.Add(sTemp);
+                            lines.Add(new LineModel(positions[s1.index],positions[sTemp.index])); //for drawing lines between connected galaxies
                             nTemp.Add(s1);
                         }
  
@@ -178,11 +180,13 @@ namespace spaceconquest
 
         public void Draw(Vector3 offset, float xr, float yr, float zr, float height)
         {
-            Vector3 cameraPosition = new Vector3(0, 0, height);
+            Vector3 cameraPosition = new Vector3(0, 0, height*1.5f);
             float aspect = Game1.device.Viewport.AspectRatio;
             world = Matrix.Identity;
             view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-            view = Matrix.CreateFromYawPitchRoll(0, 0, zr) * Matrix.CreateTranslation(offset) * Matrix.CreateFromYawPitchRoll(xr, yr, 0) * view;
+
+            // Matrix.CreateTranslation(offset) * Matrix.CreateFromYawPitchRoll(xr, yr, 0) removing yr
+            view = Matrix.CreateFromYawPitchRoll(0, 0, zr) * Matrix.CreateFromYawPitchRoll(xr, 0, 0) * view;
             projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 1, 10000);
 
             if (stars == null) { stars = new StarField(2000); }
@@ -192,7 +196,11 @@ namespace spaceconquest
             {
                 systems[i].sun.Draw(Matrix.CreateTranslation(positions[i]) * world, view, projection);
             }
-            //draw menu stuff here
+
+            foreach (LineModel lm in lines)
+            {
+                lm.Draw(world, view, projection,Color.White);
+            }
         }
     }
 }

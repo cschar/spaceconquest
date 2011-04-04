@@ -27,7 +27,8 @@ namespace spaceconquest
             //loc.passable = false;
         }
 
-        public void upkeep() {
+        public override void upkeep()
+        {
             if (affiliation != null) { affiliation.giveMetal(100); }
         }
 

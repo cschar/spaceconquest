@@ -79,7 +79,7 @@ namespace spaceconquest
                     Content.Load<Model>("planet_populated"));
 
             //Loading the Asteroid
-            AsteroidModel.InitializePrimitive(Content.Load<Model>("Asteroid"), Content.Load<Model>("Asteroid"));
+            AsteroidModel.InitializePrimitive(Content.Load<Model>("Asteroid"), Content.Load<Model>("DefaultShips/miningRobot"));
 
             //Loading a StarCruiser model
             //StarCruiserModel.InitializePrimitive(Content.Load<Model>("starcruiser"));

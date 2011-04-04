@@ -53,7 +53,7 @@ namespace spaceconquest
             basicEffect.DiffuseColor = newcolor.ToVector3();
             //basicEffect.VertexColorEnabled = true;
 
-            //basicEffect.Alpha = color.A / 255.0f;
+            basicEffect.Alpha = newcolor.A / 255.0f;
             basicEffect.EmissiveColor = newcolor.ToVector3();
             //basicEffect.EmissiveColor = new Color(100,100,0).ToVector3();
             basicEffect.SpecularColor = new Color(255, 255, 0).ToVector3();

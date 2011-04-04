@@ -69,8 +69,7 @@ namespace spaceconquest
                 newlist.AddRange(p.army);
                 foreach (Unit u in newlist)
                 {
-                    if (u is Planet) { ((Planet)u).upkeep(); }
-                    if (u is Asteroid) { ((Asteroid)u).upkeep(); }
+                    u.upkeep();
                 }
             }
         }
@@ -197,6 +196,16 @@ namespace spaceconquest
                 {
                     //if (c.targetHex.GetGameObject() != null) { return false; }
                     ((Planet)c.agent).build(c.shiptype.CreateShip());
+                    return true;
+                }
+            }
+
+            if (c.order == Command.Action.Upgrade)
+            {
+                if (c.agent != null && c.agent is Planet)
+                {
+                    if (((Planet)c.agent).getMaxHealth() >= 4) { return false; }
+                    ((Planet)c.agent).setMaxHealth(((Planet)c.agent).getMaxHealth() + 1);
                     return true;
                 }
             }
