@@ -43,7 +43,8 @@ namespace spaceconquest
 
         public override void Draw()
         {
-            MenuManager.batch.DrawString(Game1.textFont, text, stringvector, Color.Yellow);
+            try { MenuManager.batch.DrawString(Game1.textFont, text, stringvector, Color.Yellow); }
+            catch (ArgumentException) { }
         }
     }
 }

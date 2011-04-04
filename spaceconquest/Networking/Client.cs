@@ -94,9 +94,9 @@ namespace spaceconquest
 
             public void SendRecieve()
             {
-               // try
-               // {
-                
+                //try
+                //{
+               
                     if (!socket.Connected) { socket.Connect(end); }
                     Console.WriteLine("Connected to host");
                     stream = new NetworkStream(socket);

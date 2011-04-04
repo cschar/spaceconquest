@@ -1,6 +1,11 @@
 
 obj/
 *.cachefile
-bin/
 *.user
 *.suo
+*.dll
+*.exe
+*.dll
+*.pdb
+*.xnb
+*.wma

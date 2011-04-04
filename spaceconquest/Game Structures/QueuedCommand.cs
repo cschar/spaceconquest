@@ -21,6 +21,14 @@ namespace spaceconquest
             priority = 10*(int)order+offset;
 
         }
+        //For moves-before-bording only
+        public QueuedCommand(Ship s, Hex3D h, int offset) {
+            agent = s;
+            targetHex = h;
+            order = Command.Action.Move;
+            shiptype = null;
+            priority = 50 + offset;
+        }
 
         public static List<QueuedCommand> QueuedCommandList(Command C, Galaxy g){
             List<QueuedCommand> qcs = new List<QueuedCommand>();

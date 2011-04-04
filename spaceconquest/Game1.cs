@@ -84,7 +84,10 @@ namespace spaceconquest
             //Loading a StarCruiser model
             //StarCruiserModel.InitializePrimitive(Content.Load<Model>("starcruiser"));
             ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/starCruiser"), "starcruiser");
-            ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/fighter"), "miningship");
+            ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/miningShip"), "miningship");
+            ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/miningRobot"), "miningrobot");
+            ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/transport"), "transport");
+            ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/colonyShip"), "colonyship");
 
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");

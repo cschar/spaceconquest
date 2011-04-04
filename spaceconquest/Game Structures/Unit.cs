@@ -61,7 +61,7 @@ namespace spaceconquest
 
         public void setAffiliation(Player p) {
             this.affiliation = p;
-            p.army.Add(this);
+            if(p!= null) p.army.Add(this);
         }
 
         public int getCost() {
@@ -70,6 +70,11 @@ namespace spaceconquest
 
         public int getTime() {
             return buildTime;
+        }
+
+        public void upkeep()
+        {
+            if (health < maxHealth) { health++; }
         }
 
         //public abstract void upkeep();

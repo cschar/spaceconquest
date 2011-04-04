@@ -14,8 +14,8 @@ namespace spaceconquest
     [Serializable]
     class Ship:Unit
     {
-       
-        int speed = 8;
+        
+        protected int speed = 8;
         [NonSerialized] protected Hex3D ghosthex;
         [NonSerialized] protected LineModel line;
         [NonSerialized] protected ShipModel shipmodel;
@@ -26,20 +26,9 @@ namespace spaceconquest
         protected double targetangle = 0;
         protected double currentAngle = 0;
         protected Vector3 oldposition = new Vector3(0,0,0);
-        protected List<Vector3> targetpositions = new List<Vector3>();
+        protected Queue<Vector3> targetpositions = new Queue<Vector3>();
+        protected Vector3 targetvector = new Vector3(0,0,0);
         private int percenttraveled = 0;
-
-
-        public void movefirst(Hex3D target)
-        {
-            hex.RemoveObject();
-            oldposition = hex.getCenter();
-            percenttraveled = 0;
-            SetHex(target);
-            if (ghosthex != null) ghosthex.ClearGhostObject();
-            line = null;
-            targetpositions.Add(target.getCenter());
-        }
 
         public void move(Hex3D target) {
             hex.RemoveObject();
@@ -48,21 +37,24 @@ namespace spaceconquest
             SetHex(target);
             if (ghosthex!=null) ghosthex.ClearGhostObject();
             line = null;
-            targetpositions.Add(target.getCenter());
+            targetpositions.Enqueue(target.getCenter());
         }
 
-        public Ship() { 
+        public Ship(String s)
+        {
+            modelstring = s;
         }
 
-        public Ship(int moveSpeed) {
-            speed = moveSpeed;
-        }
 
         public int getSpeed() { 
             return speed;
         }
 
-    
+        public void upkeep()
+        {
+            if (health < maxHealth) { health++; }
+        }
+
         public void HopOn(Ship c)
         {
             throw new NotImplementedException();
@@ -152,11 +144,21 @@ namespace spaceconquest
                 }
            }
 
-            if (percenttraveled < 100) { percenttraveled = percenttraveled + 2; }
-            //if (percenttraveled >= 100) { percenttraveled = 0; }
+            
+            if (percenttraveled < 100) { percenttraveled = percenttraveled + 4; }
+            if (percenttraveled >= 100) 
+            {
+                if (targetpositions.Count() != 0)
+                {
+                    percenttraveled = 0; oldposition = targetvector; targetvector = targetpositions.Dequeue();
+                }
+                else
+                {
+                    targetvector = hex.getCenter();
+                }
+            }
             //Console.WriteLine("percenttaveled :: {0} ", percenttraveled);
 
-            Vector3 targetvector = hex.getCenter();
             Vector3 currentvector = (targetvector - oldposition)*(percenttraveled/100.0f) + oldposition;
             //Console.WriteLine("current vector :: {0} \n target vector :: {1} ", currentvector, targetvector);
 

@@ -20,14 +20,14 @@ namespace spaceconquest
         int score;
         public static int playerIDs = 0;
         String name;
-        public List<Unit> army;
+        public HashSet<Unit> army;
         public readonly Planet startingPlanet;
         public Color color;
 
         public Player(Planet start, String n) {
             Random rand = new Random(n.GetHashCode());
             color = new Color(rand.Next(255), rand.Next(255), rand.Next(255));
-            army = new List<Unit>();
+            army = new HashSet<Unit>();
             army.Add(start);
             start.setAffiliation(this);
             startingPlanet = start;

@@ -118,6 +118,7 @@
     <Compile Include="3D stuff\SphereModel.cs" />
     <Compile Include="3D stuff\HexModel.cs" />
     <Compile Include="Game Structures\Asteroid.cs" />
+    <Compile Include="Game Structures\Carrier.cs" />
     <Compile Include="Game Structures\CommonRNG.cs" />
     <Compile Include="Game Structures\QueuedCommand.cs" />
     <Compile Include="Game Structures\SlaveDriver.cs" />
@@ -159,9 +160,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Menu Screens\TitleScreen.cs" />
+    <Compile Include="Ships\ColonyShip.cs" />
     <Compile Include="Ships\MiningShip.cs" />
     <Compile Include="Ships\ShipType.cs" />
     <Compile Include="Ships\StarCruiser.cs" />
+    <Compile Include="Ships\Transport.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

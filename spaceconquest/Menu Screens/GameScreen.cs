@@ -27,9 +27,9 @@ namespace spaceconquest
         CommandMenu shipmenu;
         CommandMenu planetmenu;
         StatusMenu statusmenu;
-        Command.Action clickedaction = Command.Action.None;
+        public Command.Action clickedaction = Command.Action.None;
         SlaveDriver driver;
-        MiddleMan middleman;
+        public MiddleMan middleman;
         bool waiting = false;
         TextLine waitingmessage;
         IconButton galaxybutton;
@@ -79,7 +79,7 @@ namespace spaceconquest
             galaxybutton = new IconButton(new Rectangle(40, y-40, 120, 40), "GalaxyButton.png", "SystemButton.png", GalaxyClick);
             components.Add(galaxybutton);
 
-            shipmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200));
+            shipmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200),this);
             components.Add(shipmenu);
             shipmenu.AddNewCommand(0, 0, "MoveButton.png", MoveClick);
             shipmenu.AddNewCommand(1, 0, "AttackButton.png", FireClick);
@@ -88,11 +88,13 @@ namespace spaceconquest
             //shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), "Upgrade", UpgradeClick));
             shipmenu.AddNewCommand(0, 2, "ColonizeButton.png", ColonizeClick);
 
-            planetmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200));
+            planetmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200),this);
             
             components.Add(planetmenu);
-            planetmenu.AddNewCommand(0, 0, "BuildButton.png", BuildClick);
-            planetmenu.AddNewCommand(0, 1, "BuildButton.png", MiningBuildClick);
+            planetmenu.AddShipCommand(0, 0, "BuildButton.png", StarCruiser.creator);
+            planetmenu.AddShipCommand(0, 1, "BuildButton.png", MiningShip.creator);
+            planetmenu.AddShipCommand(1, 0, "BuildButton.png", ColonyShip.creator);
+            planetmenu.AddShipCommand(1, 1, "BuildButton.png", Transport.creator);
 
             waitingmessage = new TextLine(new Rectangle(0, 0, 400, 20), "Waiting for other players.");
 
@@ -121,9 +123,6 @@ namespace spaceconquest
         void UpgradeClick(Object o, EventArgs e) { clickedaction = Command.Action.Upgrade; }
         void ColonizeClick(Object o, EventArgs e) { clickedaction = Command.Action.Colonize; }
         //void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; }
-
-        void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; middleman.AddCommand(new Command(selectedhex, selectedhex, Command.Action.Build, StarCruiser.creator )); clickedaction = Command.Action.None; }
-        void MiningBuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; middleman.AddCommand(new Command(selectedhex, selectedhex, Command.Action.Build, MiningShip.creator)); clickedaction = Command.Action.None; }
 
         public void Update()
         {

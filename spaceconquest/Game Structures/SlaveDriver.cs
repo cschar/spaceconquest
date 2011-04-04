@@ -32,12 +32,22 @@ namespace spaceconquest
         public void Execute()
         {
             foreach (Command C in commands) {
-                if (C.action != Command.Action.Move)
+                if (C.action != Command.Action.Move && C.action != Command.Action.Enter)
                 {
                     qcs.Add(new QueuedCommand(C, galaxy, 0));
                 }
-                else {
+                else if (C.action == Command.Action.Move)
+                {
                     qcs.AddRange(QueuedCommand.QueuedCommandList(C, galaxy));
+                }
+                else {
+                    Ship agent = (Ship)((galaxy.GetHex(C.start)).GetGameObject());
+                    int speed = agent.getSpeed();
+                    int i = 0;
+                    for (; i < speed; i++) { 
+                        qcs.Add(new QueuedCommand(agent, galaxy.GetHex(C.target), i));
+                    }
+                    qcs.Add(new QueuedCommand(C, galaxy, i));
                 }
                 
             }
@@ -207,6 +217,18 @@ namespace spaceconquest
                         ((Asteroid)c.targetHex.GetGameObject()).setAffiliation(((Ship)c.agent).getAffiliation());
                         return true;
                     }
+                }
+            }
+
+            if (c.order == Command.Action.Enter)
+            {
+                if (c.agent != null && c.agent is Ship)
+                {
+                    GameObject target = c.targetHex.GetGameObject();
+                    if (target is Carrier) {
+                        return ((Carrier)target).LoadShip((Ship)(c.agent));
+                    }
+                    return false;
                 }
             }
 

@@ -17,7 +17,7 @@ namespace spaceconquest
         protected int damage = 1;
         protected int range = 3;
 
-        public Warship(String s)
+        public Warship(String s) : base(s)
         {
             modelstring = s;
             shipmodel = ShipModel.shipmodels[modelstring];

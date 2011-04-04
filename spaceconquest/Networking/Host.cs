@@ -29,7 +29,7 @@ namespace spaceconquest
 
         public Host(SlaveDriver sd, int n)
         {
-            ip = IPAddress.Parse("70.55.141.164");
+            ip = IPAddress.Any; //IPAddress.Parse("70.55.141.164");
             end = new IPEndPoint(ip, 6112);
             listensocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listensocket.Bind(end);
