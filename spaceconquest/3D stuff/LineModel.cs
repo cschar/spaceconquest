@@ -22,7 +22,7 @@ namespace spaceconquest
         static Vector3 x = new Vector3(size, 0, 0);
         static Vector3 y = new Vector3(0, size, 0);
         static Vector3 z = new Vector3(0, 0, size);
-        BasicEffect effect;
+        [NonSerialized] BasicEffect effect;
 
         public LineModel(Vector3 pos, Vector3 dest)
         {
@@ -59,6 +59,7 @@ namespace spaceconquest
 
         public void Draw(Effect effect)
         {
+            if (effect == null) { effect = new BasicEffect(Game1.device); }
             
             foreach (EffectPass effectPass in effect.CurrentTechnique.Passes)
             {
@@ -73,6 +74,7 @@ namespace spaceconquest
 
         public void Draw(Matrix world, Matrix view, Matrix projection, Color newcolor)
         {
+            if (effect == null) { effect = new BasicEffect(Game1.device); }
             // Set BasicEffect parameters.
             effect.World = world;
             effect.View = view;
