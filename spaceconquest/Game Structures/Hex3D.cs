@@ -27,6 +27,7 @@ namespace spaceconquest
         public Boolean passable = true; 
         private List<Hex3D> neighbors;
         public Hex3D prev = null;
+        public Boolean visible = true;
 
         //used to test the bounds for mouse projection
         BoundingSphere boundsphere;
@@ -94,6 +95,9 @@ namespace spaceconquest
 
         public void Draw(Matrix world, Matrix view, Matrix projection)
         {
+            if (!visible && !hexgrid.GetWarpable().Contains(this)) {
+                color = Color.Black;
+            }
             if (color == Color.Black) { return; }
             world.Translation = world.Translation + getCenter();
             HexModel.Draw(world, view, projection, color);

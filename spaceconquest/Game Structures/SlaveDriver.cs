@@ -185,8 +185,47 @@ namespace spaceconquest
             {
                 if (c.agent != null && c.agent is Ship)
                 {
-                    if (c.targetHex.GetGameObject() != null) { return false; }
-                    ((Ship)c.agent).move(c.targetHex);
+                    Hex3D newTarget = null;
+                    if (c.targetHex.GetGameObject() != null)
+                    {
+                        //Best effort.
+                        HashSet<Hex3D> attemptedHexes = new HashSet<Hex3D>();
+                        HashSet<Hex3D> NewFrontier = new HashSet<Hex3D>();
+                        HashSet<Hex3D> OldFrontier = new HashSet<Hex3D>();
+                        attemptedHexes.Add(c.targetHex);
+                        NewFrontier.Add(c.targetHex);
+
+                        while (newTarget == null)
+                        {
+                            OldFrontier = NewFrontier;
+                            NewFrontier = new HashSet<Hex3D>();
+                            foreach (Hex3D h1 in OldFrontier)
+                            {
+                                foreach (Hex3D h2 in h1.getNeighbors().Except(attemptedHexes))
+                                {
+                                    attemptedHexes.Add(h2);
+                                    if (h2.hexgrid.GetWarpable().Contains(h2))
+                                    {
+                                        NewFrontier.Add(h2);
+                                        if (h2.GetGameObject() == null)
+                                        {
+                                            newTarget = h2;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (newTarget != null) { break; }
+                            }
+                        }
+                    }
+                    else {
+                        newTarget = c.targetHex;
+                    }
+
+                    foreach (Hex3D h3 in newTarget.hexgrid.getHexes()) {
+                        h3.visible = true;
+                    }
+                    ((Ship)c.agent).move(newTarget);
                     return true;
                 }
             }

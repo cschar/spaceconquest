@@ -218,12 +218,32 @@ namespace spaceconquest
 
                     if (selectedhex.GetGameObject() is Ship && clickedaction == Command.Action.Jump)
                     {
-                        if (!((SolarSystem3D)(space)).GetWarpable().Contains(mousehex)) { return; }
-                        if (!selectedhex.GetGameObject().hex.hexgrid.neighbors.Contains((SolarSystem3D)(space))) { return; }
-                        ((Ship)(selectedhex.GetGameObject())).SetGhost(mousehex);
+                        if (!((SolarSystem3D)(space)).GetWarpable().Contains(mousehex)) {}
+                        else if (!selectedhex.GetGameObject().hex.hexgrid.neighbors.Contains((SolarSystem3D)(space))) {}
+                        else
+                        {
+                            ((Ship)(selectedhex.GetGameObject())).SetGhost(mousehex);
+                        }
+                        Boolean vis = true;
+                        int thresh = 0;
+                        foreach (Hex3D h1 in ((SolarSystem3D)space).getHexes()) {
+                            if (!h1.visible) {
+                                vis = false;
+                                break;
+                            }
+                            thresh ++;
+                            if (thresh >= 10) {
+                                break;
+                            }
+                        }
+                        if (!vis) {
+                            space = galaxy;
+                            Console.WriteLine("BUMP");
+                        }
                     }
 
                     middleman.AddCommand(new Command(selectedhex, mousehex, clickedaction));
+                    
                     clickedaction = Command.Action.None;
                     selectedhex = nullhex;
                 }
@@ -284,8 +304,24 @@ namespace spaceconquest
                 {
                     //commands.Add(new Command(selectedhex, mousesystem.getHex(-2, -2), Command.Action.Jump));
                     space = mousesystem;
+                    Boolean occupied = false;
+                    foreach (Hex3D h1 in mousesystem.getHexes()) {
+                        GameObject o = h1.GetGameObject();
+                        if (o != null && o is Unit && ((Unit)o).getAffiliation() == player) {
+                            occupied = true;
+                            break;
+                        }
+                    }
+                    if (!occupied) {
+                        foreach (Hex3D h1 in mousesystem.getHexes()) {
+                        h1.visible = false;
+                        h1.color = Color.Black;
+                        }
+                    }
+                    
                     //selectedhex = nullhex;
                     clickedaction = Command.Action.Jump;
+                
                 }
                 else { 
                     HashSet<SolarSystem3D> targetable = new HashSet<SolarSystem3D>();
