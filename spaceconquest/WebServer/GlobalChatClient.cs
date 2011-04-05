@@ -19,11 +19,13 @@ namespace spaceconquest
    public class GlobalChatClient
     {
         private List<ChatLog> chatLogs;
+        private List<ChatLog> lastChatLogs;
         private String httpSource;
 
         //Constructor
         public GlobalChatClient(String serverAddress ){
             chatLogs = new List<ChatLog>();
+            lastChatLogs = new List<ChatLog>();
             httpSource = serverAddress;
             lastUpdate = DateTime.Now;
         }
@@ -39,6 +41,10 @@ namespace spaceconquest
         /// <returns></returns>
         public List<ChatLog> GetLogs()
         {
+            if (DateTime.Now.Subtract(lastUpdate).CompareTo(interval)<0) {
+                return lastChatLogs;
+            }
+            
             if (DateTime.Now.Subtract(lastUpdate).CompareTo(interval) > 0)
             {
                 Console.WriteLine("Updating-GlobalChat, interval is set to" + interval.Seconds + " seconds ");
@@ -54,8 +60,50 @@ namespace spaceconquest
                 this.chatLogs = this.updateList;
                 LogsUpdated = false;
             }
-
-            return CreateDeepListCopy(this.chatLogs);
+            List<ChatLog> retList = CreateDeepListCopy(this.chatLogs);
+            List<ChatLog> removeList = new List<ChatLog>();
+            foreach (ChatLog c in retList)
+            {
+                string init = c.message;
+                DateTime then;
+                DateTime now;
+                string ip = "";
+                try
+                {
+                    //Console.WriteLine(init);
+                    string[] ipDate = init.Split('-');
+                    //Console.WriteLine("ipDate is " + ipDate[0] + ", " + ipDate[1]);
+                    ip = ipDate[0];
+                    string timeRaw = ipDate[1];
+                    //Console.WriteLine("RawTime: " + timeRaw);
+                    string[] dts = timeRaw.Split('|');
+                    //Console.WriteLine("dts is ");
+                    foreach (String s in dts)
+                    {
+                        //Console.WriteLine("\t" + s);
+                    }
+                    //Console.WriteLine("Done");
+                    then = (new DateTime(int.Parse(dts[0]), int.Parse(dts[1]), int.Parse(dts[2]), int.Parse(dts[3]), int.Parse(dts[4]), int.Parse(dts[5]))).AddMinutes(30.0);
+                    now = DateTime.Now;
+                    if (then.CompareTo(now) < 0)
+                    {
+                        removeList.Add(c);
+                    }
+                }
+                catch (Exception e)
+                {
+                    //Console.WriteLine(e.Message);
+                    removeList.Add(c);
+                }
+                
+                //return retList.GetRange(0, Math.Min(5, retList.Count));
+                //return CreateDeepListCopy(this.chatLogs);
+            }
+            foreach (ChatLog c in removeList) {
+                retList.Remove(c);
+            }
+            lastChatLogs = retList;
+            return retList;
         }
 
         private List<ChatLog> updateList;

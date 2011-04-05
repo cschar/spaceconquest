@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Net;
+using System.IO;
 
 namespace spaceconquest
 {
@@ -28,9 +30,9 @@ namespace spaceconquest
             buttons.Add(new MenuButton(new Rectangle(450, 250, 150, 40), "Join Game", JoinGame));
             buttons.Add(new MenuButton(new Rectangle(450, 300, 150, 40), "Host Game", HostGame ));
 
-            buttons.Add(new TextInput(new Rectangle(50,500,350,40), ChatSend));
+            //buttons.Add(new TextInput(new Rectangle(50,500,350,40), ChatSend));
             chatlist = new MenuList(new Rectangle(50, 50, 350, 450));
-            
+            chatlist.padding = 0;
             buttons.Add(chatlist);
         }
 
@@ -38,6 +40,17 @@ namespace spaceconquest
 
         public void HostGame(Object o, EventArgs e)
         {
+            String rep = "";
+            IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress ip in localIPs) {
+                rep = ip.ToString();
+                if (rep.Contains(".")) {
+                    Console.WriteLine(rep);
+                    break;
+                }
+            }
+
+            ChatSend(rep + "-" + String.Format("{0:yyyy|MM|dd|HH|mm|ff}", DateTime.Now));
             MenuManager.ClickHost("127.0.0.1", EventArgs.Empty);
         }
 
@@ -48,7 +61,8 @@ namespace spaceconquest
 
         public void ChatSend(String input)
         {
-            chatClient.SendMessage("me", input); chatClient.UpdateLocalLogList();
+            chatClient.SendMessage("me", input); 
+            chatClient.UpdateLocalLogList();
         }
 
         public void Update()
@@ -69,10 +83,10 @@ namespace spaceconquest
 
             foreach (ChatLog c in newChats)
             {
-                string finalMessage = "";
-                string init = c.message;
-                bool nameSaid = false;
-                while (init.Length > 31)
+                //string finalMessage = "";
+                
+                //bool nameSaid = false;
+                /*while (.Length > 31)
                 {
                     
                     //finalMessage += init.Substring(0, 25) + "\n";
@@ -90,8 +104,8 @@ namespace spaceconquest
                     nameSaid = true;
                     
                     init = init.Substring(31);
-                }
-                if (nameSaid == false)
+                }*/
+                /*if (nameSaid == false)
                 {
                     chatlist.AddNewTextLineDefault(20, 200, c.playerName + init);
                 }
@@ -99,7 +113,11 @@ namespace spaceconquest
                 {
                     chatlist.AddNewTextLineDefault(20, 200, "          " + init);
 
-                }
+                }*/
+                //Console.WriteLine("\n\n\n\n"+c.message+"\n\n\n\n");
+                String ipa = c.message.Split('-')[0];
+                chatlist.AddNewTextLineDefault(20, 200, "Game Hosted at " + ipa);
+
             }
         }
 
