@@ -19,14 +19,15 @@ namespace spaceconquest
         Map map;
         Galaxy galaxy;
         //SolarSystem3D solar; //current solar system
-        Space space; //what we're currently looking at, can be galaxy or solarsystem
-        Player player; //the player using this screen
+        public Space space; //what we're currently looking at, can be galaxy or solarsystem
+        public Player player; //the player using this screen
 
         List<MenuComponent> components = new List<MenuComponent>();
         //List<Command> commands = new List<Command>();
         CommandMenu shipmenu;
         CommandMenu planetmenu;
         StatusMenu statusmenu;
+        TopMenu topmenu;
         public Command.Action clickedaction = Command.Action.None;
         SlaveDriver driver;
         public MiddleMan middleman;
@@ -99,13 +100,16 @@ namespace spaceconquest
             planetmenu.AddShipCommand(1, 1, "BuildButton.png", Transport.creator);
             planetmenu.AddNewCommand(0, 2, "ColonizeButton.png", UpgradeClick);
 
-            waitingmessage = new TextLine(new Rectangle(0, 0, 400, 20), "Waiting for other players.");
+            waitingmessage = new TextLine(new Rectangle(0, 20, 400, 20), "Waiting for other players.");
 
-            planetmenu.showbackround = false;
-            shipmenu.showbackround = false;
+            //planetmenu.showbackround = false;
+            //shipmenu.showbackround = false;
 
             statusmenu = new StatusMenu(new Rectangle(0, y - 150, 300, 150));
             statusmenu.visible = false;
+
+            topmenu = new TopMenu(new Rectangle(0, 0, x, 40), this);
+            components.Add(topmenu);
         }
 
         void GalaxyClick(Object o, EventArgs e)

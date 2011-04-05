@@ -194,7 +194,7 @@ namespace spaceconquest
             {
                 if (c.agent != null && c.agent is Planet)
                 {
-                    //if (c.targetHex.GetGameObject() != null) { return false; }
+                    //if (!c.agent.getAffiliation().payMetal(c.shiptype.)) { return false; }
                     ((Planet)c.agent).build(c.shiptype.CreateShip());
                     return true;
                 }
@@ -205,6 +205,7 @@ namespace spaceconquest
                 if (c.agent != null && c.agent is Planet)
                 {
                     if (((Planet)c.agent).getMaxHealth() >= 4) { return false; }
+                    if (!c.agent.getAffiliation().payMetal(100)) { return false; }
                     ((Planet)c.agent).setMaxHealth(((Planet)c.agent).getMaxHealth() + 1);
                     return true;
                 }

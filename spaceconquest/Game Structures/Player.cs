@@ -31,7 +31,7 @@ namespace spaceconquest
             army.Add(start);
             start.setAffiliation(this);
             startingPlanet = start;
-            metal = 1000000;
+            metal = 1000;
             score = 0;
             name = n; 
             id = playerIDs;

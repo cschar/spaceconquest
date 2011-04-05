@@ -135,13 +135,14 @@
     <Compile Include="Game Structures\Map.cs" />
     <Compile Include="Game Structures\Sun.cs" />
     <Compile Include="Game Structures\Warship.cs" />
-    <Compile Include="Menu Components\CommandMenu.cs" />
     <Compile Include="Menu Components\IconButton.cs" />
+    <Compile Include="Menu Components\TopMenu.cs" />
     <Compile Include="Menu Components\StatusMenu.cs" />
     <Compile Include="Menu Components\TextLine.cs" />
     <Compile Include="Menu Components\TextInput.cs" />
     <Compile Include="Menu Components\MenuList.cs" />
     <Compile Include="Menu Components\MenuComponent.cs" />
+    <Compile Include="Menu Components\CommandMenu.cs" />
     <Compile Include="Menu Screens\HostScreen.cs" />
     <Compile Include="Menu Screens\OptionsScreen.cs" />
     <Compile Include="MenuManager.cs" />

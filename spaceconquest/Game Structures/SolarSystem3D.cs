@@ -220,5 +220,10 @@ namespace spaceconquest
                 h.Draw(world, view, projection);
             }
         }
+
+        public override string ToString()
+        {
+            return "System-" + index;
+        }
     }
 }

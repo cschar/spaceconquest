@@ -18,6 +18,7 @@ namespace spaceconquest
         public CommandMenu(Rectangle r, GameScreen gs) : base(r)
         {
             //wierd syntax
+            this.currentcolor = new Color(0, 0, 0, 150);
             padding = 5;
             gamescreen = gs;
         }
