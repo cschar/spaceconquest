@@ -26,8 +26,9 @@ namespace spaceconquest
         bool done = false;
         bool busy = false;
         int numclients;
+        Map map;
 
-        public Host(SlaveDriver sd, int n)
+        public Host(Map m, SlaveDriver sd, int n)
         {
             ip = IPAddress.Any; //IPAddress.Parse("70.55.141.164");
             end = new IPEndPoint(ip, 6112);
@@ -35,7 +36,10 @@ namespace spaceconquest
             listensocket.Bind(end);
             //listensocket.EnableBroadcast = false;
             slavedriver = sd;
+            slavedriver.SetMap(m);
             numclients = n;
+            map = m;
+            SendMap();
         }
 
         public void Close()
@@ -59,6 +63,20 @@ namespace spaceconquest
             commands.Add(c);
         }
 
+        public void SendMap()
+        {
+            if (busy) { return; }
+            //busy = true;
+            //done = false;
+            HostThread ht = new HostThread(listensocket, end, map, ReturnCommands, numclients);
+            commands = new List<Command>();
+            //Thread t = new Thread(new ThreadStart(ht.SendRecieve));
+            //t.Start();
+
+            //blocking!
+            ht.SendRecieve();
+        }
+
         public void EndTurn()
         {
             if (busy) { return; }
@@ -67,8 +85,7 @@ namespace spaceconquest
             HostThread ht = new HostThread(listensocket, end, commands, ReturnCommands, numclients);
             commands = new List<Command>();
             Thread t = new Thread(new ThreadStart(ht.SendRecieve));
-            t.Start();
-            
+            t.Start();         
         }
 
         private void ReturnCommands(List<Command> c)
@@ -87,6 +104,8 @@ namespace spaceconquest
             BinaryFormatter formatter;
             List<Command> commands;
             Result action;
+            Map map;
+            bool sendmap = false;
 
             public HostThread(Socket s, EndPoint e, List<Command> c, Result r, int n)
             {
@@ -96,6 +115,17 @@ namespace spaceconquest
                 commands = c;
                 action = r;
                 numclients = n;
+            }
+
+            public HostThread(Socket s, EndPoint e, Map m, Result r, int n)
+            {
+                socket = s;
+                end = e;
+                formatter = new BinaryFormatter();
+                map = m;
+                action = r;
+                numclients = n;
+                sendmap = true;
             }
 
             public void SendRecieve()
@@ -113,6 +143,16 @@ namespace spaceconquest
                         }
 
                         streamlist.Add(new NetworkStream(accept));
+                }
+
+                if (sendmap)
+                {
+                    //sending map
+                    foreach (NetworkStream ns in streamlist)
+                    {
+                        formatter.Serialize(ns, map);
+                    }
+                    return;
                 }
 
                 foreach (NetworkStream ns in streamlist)

@@ -52,6 +52,12 @@ namespace spaceconquest
         //public Map(Galaxy startingGalaxy, int nPlayers, String name, List<Planet> startingPlanets) //For designed maps. 
         //assert length of startingplanets is nPlayers, and that each comes from within startingGalaxy
 
+        public Player SetPlayer(int i)
+        {
+            instancePlayer = players.ElementAt(i);
+            return instancePlayer;
+        }
+
         public SolarSystem3D GetHomeSystem()
         {
             return instancePlayer.startingPlanet.hex.hexgrid;

@@ -25,6 +25,7 @@ namespace spaceconquest
         SlaveDriver slavedriver;
         bool done = false;
         bool busy = false;
+        Map map;
 
         public Client(String ipstring, SlaveDriver sd)
         {
@@ -34,6 +35,7 @@ namespace spaceconquest
             //socket.Bind(new IPEndPoint(IPAddress.Loopback, 0));
             slavedriver = sd;
             //socket.EnableBroadcast = false;
+            RecieveMap();
         }
 
         public void Close()
@@ -55,6 +57,17 @@ namespace spaceconquest
         public void AddCommand(Command c)
         {
             commands.Add(c);
+        }
+
+        public void RecieveMap()
+        {
+            ClientThread ct = new ClientThread(socket, end, slavedriver, ReturnCommands);
+            commands = new List<Command>();
+            //Thread t = new Thread(new ThreadStart(ct.SendRecieve));
+            //t.Start();
+
+            //blocking!
+            ct.SendRecieve();
         }
 
         public void EndTurn()
@@ -81,6 +94,19 @@ namespace spaceconquest
             BinaryFormatter formatter;
             List<Command> commands;
             Result action;
+            SlaveDriver slave;
+            bool mapexchange = false;
+
+            public ClientThread(Socket s, EndPoint e, SlaveDriver sd, Result r)
+            {
+                socket = s;
+                end = e;
+                //socket.Bind(end);
+                formatter = new BinaryFormatter();
+                slave = sd;
+                action = r;
+                mapexchange = true;
+            }
 
             public ClientThread(Socket s, EndPoint e, List<Command> c, Result r)
             {
@@ -94,6 +120,20 @@ namespace spaceconquest
 
             public void SendRecieve()
             {
+
+                if (mapexchange)
+                {
+                    //try
+                    //{
+                        if (!socket.Connected) { socket.Connect(end); }
+                        Console.WriteLine("Connected to host");
+                        stream = new NetworkStream(socket);
+                        slave.SetMap((Map)formatter.Deserialize(stream));
+                        return;
+                    //}
+                    //catch (SocketException e) { Console.WriteLine(e); SendRecieve(); }
+                }
+
                 //try
                 //{
                
