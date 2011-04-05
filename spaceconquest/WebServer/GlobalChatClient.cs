@@ -92,7 +92,7 @@ namespace spaceconquest
                 }
                 catch (Exception e)
                 {
-                    //Console.WriteLine(e.Message);
+                    //Console.WriteLine(e.Message + "\n\n" + init);
                     removeList.Add(c);
                 }
                 

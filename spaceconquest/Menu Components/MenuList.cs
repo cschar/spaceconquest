@@ -19,7 +19,7 @@ namespace spaceconquest
         Texture2D texture;
         protected List<MenuComponent> menucomponents;
         public Color currentcolor = Color.Teal;
-        protected int padding = 10;
+        public int padding = 10;
         public bool visible = true;
         public bool showbackround = true;
 

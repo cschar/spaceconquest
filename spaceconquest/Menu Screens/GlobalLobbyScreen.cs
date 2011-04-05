@@ -50,7 +50,7 @@ namespace spaceconquest
                 }
             }
 
-            ChatSend(rep + "-" + String.Format("{0:yyyy|MM|dd|HH|mm|ff}", DateTime.Now));
+            ChatSend(rep + "-" + String.Format("{0:yyyy|MM|dd|HH|mm|ss}", DateTime.Now));
             MenuManager.ClickHost("127.0.0.1", EventArgs.Empty);
         }
 

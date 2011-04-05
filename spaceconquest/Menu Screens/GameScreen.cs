@@ -287,7 +287,16 @@ namespace spaceconquest
                     //selectedhex = nullhex;
                     clickedaction = Command.Action.Jump;
                 }
-                else { space = mousesystem; }
+                else { 
+                    HashSet<SolarSystem3D> targetable = new HashSet<SolarSystem3D>();
+                    foreach (Unit u in player.army) {
+                        targetable.Add(u.hex.hexgrid);
+                    }
+                    if (targetable.Contains(mousesystem)) {
+                        space = mousesystem;
+                    }
+                     
+                }
             }
 
             oldmousesystem = mousesystem;

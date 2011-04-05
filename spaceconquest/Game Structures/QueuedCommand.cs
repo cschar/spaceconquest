@@ -15,7 +15,13 @@ namespace spaceconquest
 
         public QueuedCommand(Command C, Galaxy g, int offset) {
             agent = (Unit)g.GetHex(C.start).GetGameObject();
-            targetHex = g.GetHex(C.target);
+            try
+            {
+                targetHex = g.GetHex(C.target);
+            }
+            catch (NullReferenceException) {
+                targetHex = null;
+            }
             order = C.action;
             shiptype = C.shiptype;
             priority = 10*(int)order+offset;
