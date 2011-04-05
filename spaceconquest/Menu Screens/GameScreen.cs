@@ -65,15 +65,27 @@ namespace spaceconquest
             if (m == null)
             {
                 if (h) { map = new Map(2, 0, "test galaxy", (long)1); }
-                else { map = new Map(2, numclients, "test galaxy", (long)1); }
+                //else { map = new Map(2, numclients, "test galaxy", (long)1); }
             }
             else { map = m; }
+
+            driver = new SlaveDriver(); //dont use until middleman created
+
+            if (host)
+            {
+                middleman = new Host(map, driver, numclients);
+                //((Host)middleman).SendMap();
+            }
+            else middleman = new Client(ipstring, driver);
+
+            //test for failure here
+
+            map = driver.GetMap();
+            if (!host) map.SetPlayer(numclients);
+
             galaxy = map.galaxy;
             player = map.GetInstancePlayer();
             space = map.GetHomeSystem();
-            driver = new SlaveDriver(map);
-            if (host) middleman = new Host(driver, numclients);
-            else middleman = new Client(ipstring,driver);
 
             int x = Game1.device.Viewport.Width;
             int y = Game1.device.Viewport.Height;

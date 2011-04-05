@@ -13,10 +13,23 @@ namespace spaceconquest
         List<QueuedCommand> qcs = new List<QueuedCommand>();
         //Player player;
 
+        public SlaveDriver() { }
+
         public SlaveDriver(Map m)
         {
             map = m;
             galaxy = map.galaxy;
+        }
+
+        public void SetMap(Map m)
+        {
+            map = m;
+            galaxy = map.galaxy;
+        }
+
+        public Map GetMap()
+        {
+            return map;
         }
 
         public void Receive(List<Command> cl)
