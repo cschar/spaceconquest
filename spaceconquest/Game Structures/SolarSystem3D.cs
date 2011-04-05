@@ -21,6 +21,7 @@ namespace spaceconquest
         public List<SolarSystem3D> neighbors = new List<SolarSystem3D>();
         public List<Planet> planets = new List<Planet>(); 
         public readonly Sun sun;
+        public Color colo;
 
         int radius;
         int hexcount;
@@ -35,6 +36,7 @@ namespace spaceconquest
             index = ind;
             radius = r;
             plane = new Plane(0, 0, 1, 1);
+            colo = hcolor;
 
             hexmap = new Hex3D[(radius * 2) + 1, (radius * 2) + 1];
 
@@ -86,8 +88,14 @@ namespace spaceconquest
 
         }
 
+
+        public List<Hex3D> getHexes() {
+            return hexlist;
+        }
+
         public SolarSystem3D(int r, int p, Color hcolor, int idex)
         {
+            colo = hcolor;
             index = idex;
             radius = r;
             plane = new Plane(0, 0, 1, 1);
@@ -154,7 +162,10 @@ namespace spaceconquest
         {
             foreach (Hex3D h in hexlist)
             {
-                h.color = h.defaultcolor;
+                if (h.visible) {
+                    h.color = h.defaultcolor;
+                }
+                    
             }
         }
 
@@ -209,8 +220,9 @@ namespace spaceconquest
 
             foreach (Hex3D h in hexlist)
             {
-
-                h.DrawObject(world, view, projection);
+                if (h.visible || h.GetGameObject() is Sun) {
+                    h.DrawObject(world, view, projection);
+                }
             }
 
 
