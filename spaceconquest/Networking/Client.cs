@@ -213,13 +213,13 @@ namespace spaceconquest
                     //catch (SocketException e) { Console.WriteLine(e); SendRecieve(); }
                 }
 
-                //try
-                //{
-               
+                try
+                {
                     if (!socket.Connected) { socket.Connect(end); }
                     Console.WriteLine("Connected to host");
                     stream = new NetworkStream(socket);
 
+               
                     formatter.Serialize(stream, commands);
                     Console.WriteLine("Sent Commands");
 
@@ -230,8 +230,8 @@ namespace spaceconquest
                     //socket.Disconnect(true);
                     // Console.WriteLine("Disconnected");
                     action(commands);
-                //}
-                //catch (SocketException e) { Console.WriteLine(e); SendRecieve(); }
+                }
+                catch (Exception e) { Console.WriteLine(e.Message); socket.Dispose(); MenuManager.ClickTitle(this, EventArgs.Empty); return; }
             }
             public delegate void Result(List<Command> c);
         }

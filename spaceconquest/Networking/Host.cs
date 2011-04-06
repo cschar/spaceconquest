@@ -252,31 +252,37 @@ namespace spaceconquest
                         streamlist.Add(new NetworkStream(accept));
                 }
 
-                if (sendmap)
+                try
                 {
-                    //sending map
+                    if (sendmap)
+                    {
+                        //sending map
+                        foreach (NetworkStream ns in streamlist)
+                        {
+                            formatter.Serialize(ns, map);
+                        }
+                        return;
+                    }
+
                     foreach (NetworkStream ns in streamlist)
                     {
-                        formatter.Serialize(ns, map);
+                        commands.AddRange((List<Command>)formatter.Deserialize(ns));
                     }
-                    return;
-                }
-
-                foreach (NetworkStream ns in streamlist)
-                {
-                    commands.AddRange((List<Command>)formatter.Deserialize(ns));
-                }
 
 
-                foreach (NetworkStream ns in streamlist)
-                {
-                    formatter.Serialize(ns, commands);
-                }
+                    foreach (NetworkStream ns in streamlist)
+                    {
+                        formatter.Serialize(ns, commands);
+                    }
 
-                //i = 0;
-                //streamlist.Clear();
-                action(commands);
+                    //i = 0;
+                    //streamlist.Clear();
+                    action(commands);
                
+                }
+                catch (Exception e) { Console.WriteLine(e.Message); socket.Dispose(); MenuManager.ClickTitle(this, EventArgs.Empty); return; }
+
+                
             }
            public delegate void Result(List<Command> c);
         }

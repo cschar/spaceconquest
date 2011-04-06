@@ -326,10 +326,11 @@ namespace spaceconquest
 
         public void UpdateGalaxy()
         {
+            statusmenu.Hide(); 
             SolarSystem3D mousesystem = galaxy.GetMouseOverSystem();
             if (oldmousesystem != null) oldmousesystem.sun.color = oldmousesystem.sun.defaultcolor;
-            if (mousesystem != null) { mousesystem.sun.color = Color.Green; statusmenu.Hide(); telescopemenu.Show(); telescopemenu.Update(mousesystem); }
-            else { statusmenu.Show(); telescopemenu.Hide(); }
+            if (mousesystem != null) { mousesystem.sun.color = Color.Green; telescopemenu.Show(); telescopemenu.Update(mousesystem); }
+            else { telescopemenu.Hide(); }
 
             if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && mousesystem != null)
             {
