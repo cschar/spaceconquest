@@ -26,10 +26,10 @@ namespace spaceconquest
         {
             host = h;
             components = new List<MenuComponent>();
-            components.Add(new MenuButton(new Rectangle(450, 200, 150, 40), "Load Map", ClickLoadMapStart));
-            components.Add(new MenuButton(new Rectangle(450, 250, 150, 40), "New Map", ClickNewGameStart));
+            components.Add(new MenuButton(new Rectangle(500, 200, 150, 40), "Load Map", ClickLoadMapStart));
+            components.Add(new MenuButton(new Rectangle(500, 250, 150, 40), "New Map", ClickNewGameStart));
 
-            MenuList maplist = new MenuList(new Rectangle(200, 200, 200, 300));
+            MenuList maplist = new MenuList(new Rectangle(50, 50, 400, 500));
             //maplist.AddNewButtonDefault(20, 200, "i am a map", delegate(Object o, EventArgs e) { ((MenuButton)o).selected = !((MenuButton)o).selected; });
             //maplist.AddNewButtonDefault(20, 200, "i am also a map", delegate(Object o, EventArgs e) { ((MenuButton)o).selected = !((MenuButton)o).selected; });
 

@@ -41,7 +41,8 @@ namespace spaceconquest
         public override int GetHashCode() //we're gonna hash by starthex so that only one command per unit will be used. Also by ship so you can queue multiple ships.
         {
             int i;
-            if (action == Action.Move || action == Action.Jump || action == Action.Enter) { i = 1; }
+            if (action == Action.Build) { i = shiptype.GetHashCode(); }
+            else if (action == Action.Move || action == Action.Jump || action == Action.Enter) { i = 1; }
             else { i = 2; }
             return (start.GetHashCode() + i.GetHashCode()).GetHashCode() ;
         }
