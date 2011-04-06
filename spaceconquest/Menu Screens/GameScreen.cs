@@ -27,6 +27,7 @@ namespace spaceconquest
         CommandMenu shipmenu;
         CommandMenu planetmenu;
         StatusMenu statusmenu;
+        TelescopeMenu telescopemenu;
         TopMenu topmenu;
         public Command.Action clickedaction = Command.Action.None;
         SlaveDriver driver;
@@ -122,6 +123,8 @@ namespace spaceconquest
 
             statusmenu = new StatusMenu(new Rectangle(0, y - 150, 300, 150));
             statusmenu.visible = false;
+            telescopemenu = new TelescopeMenu(new Rectangle(0, y - 150, 300, 150));
+            telescopemenu.visible = false;
 
             topmenu = new TopMenu(new Rectangle(0, 0, x, 40), this);
             components.Add(topmenu);
@@ -318,13 +321,15 @@ namespace spaceconquest
             //Color the mousedover hex
             if (mousehex != null && !mousehex.Equals(selectedhex) && !shipmenu.Contains(mousestate.X, mousestate.Y)) { mousehex.color = mousecolor; }
 
+            telescopemenu.Hide();
         }
 
         public void UpdateGalaxy()
         {
             SolarSystem3D mousesystem = galaxy.GetMouseOverSystem();
             if (oldmousesystem != null) oldmousesystem.sun.color = oldmousesystem.sun.defaultcolor;
-            if (mousesystem != null) mousesystem.sun.color = Color.Green;
+            if (mousesystem != null) { mousesystem.sun.color = Color.Green; statusmenu.Hide(); telescopemenu.Show(); telescopemenu.Update(mousesystem); }
+            else { statusmenu.Show(); telescopemenu.Hide(); }
 
             if ((mousestate.LeftButton == ButtonState.Pressed) && (oldmousestate.LeftButton == ButtonState.Released) && !shipmenu.Contains(mousestate.X, mousestate.Y) && mousesystem != null)
             {
@@ -379,6 +384,7 @@ namespace spaceconquest
 
             if (waiting) { waitingmessage.Draw(); }
             if (statusmenu.visible) { statusmenu.Draw(); }
+            if (telescopemenu.visible) { telescopemenu.Draw(); }
         }
 
         public void Save()

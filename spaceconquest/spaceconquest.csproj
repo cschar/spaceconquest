@@ -137,6 +137,7 @@
     <Compile Include="Game Structures\Warship.cs" />
     <Compile Include="Menu Components\IconButton.cs" />
     <Compile Include="Menu Components\ProgressBar.cs" />
+    <Compile Include="Menu Components\TelescopeMenu.cs" />
     <Compile Include="Menu Components\TopMenu.cs" />
     <Compile Include="Menu Components\StatusMenu.cs" />
     <Compile Include="Menu Components\TextLine.cs" />
