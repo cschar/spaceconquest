@@ -144,6 +144,7 @@
     <Compile Include="Menu Components\MenuList.cs" />
     <Compile Include="Menu Components\MenuComponent.cs" />
     <Compile Include="Menu Components\CommandMenu.cs" />
+    <Compile Include="Menu Screens\WinScreen.cs" />
     <Compile Include="Menu Screens\HostScreen.cs" />
     <Compile Include="Menu Screens\OptionsScreen.cs" />
     <Compile Include="MenuManager.cs" />

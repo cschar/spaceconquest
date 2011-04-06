@@ -37,6 +37,7 @@ namespace spaceconquest
             batch = b;
             font = f;
             screen = new TitleScreen(batch, font);
+            //screen = new WinScreen(true);
         }
 
         //some menu clicking event functions,

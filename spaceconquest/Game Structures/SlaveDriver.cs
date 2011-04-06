@@ -104,11 +104,13 @@ namespace spaceconquest
             {
                 Console.WriteLine("I LOST THE GAME " + map.players.Count);
                 //Lose screen
+                MenuManager.screen = new WinScreen(false);
             }
             if (iWon)
             {
                 Console.WriteLine("I WON THE GAME " + map.players.Count);
                 //Win screen
+                MenuManager.screen = new WinScreen(true);
             }
         }
 

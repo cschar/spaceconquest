@@ -12,5 +12,6 @@ namespace spaceconquest
         bool DriverReady();
         void DriverReset();
         void Close();
+        void cb();
     }
 }
