@@ -372,5 +372,11 @@ namespace spaceconquest
             formatter.Serialize(fs, map);
             fs.Close();
         }
+
+        public void Quit()
+        {
+            MenuManager.ClickTitle(this, EventArgs.Empty);
+            middleman.Close(); 
+        }
     }
 }
