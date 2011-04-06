@@ -107,8 +107,9 @@ namespace spaceconquest
             shipmenu.AddNewCommand(1, 1, "JumpButton.png", JumpClick);
             //shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), "Upgrade", UpgradeClick));
             shipmenu.AddNewCommand(0, 2, "ColonizeButton.png", ColonizeClick);
-            shipmenu.AddNewCommand(1, 2, "MoveButton.png", EnterClick);
+            shipmenu.AddNewCommand(1, 2, "EnterButton.png", EnterClick);
             //shipmenu.AddNewCommand(2, 2, "JumpButton.png", UnloadClick);
+            shipmenu.AddNewCommand(2, 2, "UnloadButton.png", UnloadClick);
 
             planetmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200),this);
             
@@ -146,6 +147,7 @@ namespace spaceconquest
         void MoveClick(Object o, EventArgs e) { clickedaction = Command.Action.Move; Console.WriteLine("clicked move"); }
         void FireClick(Object o, EventArgs e) { clickedaction = Command.Action.Fire; }
         void EnterClick(Object o, EventArgs e) { clickedaction = Command.Action.Enter; }
+        void UnloadClick(Object o, EventArgs e) { clickedaction = Command.Action.Enter; middleman.AddCommand(new Command(selectedhex, mousehex, clickedaction)); clickedaction = Command.Action.None; }    
         void JumpClick(Object o, EventArgs e) { clickedaction = Command.Action.Jump; space = galaxy; }
         void UpgradeClick(Object o, EventArgs e) { clickedaction = Command.Action.Upgrade; middleman.AddCommand(new Command(selectedhex, mousehex, clickedaction)); clickedaction = Command.Action.None; }
         void ColonizeClick(Object o, EventArgs e) { clickedaction = Command.Action.Colonize; }

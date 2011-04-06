@@ -284,6 +284,11 @@ namespace spaceconquest
 
             if (c.order == Command.Action.Enter)
             {
+                if (c.agent != null && c.agent is Carrier)
+                {
+                    ((Carrier)c.agent).UnloadAll();
+                    return true;
+                }
                 if (c.agent != null && c.agent is Ship)
                 {
                     GameObject target = c.targetHex.GetGameObject();
