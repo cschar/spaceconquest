@@ -116,8 +116,12 @@ namespace spaceconquest
             /////// USER  C ontent/////////////////////
             //Sounds
             contentManager = this.Content;
-            List<string> tmpTracks = new List<string>() { "track1" ,
-                    "track2", "track4"};
+            List<string> tmpTracks = new List<string>();
+            for (int i = 1; i <= 10; i++)
+            {
+                tmpTracks.Add("DefaultMusic/track" + i);
+
+            }
             jukeBox = new Music_stuff.JukeBox(tmpTracks, contentManager);
             //jukeBox.play();    //Play the tunes
 
