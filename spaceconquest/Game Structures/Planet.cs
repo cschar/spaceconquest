@@ -17,9 +17,24 @@ namespace spaceconquest
     {
         private String name;
         private List<Unit> buildQueue;
-        private List<int> buildTimes ;
 
-        public override void kill(){
+        internal List<Unit> BuildQueue
+        {
+            get { return buildQueue; }
+            set { buildQueue = value; }
+        }
+        private List<int> buildTimes;
+
+        public List<int> BuildTimes
+        {
+            get { return buildTimes; }
+            set { buildTimes = value; }
+        }
+
+        
+
+        public override void kill()
+        {
             affiliation.army.Remove(this);
             this.affiliation = null;
             this.maxHealth = 1;
