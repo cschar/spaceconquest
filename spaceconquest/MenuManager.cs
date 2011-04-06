@@ -41,7 +41,12 @@ namespace spaceconquest
         }
 
         //some menu clicking event functions,
-        public static void ClickTitle(Object o, EventArgs e) { screen = new TitleScreen(batch, font); }
+        public static void ClickTitle(Object o, EventArgs e)
+        {
+            screen = new TitleScreen(batch, font);
+            prevGameScreen = null;
+            prevScreen = null;
+        }
         public static void ClickMapSelect(Object o, EventArgs e) {
             Game1.soundEffectBox.PlaySound("SelectIcon");
             screen = new MapSelectScreen(false); 

@@ -67,14 +67,15 @@ namespace spaceconquest
             {
                 if (gamescreen.selectedhex != null && gamescreen.selectedhex.GetGameObject() != null)
                 {
-                    GameObject ga = gamescreen.selectedhex.GetGameObject();
+                    Hex3D hex = gamescreen.selectedhex;
+                    GameObject ga = hex.GetGameObject();
                     if (ga is Ship)
                     {
                         Ship selected = (Ship)ga;
                         if (selected.shiptype.canenter) { enter.Update(mscurrent,msold); }
                         if (selected.shiptype.cancolonize) { colonize.Update(mscurrent, msold); }
                         if (selected is Warship) { fire.Update(mscurrent, msold); }
-                        if (selected.shiptype.canjump) { jump.Update(mscurrent, msold); }
+                        if (selected.shiptype.canjump && hex.hexgrid.GetWarpable().Contains(hex) ) { jump.Update(mscurrent, msold); }
                         if (selected is Carrier) { unload.Update(mscurrent, msold); }
                         move.Update(mscurrent, msold);
                     }
@@ -89,23 +90,25 @@ namespace spaceconquest
 
         public override void Draw()
         {
+            if (!visible) { return; }
             if (ship)
             {
                 if (gamescreen.selectedhex != null && gamescreen.selectedhex.GetGameObject() != null)
                 {
-                    GameObject ga = gamescreen.selectedhex.GetGameObject();
+                    Hex3D hex = gamescreen.selectedhex;
+                    GameObject ga = hex.GetGameObject();
                     if (ga is Ship)
                     {
                         Ship selected = (Ship)ga;
                         if (selected.shiptype.canenter) { enter.Draw(); }
                         if (selected.shiptype.cancolonize) { colonize.Draw(); }
                         if (selected is Warship) { fire.Draw(); }
-                        if (selected.shiptype.canjump) { jump.Draw(); }
+                        if (selected.shiptype.canjump && hex.hexgrid.GetWarpable().Contains(hex)) { jump.Draw(); }
                         if (selected is Carrier) { unload.Draw(); }
                         move.Draw();
                     }
                 }
-                MenuManager.batch.Draw(texture, area, currentcolor);
+                if (showbackround) MenuManager.batch.Draw(texture, area, currentcolor);
             }
 
             else

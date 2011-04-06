@@ -21,6 +21,7 @@ namespace spaceconquest
             this.cost = 500;
             this.capacity = 0;
             this.buildTime = 10;
+
             this.canenter = false;
             this.canjump = true;
 

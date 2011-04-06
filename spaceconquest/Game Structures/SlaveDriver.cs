@@ -11,9 +11,10 @@ namespace spaceconquest
         Galaxy galaxy;
         HashSet<Command> commands = new HashSet<Command>(); //hashset so that we ignore multiple commands to one unit
         List<QueuedCommand> qcs = new List<QueuedCommand>();
+        GameScreen gamescreen;
         //Player player;
 
-        public SlaveDriver() { }
+        public SlaveDriver(GameScreen gs) { gamescreen = gs; }
 
         public SlaveDriver(Map m)
         {
@@ -105,12 +106,14 @@ namespace spaceconquest
                 Console.WriteLine("I LOST THE GAME " + map.players.Count);
                 //Lose screen
                 MenuManager.screen = new WinScreen(false);
+                gamescreen.middleman.Close();
             }
             if (iWon)
             {
                 Console.WriteLine("I WON THE GAME " + map.players.Count);
                 //Win screen
                 MenuManager.screen = new WinScreen(true);
+                gamescreen.middleman.Close();
             }
         }
 

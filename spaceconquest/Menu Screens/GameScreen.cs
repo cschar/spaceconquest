@@ -70,7 +70,7 @@ namespace spaceconquest
             else { map = m; }
 
 
-            driver = new SlaveDriver(); //dont use until middleman created
+            driver = new SlaveDriver(this); //dont use until middleman created
 
             if (host)
             {
@@ -112,6 +112,7 @@ namespace spaceconquest
             planetmenu.AddShipCommand(0, 1, "MinerButton.png", MiningShip.creator);
             planetmenu.AddShipCommand(1, 0, "ColonistButton.png", ColonyShip.creator);
             planetmenu.AddShipCommand(1, 1, "TransportButton.png", Transport.creator);
+            planetmenu.AddShipCommand(1, 2, "TelescopeButton.png", Telescope.creator);
             planetmenu.AddNewCommand(0, 2, "ShieldButton.png", UpgradeClick);
 
             waitingmessage = new TextLine(new Rectangle(0, 20, 400, 20), "Waiting for other players.");
@@ -297,6 +298,15 @@ namespace spaceconquest
                 foreach (Hex3D h in ((Ship)selectedobject).GetReachable())
                 {
                     h.color = movecolor;
+                }
+            }
+
+            ////VERY REDUNDANT, handles cases where range is smaller than speed
+            if (selectedobject != null && selectedobject is Warship && ((Warship)selectedobject).g )
+            {
+                foreach (Hex3D h in ((Warship)selectedobject).GetShootable())
+                {
+                    h.color = Color.Red;
                 }
             }
 

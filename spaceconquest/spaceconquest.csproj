@@ -171,6 +171,7 @@
     <Compile Include="Ships\MiningShip.cs" />
     <Compile Include="Ships\ShipType.cs" />
     <Compile Include="Ships\StarCruiser.cs" />
+    <Compile Include="Ships\Telescope.cs" />
     <Compile Include="Ships\Transport.cs" />
   </ItemGroup>
   <ItemGroup>

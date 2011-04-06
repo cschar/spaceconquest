@@ -22,6 +22,7 @@ namespace spaceconquest
             this.capacity = 6;
 
             this.canenter = false;
+            this.canjump = true;
 
             Carrier newship = new Carrier(this);
             return newship;
