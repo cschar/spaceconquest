@@ -14,9 +14,9 @@ namespace spaceconquest
         public int range = 4;
         public int damage = 1;
         public int cost = 100;
-        public int buildTime = 999; //will be changed with subclasses 
+        public int buildTime = 1; //will be changed with subclasses 
         public int capacity = 0;
-        public int shield = 999; // ditto
+        public int shield = 5; // ditto
 
         public bool canjump = false;
        // public bool canfire = false;
