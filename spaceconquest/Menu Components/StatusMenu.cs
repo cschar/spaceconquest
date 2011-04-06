@@ -85,9 +85,10 @@ namespace spaceconquest
                     buildLine.text = "Build Time:  " + nextBuildTime + "/" + MaxBuildTime + "  -> " + shipname;
                     //Any more ships queued up?
 
-                    upComingLine.text = "Next : ";
+                    upComingLine.text = "";
                     if (upComingUnits.Count > 1)
                     {
+                        upComingLine.text = "Next : ";
                         for(int i = 1; i < upComingUnits.Count; i++){
                             Ship nextShip = (Ship) upComingUnits[i];
                             upComingLine.text += "[" + nextShip.shiptype.modelstring.Substring(0, 6) + "]"; 
