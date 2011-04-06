@@ -15,7 +15,7 @@ namespace spaceconquest
     [Serializable]
     class Player
     {
-        int id;
+        public readonly int id;
         int metal;
         int score;
         public static int playerIDs = 0;

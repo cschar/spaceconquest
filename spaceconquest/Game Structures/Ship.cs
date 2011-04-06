@@ -155,7 +155,9 @@ namespace spaceconquest
 
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
-            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
+            String prefix = "";
+            if (affiliation.id % 2 == 0) { prefix = "r2"; }
+            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[prefix + modelstring]; }
 
             //Console.WriteLine(angle);
 
@@ -209,7 +211,9 @@ namespace spaceconquest
 
         public override void DrawGhost(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
-            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
+            String prefix = "";
+            if (affiliation.id % 2 == 0) { prefix = "r2"; }
+            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[prefix + modelstring]; }
             if (ghosthex == null) { return; }
 
             shipmodel.Draw(Matrix.CreateRotationZ((float)targetangle) * Matrix.CreateTranslation(ghosthex.getCenter()) * world, view, projection, Color.Multiply(affiliation.color, .2f), 1.6f, hoveringHeight);
