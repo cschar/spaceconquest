@@ -33,6 +33,10 @@ namespace spaceconquest
         private int barWidth = 7;
         private int barHeight = 30;
         private GameScreen gameScreen;
+        private float prevMusicVol = 0.0f;
+        private float prevEffectVol = 0.0f;
+        private bool musicOn = true;
+        private bool effectOn = true;
 
         public OptionsScreen(GameScreen s)
         {
@@ -43,6 +47,7 @@ namespace spaceconquest
             int SoundX = 125;
             int SoundY = 200;
             soundBarPos = new Vector2(SoundX, SoundY - 50);
+            buttons.Add(new MenuButton(new Rectangle(SoundX, 100, 150, 40), "Music ", OnOffSoundVolume)); 
             buttons.Add(new MenuButton(new Rectangle(SoundX, 200, 150, 40), "Volume + ", IncreaseSoundVolume));
             buttons.Add(new MenuButton(new Rectangle(SoundX, 250, 150, 40), "Volume - ", DecreaseSoundVolume));
             buttons.Add(new MenuButton(new Rectangle(SoundX, 300, 150, 40), "Next Track ", PlayNextTrack));
@@ -51,6 +56,7 @@ namespace spaceconquest
             int EffectX = 350;
             int EffectY = 200;
             effectBarPos = new Vector2(EffectX, EffectY - 50);
+            buttons.Add(new MenuButton(new Rectangle(EffectX, 100, 150, 40), "Effects", OnOffEffectVolume)); 
             buttons.Add(new MenuButton(new Rectangle(EffectX, 200, 150, 40), "Volume + ", IncreaseEffectVolume));
             buttons.Add(new MenuButton(new Rectangle(EffectX, 250, 150, 40), "Volume - ", DecreaseEffectVolume));
           
@@ -80,6 +86,43 @@ namespace spaceconquest
         {
             Game1.jukeBox.Volume -= 0.1f;
 
+        }
+
+
+        public void OnOffSoundVolume(Object o, EventArgs e)
+        {
+            //save current volume for n ext on off click
+            if (Game1.jukeBox.Volume != 0)
+            {
+                prevMusicVol = Game1.jukeBox.Volume;
+            }
+            if (musicOn)
+            {
+                Game1.jukeBox.Volume = 0;
+            }
+            else  //if music is initally off, turn on volume to prev 
+            {
+                Game1.jukeBox.Volume = prevMusicVol;
+            }
+            musicOn = !musicOn;
+        }
+
+        public void OnOffEffectVolume(Object o, EventArgs e)
+        {
+           
+            if (Game1.soundEffectBox.Volume != 0)
+            {
+                prevEffectVol = Game1.soundEffectBox.Volume;
+            }
+            if (effectOn)
+            {
+                Game1.soundEffectBox.Volume = 0;
+            }
+            else  //if music is initally off, turn on volume to prev 
+            {
+                Game1.soundEffectBox.Volume = prevEffectVol;
+            }
+            effectOn = !effectOn;
         }
 
         public void IncreaseSoundVolume(Object o, EventArgs e)

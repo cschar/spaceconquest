@@ -110,8 +110,14 @@ namespace spaceconquest
                 }
                 else
                 {
+
                     //Draw progresBar going across
-                    float progress = (float)curBarNumber / (float)goalNumber;
+                    float progress;
+                    if (goalNumber == 0) { progress = 1; }
+                    else
+                    {
+                        progress = (float)curBarNumber / (float)goalNumber;
+                    }
                     int barWidth = (int)(width * progress);
                     Rectangle progRect = new Rectangle(x + pad, y + pad, barWidth - (2 * pad), height - (2 * pad));
                     MenuManager.batch.Draw(barTex, progRect, Color.White);
