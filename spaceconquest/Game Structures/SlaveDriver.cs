@@ -107,6 +107,7 @@ namespace spaceconquest
                 //Lose screen
                 MenuManager.screen = new WinScreen(false);
                 gamescreen.middleman.Close();
+                gamescreen.middleman.AttendClose();
             }
             if (iWon)
             {
@@ -114,6 +115,7 @@ namespace spaceconquest
                 //Win screen
                 MenuManager.screen = new WinScreen(true);
                 gamescreen.middleman.Close();
+                gamescreen.middleman.AttendClose();
             }
         }
 

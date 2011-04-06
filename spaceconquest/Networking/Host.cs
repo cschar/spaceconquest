@@ -29,6 +29,7 @@ namespace spaceconquest
         int numclients;
         Map map;
         GameScreen gs;
+        AttendanceThread at;
 
         public Host(Map m, SlaveDriver sd, int n, GameScreen GS)
         {
@@ -56,13 +57,18 @@ namespace spaceconquest
         public void cb(Socket s, Socket a) { a.Dispose(); s.Dispose(); gs.Save(); gs.Quit(); Console.WriteLine("foo bar baz 2"); return; }
         public void TakeAttendance()
         {
-            AttendanceThread at = new AttendanceThread(aSocket, end2, numclients, cb);
+            at = new AttendanceThread(aSocket, end2, numclients, cb);
             Thread t = new Thread(new ThreadStart(at.Run));
             t.Start();
         }
 
+        public void AttendClose() {
+            at.exit();
+        }
+
         public void Close()
         {
+            Console.WriteLine("EXIT\nEXIT\nEXIT");
             listensocket.Dispose();
             aSocket.Dispose();
         }
@@ -125,6 +131,7 @@ namespace spaceconquest
             Byte[] bPing = System.Text.Encoding.ASCII.GetBytes("ping");
             DisconnectCallback concreteDCB;
             Byte[] recBuff = new Byte[10];
+            Boolean cont = true;
 
             public AttendanceThread(Socket s, EndPoint e, int num, DisconnectCallback dcb)
             {
@@ -133,6 +140,11 @@ namespace spaceconquest
                 socko.ReceiveTimeout = 10000;   
                 ep = e;
                 concreteDCB = dcb;
+            }
+
+            public void exit()
+            {
+                cont = false;
             }
 
             public void Run() {
@@ -145,7 +157,7 @@ namespace spaceconquest
 
                 while (socklist.Count < numclients)
                 {
-                    while (true)
+                    while (cont)
                     {
                         socko.Listen(1);
                         Console.WriteLine("Host Attendance Listening");
@@ -163,11 +175,12 @@ namespace spaceconquest
             {
                 //socko.Receive(recBuff);
                 Boolean foo = false;
-                while (true)
+                while (cont)
                 {
                     Thread.Sleep(10000);
                     try
                     {
+                        Console.WriteLine("Foo");
                         foreach (Socket sock in socklist) {
                             sock.Receive(recBuff);
                         }

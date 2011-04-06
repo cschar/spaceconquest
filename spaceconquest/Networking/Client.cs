@@ -27,6 +27,7 @@ namespace spaceconquest
         bool done = false;
         bool busy = false;
         GameScreen gs;
+        AttendanceThread at;
 
         public Client(String ipstring, SlaveDriver sd, GameScreen GS)
         {
@@ -49,9 +50,13 @@ namespace spaceconquest
         public void cb(Socket s) { s.Dispose(); gs.Save(); gs.Quit(); Console.WriteLine("foo bar baz 2"); return; }
 
         public void TakeAttendance() {
-            AttendanceThread at = new AttendanceThread(aSock, end2, cb);
+            at = new AttendanceThread(aSock, end2, cb);
             Thread t = new Thread(new ThreadStart(at.Run));
             t.Start();
+        }
+
+        public void AttendClose() {
+            at.exit();
         }
 
         public void Close()
@@ -114,6 +119,11 @@ namespace spaceconquest
             Byte[] bPing = System.Text.Encoding.ASCII.GetBytes("ping");
             DisconnectCallback concreteDCB;
             Byte[] recBuff = new Byte[10];
+            Boolean cont = true;
+
+            public void exit() {
+                cont = false;
+            }
 
             public AttendanceThread(Socket s, EndPoint e, DisconnectCallback dcb) {
                 socko = s;
@@ -136,7 +146,7 @@ namespace spaceconquest
             public void Attendance() {
                 //socko.Receive(recBuff);
 
-                while (true) {
+                while (cont) {
                     Thread.Sleep(10000);
                     try
                     {
