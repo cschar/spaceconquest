@@ -36,6 +36,8 @@ namespace spaceconquest
         private ContentManager soundEffectManager;
         private Dictionary<string, List<SoundEffect>> soundHash; 
         /// <summary>
+        /// Loads static Default sounds
+        /// 
         /// Options include : "SelectIcon", "Teleport" , "Hosting", 
         /// "Joining", "MiningShip", "Fighter", "Transport" ,
         /// "StarCruiser", "ColonyShip"
@@ -110,6 +112,14 @@ namespace spaceconquest
         
         }
 
+
+        /// <summary>
+        /// Options include : "SelectIcon", "Teleport" , "Hosting", 
+        /// "Joining", "MiningShip", "Fighter", "Transport" ,
+        /// "StarCruiser", "ColonyShip"
+        /// </summary>
+        /// <param name="manager"></param>
+        /// <param name="directory"></param>
         public void PlaySound(string name)
         {
             try

@@ -24,5 +24,10 @@ namespace spaceconquest
             Warship newship = new Warship(this);
             return newship;
         }
+
+        public override void PlaySelectSound()
+        {
+            Game1.soundEffectBox.PlaySound("StarCruiser");
+        }
     }
 }

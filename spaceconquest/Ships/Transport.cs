@@ -13,15 +13,20 @@ namespace spaceconquest
         public override Ship CreateShip()
         {
             this.modelstring = "transport";
-            this.speed = 3;
-            this.range = 4;
+            this.speed = 2;
+            this.range = 1;
             this.damage = 1;
             this.cost = 100;
             this.movespeed = 0;
-            this.capacity = 0;
+            this.capacity = 6;
 
             Carrier newship = new Carrier(this);
             return newship;
+        }
+
+        public override void PlaySelectSound()
+        {
+            Game1.soundEffectBox.PlaySound("Transport");
         }
     }
 }

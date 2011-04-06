@@ -13,7 +13,7 @@ namespace spaceconquest
         public override Ship CreateShip()
         {
             this.modelstring = "colonyship";
-            this.speed = 3;
+            this.speed = 2;
             this.range = 4;
             this.damage = 1;
             this.cost = 100;
@@ -22,6 +22,10 @@ namespace spaceconquest
 
             Ship newship = new Ship(this);
             return newship;
+        }
+        public override void PlaySelectSound()
+        {
+            Game1.soundEffectBox.PlaySound("ColonyShip");
         }
     }
 }

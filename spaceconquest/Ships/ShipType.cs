@@ -20,5 +20,6 @@ namespace spaceconquest
         //public static ShipType Creator() { return c; }
         abstract public Ship CreateShip();
 
+        abstract public void PlaySelectSound();
     }
 }
