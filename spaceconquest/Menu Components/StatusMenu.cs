@@ -18,6 +18,10 @@ namespace spaceconquest
         protected List<MenuComponent> menucomponents = new List<MenuComponent>();
         TextLine nameline;
         TextLine healthline;
+        TextLine buildLine;
+        TextLine upComingLine;
+
+
         //TextLine
         Texture2D texture;
         Color currentcolor = new Color(0, 0, 0, 150);
@@ -26,7 +30,7 @@ namespace spaceconquest
         public bool showbackround = true;
 
         private ProgressBar healthBar;
-
+        private ProgressBar buildBar;
 
         public StatusMenu(Rectangle r)
         {
@@ -37,12 +41,19 @@ namespace spaceconquest
             healthline = new TextLine(new Rectangle(area.Left + 5, area.Top + 30, 100, 20), "dummy2");
             healthBar = new ProgressBar(area.Left + 55, area.Top + 39, 70, 20, 10, false, Color.Green);
 
+            buildLine = new TextLine(new Rectangle(area.Left + 5, area.Top + 55, 100, 20), "dummy3");
+            buildBar = new ProgressBar(area.Left + 82, area.Top + 55 + 9, 70, 20, 10, false, Color.Brown);
+            upComingLine = new TextLine(new Rectangle(area.Left + 5, area.Top + 77, 100, 20), "");
             
 
             menucomponents.Add(nameline);
             //add healthBar before health Line
             menucomponents.Add(healthBar);
             menucomponents.Add(healthline);
+
+            menucomponents.Add(buildBar);
+            menucomponents.Add(buildLine);
+            menucomponents.Add(upComingLine);
 
         }
 
@@ -60,6 +71,44 @@ namespace spaceconquest
             healthline.text = "Health:    " + CurHealth + "/" + MaxHealth;
 
             //build display
+            if (u is Planet)
+            {
+                Planet tmpPlanet = (Planet)u;
+                List<Unit> upComingUnits = tmpPlanet.BuildQueue;
+                if (upComingUnits.Count > 0)
+                {
+                    buildBar.IsVisible = true;
+                    Ship tmpShip = (Ship)upComingUnits[0];
+                    String shipname = tmpShip.GetShipType().modelstring;
+                    int MaxBuildTime = tmpShip.GetBuildTime();
+                    int nextBuildTime = tmpPlanet.BuildTimes[0];
+                    buildLine.text = "Build Time:  " + nextBuildTime + "/" + MaxBuildTime + "  -> " + shipname;
+                    //Any more ships queued up?
+
+                    upComingLine.text = "Next : ";
+                    if (upComingUnits.Count > 1)
+                    {
+                        for(int i = 1; i < upComingUnits.Count; i++){
+                            Ship nextShip = (Ship) upComingUnits[i];
+                            upComingLine.text += "[" + nextShip.shiptype.modelstring.Substring(0, 6) + "]"; 
+                        }
+                    }
+
+
+                    buildBar.SetGoalNumber(MaxBuildTime);
+                    buildBar.SetCurrentNumber(nextBuildTime);
+                }
+                else
+                {
+                    buildLine.text = "No Ships Being Built";
+                    buildBar.IsVisible = false;
+                }
+            }
+            else
+            {
+                buildLine.text = "";
+                buildBar.IsVisible = false;
+            }
         }
 
         public void Draw()

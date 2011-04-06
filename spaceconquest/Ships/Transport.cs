@@ -20,7 +20,7 @@ namespace spaceconquest
             this.cost = 100;
             this.shield = 1;
             this.capacity = 6;
-
+           
             this.canenter = false;
 
             Carrier newship = new Carrier(this);

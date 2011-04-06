@@ -27,7 +27,13 @@ namespace spaceconquest
         private int x;
         private int y;
         private int pad = 2;
+        private bool isVisible = true;
 
+        public bool IsVisible
+        {
+            get { return isVisible; }
+            set { isVisible = value; }
+        }
 
         /// <summary>
         /// Constructor for a progresBar widget for menu manager
@@ -86,31 +92,34 @@ namespace spaceconquest
 
         public override void Draw()
         {
-            //Draw perimeter
-            MenuManager.batch.Draw(perimeterTex, new Rectangle(x, y, width, height), Color.White);
-
-            if (isVertical)
+            if (isVisible)
             {
+                //Draw perimeter
+                MenuManager.batch.Draw(perimeterTex, new Rectangle(x, y, width, height), Color.White);
 
-                //Draw progressBar  going up bar     
-                float progress = (float)curBarNumber / (float)goalNumber;
-                int barHeight = (int)(height * progress);
-                Rectangle progRect = new Rectangle(x + pad, y + (height - pad - barHeight), width - (2 * pad), barHeight);
-                MenuManager.batch.Draw(barTex, progRect, Color.White);
+                if (isVertical)
+                {
 
-                //Draw remaining progress
-            }
-            else
-            {
-                //Draw progresBar going across
-                float progress = (float)curBarNumber / (float)goalNumber;
-                int barWidth = (int)(width * progress);
-                Rectangle progRect = new Rectangle(x + pad, y + pad, barWidth - (2 * pad), height - (2 * pad));
-                MenuManager.batch.Draw(barTex, progRect, Color.White);
+                    //Draw progressBar  going up bar     
+                    float progress = (float)curBarNumber / (float)goalNumber;
+                    int barHeight = (int)(height * progress);
+                    Rectangle progRect = new Rectangle(x + pad, y + (height - pad - barHeight), width - (2 * pad), barHeight);
+                    MenuManager.batch.Draw(barTex, progRect, Color.White);
 
-                //draw remaining progress
-                Rectangle remainingProgRect = new Rectangle(x + pad + barWidth, y + pad, width - barWidth - (2 * pad), height - (2 * pad));
-                MenuManager.batch.Draw(remainingTex, remainingProgRect, Color.White);
+                    //Draw remaining progress
+                }
+                else
+                {
+                    //Draw progresBar going across
+                    float progress = (float)curBarNumber / (float)goalNumber;
+                    int barWidth = (int)(width * progress);
+                    Rectangle progRect = new Rectangle(x + pad, y + pad, barWidth - (2 * pad), height - (2 * pad));
+                    MenuManager.batch.Draw(barTex, progRect, Color.White);
+
+                    //draw remaining progress
+                    Rectangle remainingProgRect = new Rectangle(x + pad + barWidth, y + pad, width - barWidth - (2 * pad), height - (2 * pad));
+                    MenuManager.batch.Draw(remainingTex, remainingProgRect, Color.White);
+                }
             }
         }
     }

@@ -72,7 +72,13 @@ namespace spaceconquest
             health = st.shield;
             buildTime = st.buildTime;
             buildCost = st.cost;
+            maxHealth = st.shield;
             
+        }
+
+        public int GetBuildTime()
+        {
+            return this.buildTime;
         }
 
         public ShipType GetShipType()
@@ -161,6 +167,8 @@ namespace spaceconquest
                 line = new LineModel(getCenter(), ghosthex.getCenter());
             }
         }
+
+       
 
         private String getprefix()
         {
