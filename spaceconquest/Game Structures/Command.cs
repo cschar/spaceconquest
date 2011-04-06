@@ -12,7 +12,7 @@ namespace spaceconquest
         public readonly Tuple<int, int, int> start;
         public readonly Tuple<int, int, int> target;
         //public readonly Hex3D targethex;
-        public enum Action {None = 0, Move = 4, Fire = 1, Jump = 6, Enter = 5, Colonize = 7, Upgrade = 3, Build = 9};
+        public enum Action {None = 5, Move = 4, Fire = 1, Jump = 6, Enter = 0, Colonize = 7, Upgrade = 3, Build = 9};
         public readonly Action action;
         public readonly ShipType shiptype;
         //public readonly Type shiptype;

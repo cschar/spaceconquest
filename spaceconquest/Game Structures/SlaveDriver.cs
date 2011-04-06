@@ -45,7 +45,7 @@ namespace spaceconquest
         public void Execute()
         {
             foreach (Command C in commands) {
-                if (C.action != Command.Action.Move && C.action != Command.Action.Enter)
+                if (C.action != Command.Action.Move)
                 {
                     qcs.Add(new QueuedCommand(C, galaxy, 0));
                 }
@@ -53,7 +53,7 @@ namespace spaceconquest
                 {
                     qcs.AddRange(QueuedCommand.QueuedCommandList(C, galaxy));
                 }
-                else {
+                /*else {
                     Ship agent = (Ship)((galaxy.GetHex(C.start)).GetGameObject());
                     int speed = agent.getSpeed();
                     int i = 0;
@@ -61,11 +61,11 @@ namespace spaceconquest
                         qcs.Add(new QueuedCommand(agent, galaxy.GetHex(C.target), i));
                     }
                     qcs.Add(new QueuedCommand(C, galaxy, i));
-                }
+                }*/
                 
             }
 
-            qcs.OrderBy(Sorter);
+            qcs.Sort(Sorter);
 
             Console.WriteLine("Executing " + qcs.Count + " Commands");
             foreach (QueuedCommand qc in qcs)
@@ -75,19 +75,44 @@ namespace spaceconquest
             commands.Clear();
             qcs.Clear();
             Console.WriteLine("Done executing");
-
+            Boolean iLost = true;
+            Boolean iWon = true;
+            Player p1 = map.GetInstancePlayer();
             foreach (Player p in map.players)
             {
+                Console.WriteLine("Player " + p.id);
                 List<Unit> newlist = new List<Unit>();
                 newlist.AddRange(p.army);
+                
                 foreach (Unit u in newlist)
                 {
+                    Console.WriteLine("Unit " + u.hex);
+                    if (!(u is Asteroid)) {
+                        if (iLost && p == p1)
+                        {
+                            iLost = false;
+                        }
+                        else if (iWon && p != p1) {
+                            iWon = false;
+                        }
+                    }
                     u.upkeep();
                 }
+
+            }
+            if (iLost)
+            {
+                Console.WriteLine("I LOST THE GAME " + map.players.Count);
+                //Lose screen
+            }
+            if (iWon)
+            {
+                Console.WriteLine("I WON THE GAME " + map.players.Count);
+                //Win screen
             }
         }
 
-        private int Sorter(QueuedCommand qc) { return qc.priority; }
+        private int Sorter(QueuedCommand qc1, QueuedCommand qc2) { return qc1.priority-qc2.priority; }
 
 
         private List<Hex3D> Pathfinder(Hex3D s, Hex3D d) {
@@ -156,9 +181,12 @@ namespace spaceconquest
 
         private bool ExecuteCommand(QueuedCommand c)
         {
-            //Console.WriteLine(c.ToString());
+            Console.WriteLine(c.ToString());
+            Console.WriteLine(c.priority);
+
             if (c.order == Command.Action.Move)
             {
+                Console.WriteLine("MOVE");
                 Console.WriteLine("Recognized Move");
                 if (c.agent != null && c.agent is Ship)
                 {
@@ -196,6 +224,7 @@ namespace spaceconquest
             }
             if (c.order == Command.Action.Jump)
             {
+                
                 if (c.agent != null && c.agent is Ship)
                 {
                     Hex3D newTarget = null;
@@ -267,16 +296,20 @@ namespace spaceconquest
             {
                 if (c.agent != null && c.agent is Ship)
                 {
-                    if (c.targetHex.GetGameObject() is Planet)
+                    if (c.targetHex.GetGameObject() is Planet && ((Ship)c.agent).shiptype is ColonyShip)
                     {
                         if (((Planet)c.targetHex.GetGameObject()).getAffiliation() != null) { return false; }
+                        if (!c.targetHex.getNeighbors().Contains(c.agent.hex)) { return false; }
                         ((Planet)c.targetHex.GetGameObject()).setAffiliation(((Ship)c.agent).getAffiliation());
+                        c.agent.kill();
                         return true;
                     }
-                    if (c.targetHex.GetGameObject() is Asteroid)
+                    if (c.targetHex.GetGameObject() is Asteroid && ((Ship)c.agent).shiptype is MiningShip)
                     {
                         if (((Asteroid)c.targetHex.GetGameObject()).getAffiliation() != null) { return false; }
+                        if (!c.targetHex.getNeighbors().Contains(c.agent.hex)) { return false; }
                         ((Asteroid)c.targetHex.GetGameObject()).setAffiliation(((Ship)c.agent).getAffiliation());
+                        c.agent.kill();
                         return true;
                     }
                 }
@@ -284,6 +317,7 @@ namespace spaceconquest
 
             if (c.order == Command.Action.Enter)
             {
+                Console.WriteLine("ENTER");
                 if (c.agent != null && c.agent is Carrier)
                 {
                     ((Carrier)c.agent).UnloadAll();
@@ -293,7 +327,11 @@ namespace spaceconquest
                 {
                     GameObject target = c.targetHex.GetGameObject();
                     if (target is Carrier) {
+                        Console.WriteLine("Attempt Enter");
                         return ((Carrier)target).LoadShip((Ship)(c.agent));
+                    }
+                    if (target == null) {
+                        Console.WriteLine("null Target");
                     }
                     return false;
                 }
