@@ -75,10 +75,6 @@ namespace spaceconquest
             if (host)
             {
                 middleman = new Host(map, driver, numclients, this);
-                Player temp = map.GetInstancePlayer();
-                int num = map.players.IndexOf(temp);
-                map.players[num] = map.players[0];
-                map.players[0] = temp;
                 //((Host)middleman).SendMap();
             }
             else middleman = new Client(ipstring, driver, this);
@@ -86,7 +82,12 @@ namespace spaceconquest
             //test for failure here
 
             map = driver.GetMap();
-            
+
+            Player temp = map.GetInstancePlayer();
+            int num = map.players.IndexOf(temp);
+            map.players[num] = map.players[0];
+            map.players[0] = temp;
+
             if (!host) map.SetPlayer(numclients);
 
             galaxy = map.galaxy;
