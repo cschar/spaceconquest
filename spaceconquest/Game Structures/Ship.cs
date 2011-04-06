@@ -14,7 +14,7 @@ namespace spaceconquest
     [Serializable]
     class Ship : Unit
     {
-
+        public readonly ShipType shiptype;
         protected int speed = 8;
         [NonSerialized]
         protected Hex3D ghosthex;
@@ -68,6 +68,7 @@ namespace spaceconquest
         {
             modelstring = st.modelstring;
             speed = st.speed;
+            shiptype = st;
         }
 
         public int getSpeed()

@@ -21,6 +21,8 @@ namespace spaceconquest
             Warship newship = new Warship(this);
             return newship;
         }
+        public static ShipType creator = new FighterShip();
+
         public override void PlaySelectSound()
         {
             Game1.soundEffectBox.PlaySound("Fighter");

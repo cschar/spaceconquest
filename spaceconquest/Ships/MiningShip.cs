@@ -24,5 +24,10 @@ namespace spaceconquest
             Ship newship = new Ship(this);
             return newship;
         }
+
+        public override void PlaySelectSound()
+        {
+            Game1.soundEffectBox.PlaySound("MiningShip");
+        }
     }
 }

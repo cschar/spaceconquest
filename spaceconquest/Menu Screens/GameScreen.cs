@@ -48,7 +48,7 @@ namespace spaceconquest
         Hex3D mousehex;
         Hex3D oldmousehex;
         SolarSystem3D oldmousesystem;
-
+        private Ship oldShip = null;
         public static float scrollspeed = 6f;
         public static float rotatespeed = .01f;
         public static float zoomspeed = 10f;
@@ -115,7 +115,7 @@ namespace spaceconquest
             
             components.Add(planetmenu);
             planetmenu.AddShipCommand(0, 0, "StarCruiserButton.png", StarCruiser.creator);
-            planetmenu.AddShipCommand(2, 0, "FighterButton.png", StarCruiser.creator);
+            planetmenu.AddShipCommand(2, 0, "FighterButton.png", FighterShip.creator);
             planetmenu.AddShipCommand(0, 1, "MinerButton.png", MiningShip.creator);
             planetmenu.AddShipCommand(1, 0, "ColonistButton.png", ColonyShip.creator);
             planetmenu.AddShipCommand(1, 1, "TransportButton.png", Transport.creator);
@@ -274,6 +274,7 @@ namespace spaceconquest
 
             /////stuff to do if a ship is selected/////
             GameObject selectedobject = selectedhex.GetGameObject();
+           
             if (selectedobject != null && selectedobject is Unit) { statusmenu.Update((Unit)selectedobject); statusmenu.Show(); }
             else { statusmenu.Hide(); }
 
@@ -291,6 +292,7 @@ namespace spaceconquest
 
             if (selectedobject != null && selectedobject is Warship)
             {
+
                 foreach (Hex3D h in ((Warship)selectedobject).GetShootable())
                 {
                     h.color = Color.Red;
@@ -298,6 +300,12 @@ namespace spaceconquest
             }
             if (selectedobject != null && selectedobject is Ship)
             {
+                Ship tmpShip = (Ship)selectedobject;
+                if (oldShip != null && oldShip != tmpShip)
+                {
+                    tmpShip.shiptype.PlaySelectSound();
+                }
+                oldShip = tmpShip;
                 foreach (Hex3D h in ((Ship)selectedobject).GetReachable())
                 {
                     h.color = movecolor;
