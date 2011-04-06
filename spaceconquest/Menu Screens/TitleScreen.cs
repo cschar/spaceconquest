@@ -22,6 +22,12 @@ namespace spaceconquest
             buttons.Add(new MenuButton(new Rectangle(325, 200, 150, 40), "Singleplayer", MenuManager.ClickMapSelect ));
             buttons.Add(new MenuButton(new Rectangle(325, 250, 150, 40), "Multiplayer", MenuManager.ClickGlobalLobby ));
             buttons.Add(new MenuButton(new Rectangle(325, 300, 150, 40), "Sound Options", MenuManager.ClickMusicOptions));
+            buttons.Add(new MenuButton(new Rectangle(325, 350, 150, 40), "Exit", Quit));
+        }
+
+        public void Quit(Object o, EventArgs e)
+        {
+            Game1.thisgame.Exit();
         }
 
         public void Update()

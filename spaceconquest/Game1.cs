@@ -27,14 +27,15 @@ namespace spaceconquest
         public static ContentManager contentManager;
         public static spaceconquest.Music_stuff.JukeBox jukeBox;
         public static SoundEffectBox soundEffectBox;
-        
 
+        public static Game1 thisgame;
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             
-            
+            thisgame = this;
         }
 
         /// <summary>
@@ -193,5 +194,6 @@ namespace spaceconquest
 
             base.Draw(gameTime);
         }
+
     }
 }

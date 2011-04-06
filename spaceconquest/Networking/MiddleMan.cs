@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
 
 namespace spaceconquest
 {
@@ -12,6 +14,6 @@ namespace spaceconquest
         bool DriverReady();
         void DriverReset();
         void Close();
-        void cb();
+        //void cb(Socket s);
     }
 }
