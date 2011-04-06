@@ -24,6 +24,7 @@ namespace spaceconquest
         public override void kill(){
             affiliation.army.Remove(this);
             this.affiliation = null;
+            this.maxHealth = 1;
             //this.hue = Color.Gray;
         }
 

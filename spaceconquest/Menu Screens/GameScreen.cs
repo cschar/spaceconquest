@@ -73,10 +73,10 @@ namespace spaceconquest
 
             if (host)
             {
-                middleman = new Host(map, driver, numclients);
+                middleman = new Host(map, driver, numclients, this);
                 //((Host)middleman).SendMap();
             }
-            else middleman = new Client(ipstring, driver);
+            else middleman = new Client(ipstring, driver, this);
 
             //test for failure here
 

@@ -20,22 +20,37 @@ namespace spaceconquest
     {
         List<Command> commands = new List<Command>();
         IPAddress ip;
-        EndPoint end;
+        EndPoint end, end2;
         Socket socket;
+        Socket aSock;
         SlaveDriver slavedriver;
         bool done = false;
         bool busy = false;
-        Map map;
+        GameScreen gs;
 
-        public Client(String ipstring, SlaveDriver sd)
+        public Client(String ipstring, SlaveDriver sd, GameScreen GS)
         {
+            gs = GS;
             ip = IPAddress.Parse(ipstring);
             end = new IPEndPoint(ip, 6112);
+            end2 = new IPEndPoint(ip, 6113);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            aSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //socket.Bind(new IPEndPoint(IPAddress.Loopback, 0));
             slavedriver = sd;
             //socket.EnableBroadcast = false;
-            RecieveMap();
+            ReceiveMap();
+            //Start attendance thread;
+            TakeAttendance();
+            
+            
+        }
+
+        public void cb(Socket s) { s.Dispose(); Console.WriteLine("foo bar baz 2"); return; }
+        public void TakeAttendance() {
+            AttendanceThread at = new AttendanceThread(aSock, end2, cb);
+            Thread t = new Thread(new ThreadStart(at.Run));
+            t.Start();
         }
 
         public void Close()
@@ -59,7 +74,7 @@ namespace spaceconquest
             commands.Add(c);
         }
 
-        public void RecieveMap()
+        public void ReceiveMap()
         {
             ClientThread ct = new ClientThread(socket, end, slavedriver, ReturnCommands);
             commands = new List<Command>();
@@ -73,6 +88,7 @@ namespace spaceconquest
         public void EndTurn()
         {
             if (busy) { return; }
+            busy = true;
             done = false;
             ClientThread ct = new ClientThread(socket, end, commands, ReturnCommands);
             commands = new List<Command>();
@@ -84,6 +100,56 @@ namespace spaceconquest
         {
             slavedriver.Receive(c);
             done = true;
+        }
+
+        private void SaveAndQuit() { 
+            //
+        }
+
+        public class AttendanceThread {
+            Socket socko;
+            EndPoint ep;
+            public delegate void DisconnectCallback(Socket s);
+            Byte[] bPing = System.Text.Encoding.ASCII.GetBytes("ping");
+            DisconnectCallback concreteDCB;
+            Byte[] recBuff = new Byte[10];
+
+            public AttendanceThread(Socket s, EndPoint e, DisconnectCallback dcb) {
+                socko = s;
+                socko.ReceiveTimeout = 0;
+                socko.SendTimeout = 0;
+                ep = e;
+                concreteDCB = dcb;
+            }
+
+            public void Run() {
+                connectToHost();
+                Attendance();
+            }
+
+            public void connectToHost() {
+                socko.Connect(ep);
+                
+            }
+
+            public void Attendance() {
+                //socko.Receive(recBuff);
+
+                while (true) {
+                    try
+                    {
+                        socko.Send(bPing);
+                        socko.SendTimeout = 10000;
+                    }
+                    catch (SocketException se)
+                    {
+                        Console.WriteLine(se.Message);
+                        concreteDCB(socko);
+                    }
+                }  
+            }
+
+
         }
 
         public class ClientThread

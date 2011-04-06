@@ -44,11 +44,10 @@ namespace spaceconquest
             if (damage >= 0) {
                 this.setHealth(this.health - damage);
             }
-            this.setHealth(this.health - damage);
         }
         public void setHealth(int h) {
-            this.health = Math.Min(h, maxHealth);
-            if (this.health <= 0) {
+            this.health = Math.Max(0, Math.Min(h, maxHealth));
+            if (this.health <= 0 && this.affiliation != null) {
                 this.kill();
             }
         }

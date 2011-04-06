@@ -20,26 +20,42 @@ namespace spaceconquest
     {
         List<Command> commands = new List<Command>();
         IPAddress ip;
-        EndPoint end;
+        EndPoint end, end2;
         Socket listensocket;
+        Socket aSocket;
         SlaveDriver slavedriver;
         bool done = false;
         bool busy = false;
         int numclients;
         Map map;
+        GameScreen gs;
 
-        public Host(Map m, SlaveDriver sd, int n)
+        public Host(Map m, SlaveDriver sd, int n, GameScreen GS)
         {
+            gs = GS;
             ip = IPAddress.Any; //IPAddress.Parse("70.55.141.164");
             end = new IPEndPoint(ip, 6112);
+            end2 = new IPEndPoint(ip, 6113);
             listensocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            aSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             listensocket.Bind(end);
+            aSocket.Bind(end2);
             //listensocket.EnableBroadcast = false;
             slavedriver = sd;
             slavedriver.SetMap(m);
             numclients = n;
             map = m;
             SendMap();
+            TakeAttendance();
+
+        }
+
+        public void cb(Socket s) { s.Dispose(); Console.WriteLine("foo bar baz 2"); return; }
+        public void TakeAttendance()
+        {
+            AttendanceThread at = new AttendanceThread(aSocket, end2, numclients, cb);
+            Thread t = new Thread(new ThreadStart(at.Run));
+            t.Start();
         }
 
         public void Close()
@@ -92,6 +108,74 @@ namespace spaceconquest
         {
             slavedriver.Receive(c);
             done = true;
+        }
+
+        public class AttendanceThread
+        {
+            int numclients;
+            Socket acco;
+            static List<Socket> socklist = new List<Socket>();
+            Socket socko;
+            EndPoint ep;
+            public delegate void DisconnectCallback(Socket s);
+            Byte[] bPing = System.Text.Encoding.ASCII.GetBytes("ping");
+            DisconnectCallback concreteDCB;
+            Byte[] recBuff = new Byte[10];
+
+            public AttendanceThread(Socket s, EndPoint e, int num, DisconnectCallback dcb)
+            {
+                numclients = num;
+                socko = s;
+                socko.ReceiveTimeout = 10000;   
+                ep = e;
+                concreteDCB = dcb;
+            }
+
+            public void Run() {
+                connectToClients();
+                Attendance();
+            }
+
+            public void connectToClients()
+            {
+
+                while (socklist.Count < numclients)
+                {
+                    while (true)
+                    {
+                        socko.Listen(1);
+                        Console.WriteLine("Host Attendance Listening");
+                        acco = socko.Accept();
+                        //accept.Listen(10);
+                        Console.WriteLine("Host Attendance Accepted");
+                        break;
+                    }
+
+                    socklist.Add(acco);
+                }
+            }
+
+            public void Attendance()
+            {
+                //socko.Receive(recBuff);
+
+                while (true)
+                {
+                    try
+                    {
+                        foreach (Socket sock in socklist) {
+                            sock.Receive(recBuff);
+                        }
+                    }
+                    catch (SocketException se)
+                    {
+                        Console.WriteLine(se.Message);
+                        concreteDCB(socko);
+                    }
+                }
+            }
+
+
         }
 
         public class HostThread
