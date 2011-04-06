@@ -52,6 +52,12 @@ namespace spaceconquest
 
         //Will cange to Ship ship when we have the class. 
         public void build(Ship ship) {
+
+            if (buildQueue.Count >= 4)
+            {
+                Game1.soundEffectBox.PlaySound("BuildQueueFull");
+                return;
+            }
             int cost = ship.getCost();
             if (affiliation.payMetal(cost)) {
                 buildQueue.Add(ship);

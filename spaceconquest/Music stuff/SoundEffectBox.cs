@@ -108,7 +108,11 @@ namespace spaceconquest
             colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
             colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
             soundHash.Add("ColonyShip", colonyShip);
-        
+
+            List<SoundEffect> buildQueueFull = new List<SoundEffect>();
+            buildQueueFull.Add(soundEffectManager.Load<SoundEffect>(directory + "BuildQueueFull1"));
+            buildQueueFull.Add(soundEffectManager.Load<SoundEffect>(directory + "BuildQueueFull2"));
+            soundHash.Add("BuildQueueFull", buildQueueFull);
         
         }
 

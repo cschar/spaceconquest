@@ -18,7 +18,7 @@ namespace spaceconquest
             this.range = 4;
             this.damage = 1;
             this.cost = 100;
-            this.shield = 1;
+            this.shield = 2;
             this.buildTime = 3;
             this.capacity = 0;
 
