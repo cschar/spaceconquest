@@ -33,7 +33,6 @@ namespace spaceconquest
         protected Queue<double> targetangles = new Queue<double>();
         protected Vector3 targetvector = new Vector3(0, 0, 0);
         private int percenttraveled = 0;
-        private int percentturned = 0;
 
         public void move(Hex3D target)
         {
@@ -60,11 +59,16 @@ namespace spaceconquest
 
         }
 
-        public Ship(String s)
-        {
-            modelstring = s;
-        }
+        //public Ship(String s)
+        //{
+        //    modelstring = s;
+        //}
 
+        public Ship(ShipType st)
+        {
+            modelstring = st.modelstring;
+            speed = st.speed;
+        }
 
         public int getSpeed()
         {

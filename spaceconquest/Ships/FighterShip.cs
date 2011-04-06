@@ -5,14 +5,12 @@ using System.Text;
 
 namespace spaceconquest
 {
-    [Serializable]
-    class ColonyShip : ShipType
+    class FighterShip : ShipType
     {
-        public static ColonyShip creator = new ColonyShip(); //i realize this is silly, but i couldnt figure out a compile time way to pass classes as parameters
 
         public override Ship CreateShip()
         {
-            this.modelstring = "colonyship";
+            this.modelstring = "fightership";
             this.speed = 3;
             this.range = 4;
             this.damage = 1;
@@ -20,7 +18,7 @@ namespace spaceconquest
             this.movespeed = 0;
             this.capacity = 0;
 
-            Ship newship = new Ship(this);
+            Warship newship = new Warship(this);
             return newship;
         }
     }

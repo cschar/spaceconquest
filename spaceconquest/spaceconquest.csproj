@@ -164,6 +164,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Menu Screens\TitleScreen.cs" />
     <Compile Include="Ships\ColonyShip.cs" />
+    <Compile Include="Ships\FighterShip.cs" />
     <Compile Include="Ships\MiningShip.cs" />
     <Compile Include="Ships\ShipType.cs" />
     <Compile Include="Ships\StarCruiser.cs" />

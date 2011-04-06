@@ -113,11 +113,12 @@ namespace spaceconquest
             planetmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200),this);
             
             components.Add(planetmenu);
-            planetmenu.AddShipCommand(0, 0, "BuildButton.png", StarCruiser.creator);
-            planetmenu.AddShipCommand(0, 1, "BuildButton.png", MiningShip.creator);
-            planetmenu.AddShipCommand(1, 0, "BuildButton.png", ColonyShip.creator);
-            planetmenu.AddShipCommand(1, 1, "BuildButton.png", Transport.creator);
-            planetmenu.AddNewCommand(0, 2, "ColonizeButton.png", UpgradeClick);
+            planetmenu.AddShipCommand(0, 0, "StarCruiserButton.png", StarCruiser.creator);
+            planetmenu.AddShipCommand(2, 0, "FighterButton.png", StarCruiser.creator);
+            planetmenu.AddShipCommand(0, 1, "MinerButton.png", MiningShip.creator);
+            planetmenu.AddShipCommand(1, 0, "ColonistButton.png", ColonyShip.creator);
+            planetmenu.AddShipCommand(1, 1, "TransportButton.png", Transport.creator);
+            planetmenu.AddNewCommand(0, 2, "ShieldButton.png", UpgradeClick);
 
             waitingmessage = new TextLine(new Rectangle(0, 20, 400, 20), "Waiting for other players.");
 

@@ -90,6 +90,14 @@ namespace spaceconquest
             ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/miningRobot"), "miningrobot");
             ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/transport"), "transport");
             ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/colonyShip"), "colonyship");
+            ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/fighter"), "fightership");
+
+            //ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2starCruiser"), "r2starcruiser");
+            //ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2miningShip"), "r2miningship");
+            //ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2miningBot"), "r2miningrobot");
+            //ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2transport"), "r2transport");
+            //ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2colonyShip"), "r2colonyship");
+            //ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2fighter"), "r2fightership");
 
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");

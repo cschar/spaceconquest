@@ -13,12 +13,17 @@ namespace spaceconquest
         int capacity = 8;
         int load = 0;
 
-        public Carrier(String s)
-            : base(s)
+        //public Carrier(String s)
+        //    : base(s)
+        //{
+        //    range = 1;
+        //    speed = 2;
+        //    buildTime = 5;
+        //}
+
+        public Carrier(ShipType st) : base(st)
         {
-            range = 1;
-            speed = 2;
-            buildTime = 5;
+            capacity = st.capacity;
         }
 
 
