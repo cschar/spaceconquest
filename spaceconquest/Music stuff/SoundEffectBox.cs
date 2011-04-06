@@ -82,9 +82,9 @@ namespace spaceconquest
             soundHash.Add("MiningShip", miningShipList);
 
             List<SoundEffect> fighterShip = new List<SoundEffect>();
-            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter1"));
-            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter2"));
-            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter3"));
+            fighterShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter1"));
+            fighterShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter2"));
+            fighterShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter3"));
             soundHash.Add("Fighter", fighterShip);
 
             List<SoundEffect> transportShip = new List<SoundEffect>();
@@ -129,6 +129,7 @@ namespace spaceconquest
                 {
                     List<SoundEffect> seList = soundHash[name];
                     int randomIndex = rng.Next(seList.Count);
+                    Console.WriteLine(" randomIndex is " + randomIndex + "  the list size is " + seList.Count);
                     seList[randomIndex].Play(volume, 0.0f, 0.0f);
                 }
             }
