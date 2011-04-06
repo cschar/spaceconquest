@@ -305,13 +305,13 @@ namespace spaceconquest
             }
 
             ////VERY REDUNDANT, handles cases where range is smaller than speed
-            //if (selectedobject != null && selectedobject is Warship && ((Warship)selectedobject).g )
-            //{
-            //    foreach (Hex3D h in ((Warship)selectedobject).GetShootable())
-            //    {
-            //        h.color = Color.Red;
-            //    }
-            //}
+            if (selectedobject != null && selectedobject is Warship && ((Warship)selectedobject).GetRange() < ((Warship)selectedobject).getSpeed())
+            {
+                foreach (Hex3D h in ((Warship)selectedobject).GetShootable())
+                {
+                    h.color = Color.Red;
+                }
+            }
 
             //planetmenu
             if (selectedobject != null && selectedobject is Planet && ((Planet)selectedobject).getAffiliation() != null && ((Planet)selectedobject).getAffiliation().Equals(player)) { planetmenu.Show(); }

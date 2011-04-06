@@ -19,8 +19,9 @@ namespace spaceconquest
             this.cost = 300;
             this.shield = 1;
             this.capacity = 0;
+            this.buildTime = 2;
 
-            this.canjump = true;
+            //this.canjump = true;
 
             Ship newship = new Ship(this);
             return newship;

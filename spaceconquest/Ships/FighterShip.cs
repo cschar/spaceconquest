@@ -18,6 +18,7 @@ namespace spaceconquest
             this.cost = 100;
             this.shield = 2;
             this.capacity = 0;
+            this.buildTime = 2;
 
             Warship newship = new Warship(this);
             return newship;

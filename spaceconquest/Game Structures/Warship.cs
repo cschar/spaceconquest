@@ -51,6 +51,9 @@ namespace spaceconquest
                 Shootable(hexes, n, r - 1);
             }
         }
+
+        //public int GetDamage() { return damage; }
+        public int GetRange() { return range; }
         
         //public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         //{

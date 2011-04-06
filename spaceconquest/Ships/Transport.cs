@@ -14,12 +14,13 @@ namespace spaceconquest
         {
             this.modelstring = "transport";
             
-            this.speed = 2;
+            this.speed = 4;
             this.range = 1;
             this.damage = 1;
             this.cost = 100;
             this.shield = 2;
             this.capacity = 6;
+            this.buildTime = 3;
            
             this.canenter = false;
             this.canjump = true;
