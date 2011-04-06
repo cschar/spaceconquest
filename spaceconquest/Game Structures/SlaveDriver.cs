@@ -181,6 +181,7 @@ namespace spaceconquest
 
         private bool ExecuteCommand(QueuedCommand c)
         {
+            if (c.agent.getAffiliation() == null) { return false; }
             Console.WriteLine(c.ToString());
             Console.WriteLine(c.priority);
 

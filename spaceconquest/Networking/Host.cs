@@ -32,6 +32,8 @@ namespace spaceconquest
 
         public Host(Map m, SlaveDriver sd, int n, GameScreen GS)
         {
+            AttendanceThread.socklist = new List<Socket>();
+            HostThread.streamlist = new List<NetworkStream>();
             gs = GS;
             ip = IPAddress.Any; //IPAddress.Parse("70.55.141.164");
             end = new IPEndPoint(ip, 6112);
@@ -48,9 +50,10 @@ namespace spaceconquest
             SendMap();
             TakeAttendance();
 
+
         }
 
-        public void cb(Socket s, Socket a) { a.Dispose();  s.Dispose(); gs.Save(); gs.Quit(); Console.WriteLine("foo bar baz 2"); return; }
+        public void cb(Socket s, Socket a) { a.Dispose(); s.Dispose(); gs.Save(); gs.Quit(); Console.WriteLine("foo bar baz 2"); return; }
         public void TakeAttendance()
         {
             AttendanceThread at = new AttendanceThread(aSocket, end2, numclients, cb);
@@ -115,7 +118,7 @@ namespace spaceconquest
         {
             int numclients;
             Socket acco;
-            static List<Socket> socklist = new List<Socket>();
+            public static List<Socket> socklist = new List<Socket>();
             Socket socko;
             EndPoint ep;
             public delegate void DisconnectCallback(Socket s, Socket a);
@@ -159,7 +162,7 @@ namespace spaceconquest
             public void Attendance()
             {
                 //socko.Receive(recBuff);
-
+                Boolean foo = false;
                 while (true)
                 {
                     Thread.Sleep(10000);
@@ -173,6 +176,9 @@ namespace spaceconquest
                     {
                         Console.WriteLine(se.Message);
                         concreteDCB(socko, acco);
+                        foo = true;
+                    }
+                    if (foo) {
                         break;
                     }
                 }
@@ -186,7 +192,7 @@ namespace spaceconquest
             int numclients;
             Socket socket;
             Socket accept;
-            static List<NetworkStream> streamlist = new List<NetworkStream>();
+            public static List<NetworkStream> streamlist = new List<NetworkStream>();
             EndPoint end;
             BinaryFormatter formatter;
             List<Command> commands;
@@ -213,6 +219,7 @@ namespace spaceconquest
                 action = r;
                 numclients = n;
                 sendmap = true;
+                
             }
 
             public void SendRecieve()

@@ -5,9 +5,10 @@ using System.Text;
 
 namespace spaceconquest
 {
+    [Serializable]
     class FighterShip : ShipType
     {
-
+        
         public override Ship CreateShip()
         {
             this.modelstring = "fightership";

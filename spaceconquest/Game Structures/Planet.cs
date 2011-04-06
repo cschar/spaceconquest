@@ -37,7 +37,7 @@ namespace spaceconquest
 
         //Will cange to Ship ship when we have the class. 
         public void build(Ship ship) {
-            int cost = 0;
+            int cost = ship.getCost();
             if (affiliation.payMetal(cost)) {
                 buildQueue.Add(ship);
                 buildTimes.Add(ship.getTime());

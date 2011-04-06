@@ -90,7 +90,7 @@ namespace spaceconquest
         public override void kill()
         {
             hex.RemoveObject();
-            if (affiliation != null) affiliation.army.Remove(this);
+            if (affiliation != null) { affiliation.army.Remove(this); affiliation = null; }
         }
 
         public List<Hex3D> GetReachable()
