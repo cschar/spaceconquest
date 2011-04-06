@@ -136,6 +136,7 @@ namespace spaceconquest
                 //socko.Receive(recBuff);
 
                 while (true) {
+                    Thread.Sleep(10000);
                     try
                     {
                         socko.Send(bPing);

@@ -32,7 +32,7 @@ namespace spaceconquest
             maplist.AddNewButtonDefault(20, 200, "i am also a map", delegate(Object o, EventArgs e) { ((MenuButton)o).selected = !((MenuButton)o).selected; });
 
             string[] filepaths = Directory.GetFiles(@"Content/", "*.map", SearchOption.AllDirectories);
-            foreach (string s in filepaths)
+            foreach (String s in filepaths)
             {
                 maplist.AddNewButtonDefault(20, 200, s, delegate(Object o, EventArgs e) { ((MenuButton)o).selected = !((MenuButton)o).selected; loadpath = s; });
             }

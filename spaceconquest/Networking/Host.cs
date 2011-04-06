@@ -50,7 +50,7 @@ namespace spaceconquest
 
         }
 
-        public void cb(Socket s) { s.Dispose(); gs.Save(); gs.Quit(); Console.WriteLine("foo bar baz 2"); return; }
+        public void cb(Socket s, Socket a) { a.Dispose();  s.Dispose(); gs.Save(); gs.Quit(); Console.WriteLine("foo bar baz 2"); return; }
         public void TakeAttendance()
         {
             AttendanceThread at = new AttendanceThread(aSocket, end2, numclients, cb);
@@ -61,6 +61,7 @@ namespace spaceconquest
         public void Close()
         {
             listensocket.Dispose();
+            aSocket.Dispose();
         }
 
         public bool DriverReady()
@@ -117,7 +118,7 @@ namespace spaceconquest
             static List<Socket> socklist = new List<Socket>();
             Socket socko;
             EndPoint ep;
-            public delegate void DisconnectCallback(Socket s);
+            public delegate void DisconnectCallback(Socket s, Socket a);
             Byte[] bPing = System.Text.Encoding.ASCII.GetBytes("ping");
             DisconnectCallback concreteDCB;
             Byte[] recBuff = new Byte[10];
@@ -161,6 +162,7 @@ namespace spaceconquest
 
                 while (true)
                 {
+                    Thread.Sleep(10000);
                     try
                     {
                         foreach (Socket sock in socklist) {
@@ -170,7 +172,7 @@ namespace spaceconquest
                     catch (SocketException se)
                     {
                         Console.WriteLine(se.Message);
-                        concreteDCB(socko);
+                        concreteDCB(socko, acco);
                         break;
                     }
                 }

@@ -367,7 +367,8 @@ namespace spaceconquest
 
         public void Save()
         {
-            FileStream fs = new FileStream(@"Content/savetest.map", FileMode.Create);
+            DateTime now = DateTime.Now;
+            FileStream fs = new FileStream(@"Content/" + String.Format("{0:MM.dd.yyyy HH}h{1:mm}m{2:ss}s", now, now, now) + ".map", FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(fs, map);
             fs.Close();
