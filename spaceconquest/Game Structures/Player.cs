@@ -27,6 +27,9 @@ namespace spaceconquest
         public Player(Planet start, String n) {
             Random rand = new Random(n.GetHashCode());
             color = new Color(rand.Next(255), rand.Next(255), rand.Next(255));
+            if (playerIDs == 0) { color = Color.Purple; }
+            if (playerIDs == 1) { color = Color.Orange; }
+            if (playerIDs == 2) { color = Color.Green; }
             army = new HashSet<Unit>();
             army.Add(start);
             start.setAffiliation(this);

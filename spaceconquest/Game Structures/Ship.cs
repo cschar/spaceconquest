@@ -204,20 +204,22 @@ namespace spaceconquest
                 {
                     if (percenttraveled == 100) targetangle = targetangles.Dequeue();
                 }
-            }
 
-            if (percenttraveled < 100) { percenttraveled = percenttraveled + 4; }
-            else
-            {
-                if (targetpositions.Count() != 0)
-                {
-                    percenttraveled = 0; oldposition = targetvector; targetvector = targetpositions.Dequeue();
-                }
+                if (percenttraveled < 100) { percenttraveled = percenttraveled + 4; }
                 else
                 {
-                    targetvector = hex.getCenter();
+                    if (targetpositions.Count() != 0)
+                    {
+                        percenttraveled = 0; oldposition = targetvector; targetvector = targetpositions.Dequeue();
+                    }
+                    else
+                    {
+                        targetvector = hex.getCenter();
+                    }
                 }
             }
+
+            
             //Console.WriteLine("percenttaveled :: {0} ", percenttraveled);
 
             Vector3 currentvector = (targetvector - oldposition) * (percenttraveled / 100.0f) + oldposition;

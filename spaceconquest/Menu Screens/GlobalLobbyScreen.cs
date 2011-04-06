@@ -25,13 +25,15 @@ namespace spaceconquest
         {
             chatClient = new GlobalChatClient("http://openportone.appspot.com/");
             buttons = new List<MenuComponent>();
-            ipbox = new TextInput(new Rectangle(450, 200, 150, 40), Nothing); //not addded to the list
+            ipbox = new TextInput(new Rectangle(Game1.x / 2 + 50, Game1.y / 2 - 200, 150, 40), Nothing); //not addded to the list
 
-            buttons.Add(new MenuButton(new Rectangle(450, 250, 150, 40), "Join Game", JoinGame));
-            buttons.Add(new MenuButton(new Rectangle(450, 300, 150, 40), "Host Game", HostGame ));
+            buttons.Add(new MenuButton(new Rectangle(Game1.x / 2 + 50, Game1.y / 2 - 150, 150, 40), "Join Game", JoinGame));
+            buttons.Add(new MenuButton(new Rectangle(Game1.x / 2 + 50, Game1.y / 2 - 100, 150, 40), "Host Game", HostGame));
+            buttons.Add(new MenuButton(new Rectangle(Game1.x / 2 + 50, Game1.y / 2 - 50, 150, 40), "Quit", MenuManager.ClickTitle));
+
 
             //buttons.Add(new TextInput(new Rectangle(50,500,350,40), ChatSend));
-            chatlist = new MenuList(new Rectangle(50, 50, 350, 450));
+            chatlist = new MenuList(new Rectangle(Game1.x / 2 - 350, Game1.y / 2 - 250, 350, 500));
             chatlist.padding = 0;
             buttons.Add(chatlist);
         }

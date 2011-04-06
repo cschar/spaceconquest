@@ -28,6 +28,9 @@ namespace spaceconquest
         public static spaceconquest.Music_stuff.JukeBox jukeBox;
         public static SoundEffectBox soundEffectBox;
 
+        public static int x;
+        public static int y;
+
         public static Game1 thisgame;
         
         public Game1()
@@ -47,8 +50,15 @@ namespace spaceconquest
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            //graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
+            //graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
+
+            x = graphics.PreferredBackBufferWidth;
+            y = graphics.PreferredBackBufferHeight;
+
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
             Window.Title = ":: Space Conquest ::";

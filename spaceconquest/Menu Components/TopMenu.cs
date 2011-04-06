@@ -27,10 +27,16 @@ namespace spaceconquest
 
             this.Add(new TextLine(this.area,gamescreen.space.ToString()));
             this.Add(new MenuButton(new Rectangle(area.Left + 200, area.Top, 100, area.Height), "Options", MenuManager.ClickMusicOptions ));
+            this.Add(new MenuButton(new Rectangle(area.Left + 350, area.Top, 100, area.Height), "Quit", Quitter));
             
 
             resource = new TextLine(new Rectangle(area.Right - 100, area.Top, 100, area.Height), "banana");
             this.Add(resource);
+        }
+
+        public void Quitter(Object o, EventArgs e)
+        {
+            gamescreen.Quit();
         }
 
         public override void Update(MouseState mscurrent, MouseState msold)
