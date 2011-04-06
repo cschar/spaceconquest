@@ -50,7 +50,7 @@ namespace spaceconquest
 
         }
 
-        public void cb(Socket s) { s.Dispose(); Console.WriteLine("foo bar baz 2"); return; }
+        public void cb(Socket s) { s.Dispose(); gs.Save(); gs.Quit(); Console.WriteLine("foo bar baz 2"); return; }
         public void TakeAttendance()
         {
             AttendanceThread at = new AttendanceThread(aSocket, end2, numclients, cb);
@@ -171,6 +171,7 @@ namespace spaceconquest
                     {
                         Console.WriteLine(se.Message);
                         concreteDCB(socko);
+                        break;
                     }
                 }
             }

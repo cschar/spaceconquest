@@ -46,7 +46,7 @@ namespace spaceconquest
             
         }
 
-        public void cb(Socket s) { s.Dispose(); Console.WriteLine("foo bar baz 2"); return; }
+        public void cb(Socket s) { s.Dispose(); gs.Save(); gs.Quit(); Console.WriteLine("foo bar baz 2"); return; }
         public void TakeAttendance() {
             AttendanceThread at = new AttendanceThread(aSock, end2, cb);
             Thread t = new Thread(new ThreadStart(at.Run));
