@@ -289,7 +289,7 @@ namespace spaceconquest
                     ((Carrier)c.agent).UnloadAll();
                     return true;
                 }
-                if (c.agent != null && c.agent is Ship)
+                else if (c.agent != null && c.agent is Ship)
                 {
                     GameObject target = c.targetHex.GetGameObject();
                     if (target is Carrier) {
