@@ -26,7 +26,8 @@ namespace spaceconquest
             this.currentcolor = new Color(0, 0, 0, 150);
 
             this.Add(new TextLine(this.area,gamescreen.space.ToString()));
-            this.Add(new MenuButton(new Rectangle(area.Left + 200,area.Top,100,area.Height),"Save", delegate(Object o, EventArgs e) { gamescreen.Save();} ));
+            this.Add(new MenuButton(new Rectangle(area.Left + 200, area.Top, 100, area.Height), "Options", MenuManager.ClickMusicOptions ));
+            
 
             resource = new TextLine(new Rectangle(area.Right - 100, area.Top, 100, area.Height), "banana");
             this.Add(resource);

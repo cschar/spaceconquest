@@ -109,7 +109,7 @@ namespace spaceconquest
             shipmenu.AddNewCommand(0, 2, "ColonizeButton.png", ColonizeClick);
             shipmenu.AddNewCommand(1, 2, "EnterButton.png", EnterClick);
             //shipmenu.AddNewCommand(2, 2, "JumpButton.png", UnloadClick);
-            shipmenu.AddNewCommand(2, 2, "UnloadButton.png", UnloadClick);
+            shipmenu.AddNewCommand(2, 2, "ExitButton.png", UnloadClick);
 
             planetmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200),this);
             

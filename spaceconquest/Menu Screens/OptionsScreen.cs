@@ -67,7 +67,6 @@ namespace spaceconquest
             volBarTexture.SetData(new[] { volBarColor });
         }
 
-
         private void SaveGameScreen(Object o, EventArgs e)
         {
             if (gameScreen != null)
