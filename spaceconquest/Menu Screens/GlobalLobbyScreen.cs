@@ -51,7 +51,8 @@ namespace spaceconquest
             }
 
             ChatSend(rep + "-" + String.Format("{0:yyyy|MM|dd|HH|mm|ss}", DateTime.Now));
-            MenuManager.ClickHost("127.0.0.1", EventArgs.Empty);
+            //MenuManager.ClickHost("127.0.0.1", EventArgs.Empty);
+            MenuManager.screen = new MapSelectScreen(true);
         }
 
         public void JoinGame(Object o, EventArgs e)
