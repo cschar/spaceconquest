@@ -107,6 +107,7 @@ namespace spaceconquest
             }
             else
             {
+                upComingLine.text = "";
                 buildLine.text = "";
                 buildBar.IsVisible = false;
             }

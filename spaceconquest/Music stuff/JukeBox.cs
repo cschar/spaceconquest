@@ -44,18 +44,18 @@ namespace spaceconquest.Music_stuff
         public JukeBox(List<string> trackNames, ContentManager trackSource)
         {
             //Randomly shuffle the tracknames
-            Random rng = new Random();
-            int shuffles = rng.Next(20, 40);
-            for (int i = 0; i < shuffles; i++)
-            {
-                int randIndex = rng.Next(0, trackNames.Count);
-                String tmp = trackNames[randIndex];
-                int randIndex2 = rng.Next(0, trackNames.Count);
+            //Random rng = new Random();
+            //int shuffles = rng.Next(20, 40);
+            //for (int i = 0; i < shuffles; i++)
+            //{
+            //    int randIndex = rng.Next(0, trackNames.Count);
+            //    String tmp = trackNames[randIndex];
+            //    int randIndex2 = rng.Next(0, trackNames.Count);
               
 
-                trackNames[randIndex] = trackNames[randIndex2];
-                trackNames[randIndex2] = tmp;
-            }
+            //    trackNames[randIndex] = trackNames[randIndex2];
+            //    trackNames[randIndex2] = tmp;
+            //}
             this.trackNames = trackNames;
 
             songList = new List<Song>();
