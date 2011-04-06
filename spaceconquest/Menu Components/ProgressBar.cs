@@ -37,7 +37,7 @@ namespace spaceconquest
         /// <param name="height">GUI height ofb ar</param>
         /// <param name="isVertical">sets orientation of progress bar</param>
         /// <param name="barColor">color of bar</param>
-        public ProgressBar(int goalNumber, int x, int y, int width, int height, bool isVertical, Color barColor)
+        public ProgressBar(int x, int y, int width, int height, int goalNumber, bool isVertical, Color barColor)
         {
             this.goalNumber = goalNumber;
             this.x = x;

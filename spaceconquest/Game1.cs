@@ -26,12 +26,14 @@ namespace spaceconquest
         RasterizerState wireFrameState;
         public static ContentManager contentManager;
         public static spaceconquest.Music_stuff.JukeBox jukeBox;
+        public static SoundEffectBox soundEffectBox;
         
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
             
         }
 
@@ -110,6 +112,8 @@ namespace spaceconquest
                     "track2", "track4"};
             jukeBox = new Music_stuff.JukeBox(tmpTracks, contentManager);
             //jukeBox.play();    //Play the tunes
+
+            soundEffectBox = new SoundEffectBox(contentManager, "DefaultSoundEffects/");
         }
 
         /// <summary>

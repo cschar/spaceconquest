@@ -25,7 +25,7 @@ namespace spaceconquest
         public bool visible = true;
         public bool showbackround = true;
 
-        private ProgressBar progBar;
+        private ProgressBar healthBar;
 
 
         public StatusMenu(Rectangle r)
@@ -35,28 +35,31 @@ namespace spaceconquest
             texture.SetData(new[] { Color.White });
             nameline = new TextLine(new Rectangle(area.Left + 5, area.Top + 10, 200, 20), "dummy");
             healthline = new TextLine(new Rectangle(area.Left + 5, area.Top + 30, 100, 20), "dummy2");
-            progBar = new ProgressBar(10, area.Left + 55, area.Top + 39, 70, 20, false, Color.Green);
+            healthBar = new ProgressBar(area.Left + 55, area.Top + 39, 70, 20, 10, false, Color.Green);
+
+            
 
             menucomponents.Add(nameline);
             //add healthBar before health Line
-            menucomponents.Add(progBar);
+            menucomponents.Add(healthBar);
             menucomponents.Add(healthline);
 
         }
 
         public void Update(Unit u)
         {
+            selectedunit = u;
+
+            //Update Health Display
             int MaxHealth = u.getMaxHealth();
             int CurHealth = u.getHealth();
+            healthBar.SetGoalNumber(MaxHealth);
+            healthBar.SetCurrentNumber(CurHealth);
 
-
-            progBar.SetGoalNumber(MaxHealth);
-            progBar.SetCurrentNumber(CurHealth);
-
-            selectedunit = u;
             nameline.text = u.GetType().Name;
             healthline.text = "Health:    " + CurHealth + "/" + MaxHealth;
 
+            //build display
         }
 
         public void Draw()

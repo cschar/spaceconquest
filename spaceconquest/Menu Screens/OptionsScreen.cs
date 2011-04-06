@@ -28,39 +28,83 @@ namespace spaceconquest
         private MouseState mousestateold = Mouse.GetState();
         private Color volBarColor = Color.FromNonPremultiplied(130, 245, 100, 100); //greenish
         private Texture2D volBarTexture;
-        private Vector2 volBarLocation;
+        private Vector2 soundBarPos;
+        private Vector2 effectBarPos;
+        private int barWidth = 7;
+        private int barHeight = 30;
+        private GameScreen gameScreen;
 
-
-        public OptionsScreen()
+        public OptionsScreen(GameScreen s)
         {
+            gameScreen = s;
             buttons = new List<MenuButton>();
-            buttons.Add(new MenuButton(new Rectangle(225, 200, 150, 40), "Volume + ", IncreaseVolume));
-            buttons.Add(new MenuButton(new Rectangle(225, 250, 150, 40), "Volume - ", DecreaseVolume));
-            buttons.Add(new MenuButton(new Rectangle(225, 300, 150, 40), "Next Track ", PlayNextTrack));
-            buttons.Add(new MenuButton(new Rectangle(225, 350, 200, 40), "Back to Title ", MenuManager.ClickTitle));
-            volBarLocation = new Vector2(400, 200);
+
+            //Music Option Buttons
+            int SoundX = 125;
+            int SoundY = 200;
+            soundBarPos = new Vector2(SoundX, SoundY - 50);
+            buttons.Add(new MenuButton(new Rectangle(SoundX, 200, 150, 40), "Volume + ", IncreaseSoundVolume));
+            buttons.Add(new MenuButton(new Rectangle(SoundX, 250, 150, 40), "Volume - ", DecreaseSoundVolume));
+            buttons.Add(new MenuButton(new Rectangle(SoundX, 300, 150, 40), "Next Track ", PlayNextTrack));
+
+            //Sound Option Buttons
+            int EffectX = 350;
+            int EffectY = 200;
+            effectBarPos = new Vector2(EffectX, EffectY - 50);
+            buttons.Add(new MenuButton(new Rectangle(EffectX, 200, 150, 40), "Volume + ", IncreaseEffectVolume));
+            buttons.Add(new MenuButton(new Rectangle(EffectX, 250, 150, 40), "Volume - ", DecreaseEffectVolume));
+          
+
+            //Back button
+            buttons.Add(new MenuButton(new Rectangle(125, 550, 150, 40), "Back ", MenuManager.ClickPrevScreen));
+            if (gameScreen != null)
+            {
+                buttons.Add(new MenuButton(new Rectangle(125, 450, 150, 40), "Save Game", SaveGameScreen)); 
+            }
+         
 
             volBarTexture = new Texture2D(Game1.device, 1, 1, true, SurfaceFormat.Color);
             volBarTexture.SetData(new[] { volBarColor });
         }
 
-        public void DecreaseVolume(Object o, EventArgs e)
+
+        private void SaveGameScreen(Object o, EventArgs e)
+        {
+            if (gameScreen != null)
+            {
+                Console.WriteLine("Saving Game from options menu");
+                gameScreen.Save();
+            }
+        }
+
+        public void DecreaseSoundVolume(Object o, EventArgs e)
         {
             Game1.jukeBox.Volume -= 0.1f;
 
         }
 
-        public void IncreaseVolume(Object o, EventArgs e)
+        public void IncreaseSoundVolume(Object o, EventArgs e)
         {
             Game1.jukeBox.Volume += 0.1f;
         }
 
         public void PlayNextTrack(Object o, EventArgs e)
         {
+            
             Game1.jukeBox.goToNextTrack();
             Game1.jukeBox.play();
         }
 
+        public void IncreaseEffectVolume(Object o, EventArgs e)
+        {
+            Game1.soundEffectBox.Volume += 0.1f;
+            Game1.soundEffectBox.PlaySound("Toggle");
+        }
+        public void DecreaseEffectVolume(Object o, EventArgs e)
+        { 
+            Game1.soundEffectBox.Volume -= 0.1f;
+            Game1.soundEffectBox.PlaySound("Toggle");
+        }
 
         
 
@@ -86,13 +130,20 @@ namespace spaceconquest
                 mb.Draw();
             }
 
-            //Draw Volume bars
-            int bars = (int) Math.Round(10.0f * Game1.jukeBox.Volume, 0) ;
-   
-            for (int i = 0; i < bars; i++)
+            //Draw Sound Volume bars
+            int Snd_bars = (int) Math.Round(10.0f * Game1.jukeBox.Volume, 0) ;
+            for (int i = 0; i < Snd_bars; i++)
             {
-                Rectangle volBar = new Rectangle((int)volBarLocation.X + i * 10, (int)volBarLocation.Y, 7, 30);
+                Rectangle volBar = new Rectangle((int)soundBarPos.X + i * 10, (int)soundBarPos.Y, barWidth, barHeight);
                 MenuManager.batch.Draw(volBarTexture, volBar, Color.White);
+            }
+
+            //Draw Effect Volume bars
+            int Efk_bars = (int)Math.Round(10.0f * Game1.soundEffectBox.Volume, 0);
+            for (int i = 0; i < Efk_bars; i++)
+            {
+                Rectangle EfkBar = new Rectangle((int)effectBarPos.X + i * 10, (int)effectBarPos.Y, barWidth, barHeight);
+                MenuManager.batch.Draw(volBarTexture, EfkBar, Color.White);
             }
         }
 

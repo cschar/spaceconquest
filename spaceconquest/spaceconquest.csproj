@@ -155,6 +155,7 @@
     <Compile Include="Menu Screens\GlobalLobbyScreen.cs" />
     <Compile Include="Menu Screens\MapSelectScreen.cs" />
     <Compile Include="Music stuff\JukeBox.cs" />
+    <Compile Include="Music stuff\SoundEffectBox.cs" />
     <Compile Include="Networking\Client.cs" />
     <Compile Include="Networking\Host.cs" />
     <Compile Include="Networking\MiddleMan.cs" />
