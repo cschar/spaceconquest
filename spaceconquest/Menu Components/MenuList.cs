@@ -16,7 +16,7 @@ namespace spaceconquest
         protected Rectangle area;
         SpriteBatch batch;
         SpriteFont font;
-        Texture2D texture;
+        protected Texture2D texture;
         protected List<MenuComponent> menucomponents;
         public Color currentcolor = Color.Teal;
         public int padding = 10;

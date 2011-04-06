@@ -21,6 +21,9 @@ namespace spaceconquest
             this.movespeed = 0;
             this.capacity = 0;
 
+            this.canenter = false;
+            this.canjump = true;
+
             Warship newship = new Warship(this);
             return newship;
         }

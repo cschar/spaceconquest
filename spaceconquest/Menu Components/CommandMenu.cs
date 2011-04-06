@@ -14,6 +14,16 @@ namespace spaceconquest
     class CommandMenu : MenuList
     {
         GameScreen gamescreen;
+        //Command.Action clickedaction;
+        //MiddleMan middleman;
+
+        IconButton move;
+        IconButton fire;
+        IconButton jump;
+        IconButton colonize;
+        IconButton enter;
+        IconButton unload;
+        bool ship = false;
 
         public CommandMenu(Rectangle r, GameScreen gs) : base(r)
         {
@@ -21,17 +31,95 @@ namespace spaceconquest
             this.currentcolor = new Color(0, 0, 0, 150);
             padding = 5;
             gamescreen = gs;
+            //clickedaction = gs.clickedaction;
+            //middleman = gs.middleman;
         }
 
-        public void AddNewCommand(int x, int y, String iconaddress, EventHandler c)
+        public void AddShipStuff()
         {
-            this.Add(new IconButton(new Rectangle(area.Left + padding + x*(60+padding), area.Top + padding + y*(60+padding), 60, 60), iconaddress, c));
+            move = AddNewCommand(0, 0, "MoveButton.png", MoveClick);
+            fire = AddNewCommand(1, 0, "AttackButton.png", FireClick);
+            jump = AddNewCommand(1, 1, "JumpButton.png", JumpClick);
+            colonize = AddNewCommand(0, 2, "ColonizeButton.png", ColonizeClick);
+            enter = AddNewCommand(1, 2, "EnterButton.png", EnterClick);
+            unload = AddNewCommand(2, 2, "ExitButton.png", UnloadClick);
+            ship = true;
         }
 
-        public void AddShipCommand(int x, int y, String iconaddress, ShipType c)
+        public IconButton AddNewCommand(int x, int y, String iconaddress, EventHandler c)
         {
-            this.Add(new IconButton(new Rectangle(area.Left + padding + x * (60 + padding), area.Top + padding + y * (60 + padding), 60, 60), iconaddress, delegate(Object o, EventArgs e) { gamescreen.clickedaction = Command.Action.None; gamescreen.middleman.AddCommand(new Command(gamescreen.selectedhex, gamescreen.selectedhex, Command.Action.Build, c)); }));
+            IconButton ib = new IconButton(new Rectangle(area.Left + padding + x * (60 + padding), area.Top + padding + y * (60 + padding), 60, 60), iconaddress, c);
+            this.Add(ib);
+            return ib;
         }
+
+        public IconButton AddShipCommand(int x, int y, String iconaddress, ShipType c)
+        {
+            IconButton ib = new IconButton(new Rectangle(area.Left + padding + x * (60 + padding), area.Top + padding + y * (60 + padding), 60, 60), iconaddress, delegate(Object o, EventArgs e) { gamescreen.clickedaction = Command.Action.None; gamescreen.middleman.AddCommand(new Command(gamescreen.selectedhex, gamescreen.selectedhex, Command.Action.Build, c)); });
+            this.Add(ib);
+            return ib;
+        }
+
+        public override void Update(MouseState mscurrent, MouseState msold)
+        {
+
+            if (ship)
+            {
+                if (gamescreen.selectedhex != null && gamescreen.selectedhex.GetGameObject() != null)
+                {
+                    GameObject ga = gamescreen.selectedhex.GetGameObject();
+                    if (ga is Ship)
+                    {
+                        Ship selected = (Ship)ga;
+                        if (selected.shiptype.canenter) { enter.Update(mscurrent,msold); }
+                        if (selected.shiptype.cancolonize) { colonize.Update(mscurrent, msold); }
+                        if (selected is Warship) { fire.Update(mscurrent, msold); }
+                        if (selected.shiptype.canjump) { jump.Update(mscurrent, msold); }
+                        if (selected is Carrier) { unload.Update(mscurrent, msold); }
+                        move.Update(mscurrent, msold);
+                    }
+                }
+            }
+
+            else
+            {
+                base.Update(mscurrent, msold);
+            }
+        }
+
+        public override void Draw()
+        {
+            if (ship)
+            {
+                if (gamescreen.selectedhex != null && gamescreen.selectedhex.GetGameObject() != null)
+                {
+                    GameObject ga = gamescreen.selectedhex.GetGameObject();
+                    if (ga is Ship)
+                    {
+                        Ship selected = (Ship)ga;
+                        if (selected.shiptype.canenter) { enter.Draw(); }
+                        if (selected.shiptype.cancolonize) { colonize.Draw(); }
+                        if (selected is Warship) { fire.Draw(); }
+                        if (selected.shiptype.canjump) { jump.Draw(); }
+                        if (selected is Carrier) { unload.Draw(); }
+                        move.Draw();
+                    }
+                }
+                MenuManager.batch.Draw(texture, area, currentcolor);
+            }
+
+            else
+            {
+                base.Draw();
+            }
+        }
+
+        void MoveClick(Object o, EventArgs e) { gamescreen.clickedaction = Command.Action.Move; Console.WriteLine("clicked move"); }
+        void FireClick(Object o, EventArgs e) { gamescreen.clickedaction = Command.Action.Fire; }
+        void EnterClick(Object o, EventArgs e) { gamescreen.clickedaction = Command.Action.Enter; }
+        void UnloadClick(Object o, EventArgs e) { gamescreen.clickedaction = Command.Action.Enter; gamescreen.middleman.AddCommand(new Command(gamescreen.selectedhex, gamescreen.selectedhex, gamescreen.clickedaction)); gamescreen.clickedaction = Command.Action.None; }
+        void JumpClick(Object o, EventArgs e) { gamescreen.clickedaction = Command.Action.Jump; gamescreen.space = gamescreen.galaxy; }
+        void ColonizeClick(Object o, EventArgs e) { gamescreen.clickedaction = Command.Action.Colonize; }
 
     }
 }

@@ -6,6 +6,7 @@ using System.Net;
 
 namespace spaceconquest
 {
+    [Serializable]
     abstract class ShipType
     {
         public String modelstring = "starcruiser";
@@ -15,6 +16,12 @@ namespace spaceconquest
         public int cost = 100;
         public int movespeed = 0;
         public int capacity = 0;
+
+        public bool canjump = false;
+       // public bool canfire = false;
+        public bool canenter = true;
+       // public bool cancarry = false;
+        public bool cancolonize = false;
 
         //private static ShipType c;
         //public static ShipType Creator() { return c; }

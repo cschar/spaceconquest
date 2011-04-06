@@ -19,8 +19,6 @@ namespace spaceconquest
         private List<Unit> buildQueue;
         private List<int> buildTimes ;
 
-
-
         public override void kill(){
             affiliation.army.Remove(this);
             this.affiliation = null;

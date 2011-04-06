@@ -21,6 +21,8 @@ namespace spaceconquest
             this.movespeed = 0;
             this.capacity = 0;
 
+            this.cancolonize = true;
+
             Ship newship = new Ship(this);
             return newship;
         }

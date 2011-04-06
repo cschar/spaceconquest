@@ -20,6 +20,8 @@ namespace spaceconquest
             this.movespeed = 0;
             this.capacity = 6;
 
+            this.canenter = false;
+
             Carrier newship = new Carrier(this);
             return newship;
         }

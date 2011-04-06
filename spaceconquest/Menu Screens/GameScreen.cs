@@ -17,7 +17,7 @@ namespace spaceconquest
     {
         bool host;
         Map map;
-        Galaxy galaxy;
+        public Galaxy galaxy;
         //SolarSystem3D solar; //current solar system
         public Space space; //what we're currently looking at, can be galaxy or solarsystem
         public Player player; //the player using this screen
@@ -100,16 +100,9 @@ namespace spaceconquest
             components.Add(galaxybutton);
 
             shipmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200),this);
+            shipmenu.AddShipStuff();
             components.Add(shipmenu);
-            shipmenu.AddNewCommand(0, 0, "MoveButton.png", MoveClick);
-            shipmenu.AddNewCommand(1, 0, "AttackButton.png", FireClick);
-            //shipmenu.Add(new MenuButton(new Rectangle(605, 470, 60, 60), "Enter", EnterClick));
-            shipmenu.AddNewCommand(1, 1, "JumpButton.png", JumpClick);
-            //shipmenu.Add(new MenuButton(new Rectangle(735, 405, 60, 60), "Upgrade", UpgradeClick));
-            shipmenu.AddNewCommand(0, 2, "ColonizeButton.png", ColonizeClick);
-            shipmenu.AddNewCommand(1, 2, "EnterButton.png", EnterClick);
-            //shipmenu.AddNewCommand(2, 2, "JumpButton.png", UnloadClick);
-            shipmenu.AddNewCommand(2, 2, "ExitButton.png", UnloadClick);
+            
 
             planetmenu = new CommandMenu(new Rectangle(x-200, y-200, 200, 200),this);
             
@@ -133,6 +126,7 @@ namespace spaceconquest
             components.Add(topmenu);
         }
 
+        void UpgradeClick(Object o, EventArgs e) { clickedaction = Command.Action.Upgrade; middleman.AddCommand(new Command(selectedhex, selectedhex, clickedaction)); clickedaction = Command.Action.None; }
         void GalaxyClick(Object o, EventArgs e)
         {
             ((IconButton)o).toggle = true;
@@ -144,13 +138,7 @@ namespace spaceconquest
             }
         }
 
-        void MoveClick(Object o, EventArgs e) { clickedaction = Command.Action.Move; Console.WriteLine("clicked move"); }
-        void FireClick(Object o, EventArgs e) { clickedaction = Command.Action.Fire; }
-        void EnterClick(Object o, EventArgs e) { clickedaction = Command.Action.Enter; }
-        void UnloadClick(Object o, EventArgs e) { clickedaction = Command.Action.Enter; middleman.AddCommand(new Command(selectedhex, selectedhex, clickedaction)); clickedaction = Command.Action.None; }    
-        void JumpClick(Object o, EventArgs e) { clickedaction = Command.Action.Jump; space = galaxy; }
-        void UpgradeClick(Object o, EventArgs e) { clickedaction = Command.Action.Upgrade; middleman.AddCommand(new Command(selectedhex, selectedhex, clickedaction)); clickedaction = Command.Action.None; }
-        void ColonizeClick(Object o, EventArgs e) { clickedaction = Command.Action.Colonize; }
+        
         //void BuildClick(Object o, EventArgs e) { clickedaction = Command.Action.Build; }
 
         public void Update()
