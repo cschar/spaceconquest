@@ -62,8 +62,8 @@ namespace spaceconquest
             }
 
             CommonRNG.resetSeed();
-
-            for (int i = 0; i < size; i++) {
+            int count = 0;
+            for (int i = 0; i < size-1; i++) {
                 SolarSystem3D sTemp = systems.ElementAt(i);
                 List<SolarSystem3D> nTemp = sTemp.neighbors;
                 int sCount = systems.Count;
@@ -76,11 +76,15 @@ namespace spaceconquest
                 s1.neighbors.Add(sTemp);
                 lines.Add(new LineModel(positions[s2.index], positions[sTemp.index]));
 
-                Int64 link = seed;
+                System.Random rng = new System.Random(123456789);
+                int link = rng.Next(int.MaxValue);
                 for (int j = i+2; j <= size; j++) {
                     if (i != j) {
-                        link = CommonRNG.getRandom(link);
-                        if (link % size == 0) {
+                        link = link = rng.Next(int.MaxValue);
+                        count++;
+                        Console.WriteLine(size + ", " + link + ", " +link%(size));
+                        if (link % (size+1) == 2) {
+                            Console.WriteLine("CONNECTION");
                             s1 = systems.ElementAt(j % size);
                             s1.neighbors.Add(sTemp);
                             lines.Add(new LineModel(positions[s1.index],positions[sTemp.index])); //for drawing lines between connected galaxies
@@ -89,6 +93,7 @@ namespace spaceconquest
  
                     }
                 }
+                Console.WriteLine("Tried " + count);
             }
 
 

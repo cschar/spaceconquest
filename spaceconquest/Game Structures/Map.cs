@@ -22,8 +22,8 @@ namespace spaceconquest
 
             int s1, s2;
 
-            s1 = (int)(size1 % (nPlayers+1));
-            s2 = (int)(size2 % (nPlayers+1));
+            s1 = 3;// (int)(size1 % (nPlayers + 1));
+            s2 = 3;// (int)(size2 % (nPlayers + 1));
 
             Console.WriteLine("S1, S2 = " + s1 + ", " + s2);
 

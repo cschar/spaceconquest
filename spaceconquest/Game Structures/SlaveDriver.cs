@@ -271,6 +271,9 @@ namespace spaceconquest
                     else {
                         newTarget = c.targetHex;
                     }
+                    if (!newTarget.hexgrid.neighbors.Contains(c.agent.hex.hexgrid)) {
+                        return false;
+                    }
 
                     foreach (Hex3D h3 in newTarget.hexgrid.getHexes()) {
                         h3.visible = true;
