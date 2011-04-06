@@ -16,7 +16,7 @@ namespace spaceconquest
         Rectangle area;
         SpriteBatch batch = MenuManager.batch;
         SpriteFont font = MenuManager.font;
-        String text;
+        public String text;
         Texture2D texture;
         Vector2 stringvector;
         Color normalcolor;

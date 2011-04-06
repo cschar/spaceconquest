@@ -36,7 +36,7 @@ namespace spaceconquest
             string[] filepaths = Directory.GetFiles(@"Content/", "*.map", SearchOption.AllDirectories);
             foreach (String s in filepaths)
             {
-                maplist.AddNewButtonDefault(20, 200, s, delegate(Object o, EventArgs e) { ((MenuButton)o).selected = !((MenuButton)o).selected; loadpath = s; });
+                maplist.AddNewButtonDefault(20, 200, s, delegate(Object o, EventArgs e) { ((MenuButton)o).selected = !((MenuButton)o).selected; loadpath = ((MenuButton)o).text;});
             }
 
             components.Add(maplist);
@@ -46,7 +46,7 @@ namespace spaceconquest
         {
             if (loadpath == null)
             {
-                if (host) { MenuManager.screen = new GameScreen(true, "127.0.0.1", 2, null); }
+                if (host) { MenuManager.screen = new GameScreen(true, "127.0.0.1", 1, null); }
                 else { MenuManager.ClickNewGame(o, e); }
             }
             else
@@ -67,7 +67,7 @@ namespace spaceconquest
                 finally
                 {
                     if (fs != null) fs.Close();
-                    if (host) { MenuManager.screen = new GameScreen(true, "127.0.0.1", map.players.Count, map); }
+                    if (host) { MenuManager.screen = new GameScreen(true, "127.0.0.1", map.players.Count-1, map); }
                     else { MenuManager.screen = new GameScreen(true, null, 0, map); }
                 }
             }

@@ -146,6 +146,7 @@ namespace spaceconquest
                     {
                         Console.WriteLine(se.Message);
                         concreteDCB(socko);
+                        break;
                     }
                 }  
             }

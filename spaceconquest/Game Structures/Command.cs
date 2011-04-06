@@ -46,5 +46,10 @@ namespace spaceconquest
             return (start.GetHashCode() + i.GetHashCode()).GetHashCode() ;
         }
 
+        public override bool Equals(object obj)
+        {
+            return (this.GetHashCode() == obj.GetHashCode());
+        }
+
     }
 }
