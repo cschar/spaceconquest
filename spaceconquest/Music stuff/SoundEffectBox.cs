@@ -35,6 +35,13 @@ namespace spaceconquest
         private Random rng;
         private ContentManager soundEffectManager;
         private Dictionary<string, List<SoundEffect>> soundHash; 
+        /// <summary>
+        /// Options include : "SelectIcon", "Teleport" , "Hosting", 
+        /// "Joining", "MiningShip", "Fighter", "Transport" ,
+        /// "StarCruiser", "ColonyShip"
+        /// </summary>
+        /// <param name="manager"></param>
+        /// <param name="directory"></param>
         public SoundEffectBox(ContentManager manager, string directory)
         {
             volume = 1.0f;
@@ -65,17 +72,59 @@ namespace spaceconquest
             List<SoundEffect> ToggleList = new List<SoundEffect>();
             ToggleList.Add(soundEffectManager.Load<SoundEffect>(directory + "Toggle1"));
             soundHash.Add("Toggle", ToggleList);
+
+            List<SoundEffect> miningShipList = new List<SoundEffect>();
+            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Mining2"));
+            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Mining3"));
+            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Mining4"));
+            soundHash.Add("MiningShip", miningShipList);
+
+            List<SoundEffect> fighterShip = new List<SoundEffect>();
+            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter1"));
+            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter2"));
+            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter3"));
+            soundHash.Add("Fighter", fighterShip);
+
+            List<SoundEffect> transportShip = new List<SoundEffect>();
+            transportShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Transport1"));
+            transportShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Transport2"));
+            transportShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Transport3"));
+            transportShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Transport4"));
+            soundHash.Add("Transport", transportShip);
+
+            List<SoundEffect> starCruiser = new List<SoundEffect>();
+            starCruiser.Add(soundEffectManager.Load<SoundEffect>(directory + "StarCruiser1"));
+            starCruiser.Add(soundEffectManager.Load<SoundEffect>(directory + "StarCruiser2"));
+            starCruiser.Add(soundEffectManager.Load<SoundEffect>(directory + "StarCruiser3"));
+            starCruiser.Add(soundEffectManager.Load<SoundEffect>(directory + "StarCruiser4"));
+            soundHash.Add("StarCruiser", starCruiser);
+
+            List<SoundEffect> colonyShip = new List<SoundEffect>();
+            colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
+            colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
+            colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
+            colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
+            colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
+            soundHash.Add("ColonyShip", colonyShip);
+        
+        
         }
 
         public void PlaySound(string name)
         {
-            if (!soundHash.ContainsKey(name)) return;
-            else   //generics
+            try
             {
-                List<SoundEffect> seList = soundHash[name];
-                int randomIndex = rng.Next(seList.Count);
-                seList[randomIndex].Play(volume, 0.0f, 0.0f);
-
+                if (!soundHash.ContainsKey(name)) return;
+                else   //generics
+                {
+                    List<SoundEffect> seList = soundHash[name];
+                    int randomIndex = rng.Next(seList.Count);
+                    seList[randomIndex].Play(volume, 0.0f, 0.0f);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error playing sound");
             }
 
         }
