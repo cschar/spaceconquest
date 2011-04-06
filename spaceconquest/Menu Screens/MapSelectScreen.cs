@@ -19,10 +19,12 @@ namespace spaceconquest
         public List<MenuComponent> components;
         private MouseState mousestateold = Mouse.GetState();
         String loadpath;
+        bool host = false;
 
 
-        public MapSelectScreen(SpriteBatch sb, SpriteFont sf)
+        public MapSelectScreen(bool h)
         {
+            host = h;
             components = new List<MenuComponent>();
             components.Add(new MenuButton(new Rectangle(450, 200, 150, 40), "Load Map", ClickLoadMapStart));
             components.Add(new MenuButton(new Rectangle(450, 250, 150, 40), "New Map", MenuManager.ClickNewGame));
@@ -42,7 +44,11 @@ namespace spaceconquest
 
         public void ClickLoadMapStart(Object o, EventArgs e)
         {
-            if (loadpath == null) { MenuManager.ClickNewGame(o, e); }
+            if (loadpath == null)
+            {
+                if (host) { MenuManager.screen = new GameScreen(true, "127.0.0.1", 2, null); }
+                else { MenuManager.ClickNewGame(o, e); }
+            }
             else
             {
                 Map map = null;
@@ -61,7 +67,8 @@ namespace spaceconquest
                 finally
                 {
                     if (fs != null) fs.Close();
-                    MenuManager.screen = new GameScreen(true, null, 0, map);
+                    if (host) { MenuManager.screen = new GameScreen(true, "127.0.0.1", map.players.Count, map); }
+                    else { MenuManager.screen = new GameScreen(true, null, 0, map); }
                 }
             }
 

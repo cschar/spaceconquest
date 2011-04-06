@@ -39,7 +39,7 @@ namespace spaceconquest
 
         //some menu clicking event functions,
         public static void ClickTitle(Object o, EventArgs e) { screen = new TitleScreen(batch, font); }
-        public static void ClickMapSelect(Object o, EventArgs e) { screen = new MapSelectScreen(batch, font); }
+        public static void ClickMapSelect(Object o, EventArgs e) { screen = new MapSelectScreen(false); }
         public static void ClickGlobalLobby(Object o, EventArgs e) { screen = new GlobalLobbyScreen(batch, font); }
         public static void ClickGameLobby(Object o, EventArgs e) { screen = new GameLobbyScreen(batch, font); }
         //public static void ClickClientConnect(Object o, EventArgs e) { screen = new ClientConnectScreen((String)o); }
