@@ -14,11 +14,12 @@ namespace spaceconquest
         public override Ship CreateShip()
         {
             this.modelstring = "miningship";
-            this.speed = 3;
+            this.speed = 4;
             this.range = 4;
             this.damage = 1;
             this.cost = 100;
-            this.movespeed = 0;
+            this.shield = 1;
+            this.buildTime = 3;
             this.capacity = 0;
 
             this.cancolonize = true;

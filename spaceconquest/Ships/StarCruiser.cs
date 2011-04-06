@@ -14,13 +14,13 @@ namespace spaceconquest
         public override Ship CreateShip()
         {
             this.modelstring = "starcruiser";
-            this.speed = 3;
+            this.speed = 2;
             this.range = 4;
             this.damage = 1;
-            this.cost = 100;
-            this.movespeed = 0;
+            this.shield = 3;
+            this.cost = 5000;
             this.capacity = 0;
-
+            this.buildTime = 10;
             this.canenter = false;
             this.canjump = true;
 

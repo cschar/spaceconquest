@@ -69,6 +69,15 @@ namespace spaceconquest
             modelstring = st.modelstring;
             speed = st.speed;
             shiptype = st;
+            health = st.shield;
+            buildTime = st.buildTime;
+            buildCost = st.cost;
+            
+        }
+
+        public ShipType GetShipType()
+        {
+            return shiptype;
         }
 
         public int getSpeed()

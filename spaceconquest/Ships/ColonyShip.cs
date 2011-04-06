@@ -17,7 +17,7 @@ namespace spaceconquest
             this.range = 4;
             this.damage = 1;
             this.cost = 100;
-            this.movespeed = 0;
+            this.shield = 0;
             this.capacity = 0;
 
             this.cancolonize = true;
