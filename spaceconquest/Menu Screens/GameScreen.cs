@@ -123,7 +123,7 @@ namespace spaceconquest
 
             statusmenu = new StatusMenu(new Rectangle(0, y - 150, 300, 150));
             statusmenu.visible = false;
-            telescopemenu = new TelescopeMenu(new Rectangle(0, y - 150, 300, 150));
+            telescopemenu = new TelescopeMenu(new Rectangle(0, y - 150, 300, 150), player);
             telescopemenu.visible = false;
 
             topmenu = new TopMenu(new Rectangle(0, 0, x, 40), this);
