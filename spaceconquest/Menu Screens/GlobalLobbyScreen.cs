@@ -59,7 +59,14 @@ namespace spaceconquest
 
         public void JoinGame(Object o, EventArgs e)
         {
-            MenuManager.ClickClientConnect(ipbox.input, EventArgs.Empty);
+            try
+            {
+                MenuManager.ClickClientConnect(ipbox.input, EventArgs.Empty);
+            }
+            catch (Exception ex) {
+                ipbox.input = "";
+            }
+            
         }
 
         public void ChatSend(String input)

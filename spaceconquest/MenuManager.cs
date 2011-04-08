@@ -64,7 +64,15 @@ namespace spaceconquest
 
         public static void ClickClientConnect(Object o, EventArgs e) {
             Game1.soundEffectBox.PlaySound("SelectIcon");
-            screen = new GameScreen(false, (String)o, 1, null); 
+            try
+            {
+                screen = new GameScreen(false, (String)o, 1, null);
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                throw ex;
+            }
+            
         }
 
         public static void ClickHost(Object o, EventArgs e) {
