@@ -30,6 +30,7 @@ namespace spaceconquest
         Map map;
         GameScreen gs;
         AttendanceThread at;
+        bool sentmap = false;
 
         public Host(Map m, SlaveDriver sd, int n, GameScreen GS)
         {
@@ -92,15 +93,16 @@ namespace spaceconquest
         public void SendMap()
         {
             if (busy) { return; }
-            //busy = true;
-            //done = false;
+            busy = true;
+            done = false;
             HostThread ht = new HostThread(listensocket, end, map, ReturnCommands, numclients);
             commands = new List<Command>();
-            //Thread t = new Thread(new ThreadStart(ht.SendRecieve));
-            //t.Start();
+            Thread t = new Thread(new ThreadStart(ht.SendRecieve));
+            t.Start();
 
+            //Thread.Sleep(60000);
             //blocking!
-            ht.SendRecieve();
+            //ht.SendRecieve();
         }
 
         public void EndTurn()
@@ -116,7 +118,8 @@ namespace spaceconquest
 
         private void ReturnCommands(List<Command> c)
         {
-            slavedriver.Receive(c);
+            if (c == null) { sentmap = true; }
+            else { slavedriver.Receive(c); }
             done = true;
         }
 
@@ -154,21 +157,24 @@ namespace spaceconquest
 
             public void connectToClients()
             {
-
-                while (socklist.Count < numclients)
+                try
                 {
-                    while (cont)
+                    while (socklist.Count < numclients)
                     {
-                        socko.Listen(1);
-                        Console.WriteLine("Host Attendance Listening");
-                        acco = socko.Accept();
-                        //accept.Listen(10);
-                        Console.WriteLine("Host Attendance Accepted");
-                        break;
-                    }
+                        while (cont)
+                        {
+                            socko.Listen(1);
+                            Console.WriteLine("Host Attendance Listening");
+                            acco = socko.Accept();
+                            //accept.Listen(10);
+                            Console.WriteLine("Host Attendance Accepted");
+                            break;
+                        }
 
-                    socklist.Add(acco);
+                        socklist.Add(acco);
+                    }
                 }
+                catch (Exception e) { Console.WriteLine(e.Message); }
             }
 
             public void Attendance()
@@ -237,6 +243,9 @@ namespace spaceconquest
 
             public void SendRecieve()
             {
+                try
+                {
+
                 while (streamlist.Count < numclients)
                 {
                         while (true)
@@ -252,8 +261,7 @@ namespace spaceconquest
                         streamlist.Add(new NetworkStream(accept));
                 }
 
-                try
-                {
+                
                     if (sendmap)
                     {
                         //sending map
@@ -261,6 +269,7 @@ namespace spaceconquest
                         {
                             formatter.Serialize(ns, map);
                         }
+                        action(null);
                         return;
                     }
 

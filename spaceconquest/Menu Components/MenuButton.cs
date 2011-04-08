@@ -14,8 +14,6 @@ namespace spaceconquest
     class MenuButton : MenuComponent
     {
         Rectangle area;
-        SpriteBatch batch = MenuManager.batch;
-        SpriteFont font = MenuManager.font;
         public String text;
         Texture2D texture;
         Vector2 stringvector;
@@ -29,9 +27,9 @@ namespace spaceconquest
         {
             area = r;
             text = t;
-            texture = new Texture2D(batch.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
+            texture = new Texture2D(MenuManager.batch.GraphicsDevice, 1, 1, true, SurfaceFormat.Color);
             texture.SetData(new[] { Color.White });
-            stringvector = new Vector2(area.Center.X, area.Center.Y) - (font.MeasureString(text) / 2);
+            stringvector = new Vector2(area.Center.X, area.Center.Y) - (MenuManager.font.MeasureString(text) / 2);
 
             currentcolor = normalcolor = Color.Teal;
             clickedcolor = Color.Blue;
@@ -64,8 +62,8 @@ namespace spaceconquest
 
         public override void Draw()
         {
-            batch.Draw(texture, area, currentcolor);
-            batch.DrawString(font, text, stringvector, Color.Yellow);
+            MenuManager.batch.Draw(texture, area, currentcolor);
+            MenuManager.batch.DrawString(MenuManager.font, text, stringvector, Color.Yellow);
         }
 
 
