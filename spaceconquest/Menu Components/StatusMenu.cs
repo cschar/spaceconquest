@@ -105,7 +105,7 @@ namespace spaceconquest
                     buildBar.IsVisible = false;
                 }
             }
-            if (u is Carrier)
+            else if (u is Carrier)
             {
                 upComingLine.text = "Carrying: " + ((Carrier)u).GetLoad();
                 buildLine.text = "";
