@@ -26,6 +26,8 @@ namespace spaceconquest
             capacity = st.capacity;
         }
 
+        public int GetLoad() { return load; }
+
 
         public override void kill()
         {
@@ -73,6 +75,7 @@ namespace spaceconquest
             {
                 s.hex = target;
                 payload.Remove(s);
+                load--;
                 target.AddObject(s);
                 return true;
             }

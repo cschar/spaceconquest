@@ -76,7 +76,7 @@ namespace spaceconquest
                         if (selected.shiptype.cancolonize) { colonize.Update(mscurrent, msold); }
                         if (selected is Warship) { fire.Update(mscurrent, msold); }
                         if (selected.shiptype.canjump && hex.hexgrid.GetWarpable().Contains(hex) ) { jump.Update(mscurrent, msold); }
-                        if (selected is Carrier) { unload.Update(mscurrent, msold); }
+                        if (selected is Carrier && ((Carrier)selected).GetLoad() > 0) { unload.Update(mscurrent, msold); }
                         move.Update(mscurrent, msold);
                     }
                 }
@@ -104,7 +104,7 @@ namespace spaceconquest
                         if (selected.shiptype.cancolonize) { colonize.Draw(); }
                         if (selected is Warship) { fire.Draw(); }
                         if (selected.shiptype.canjump && hex.hexgrid.GetWarpable().Contains(hex)) { jump.Draw(); }
-                        if (selected is Carrier) { unload.Draw(); }
+                        if (selected is Carrier && ((Carrier)selected).GetLoad() > 0) { unload.Draw(); }
                         move.Draw();
                     }
                 }

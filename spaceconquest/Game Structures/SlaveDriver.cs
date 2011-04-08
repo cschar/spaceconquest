@@ -297,8 +297,7 @@ namespace spaceconquest
                 if (c.agent != null && c.agent is Planet)
                 {
                     if (((Planet)c.agent).getMaxHealth() >= 4) { return false; }
-                    if (!c.agent.getAffiliation().payMetal(100)) { return false; }
-                    ((Planet)c.agent).setMaxHealth(((Planet)c.agent).getMaxHealth() + 1);
+                    ((Planet)c.agent).build(Shield.creator.CreateShip());
                     return true;
                 }
             }

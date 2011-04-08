@@ -74,15 +74,29 @@ namespace spaceconquest
             for (int i = 0; i < j; i++) {
                 if (buildTimes[i] <= 0) {
                     //produce buildQueue.removeAt(i)
-                    foreach (Hex3D neighbor in hex.getNeighbors()) {
-                        if (neighbor.GetGameObject() == null) { 
-                            buildQueue.ElementAt(i).SetHex(neighbor);
-                            buildQueue.ElementAt(i).setAffiliation(affiliation);
-                            buildQueue.RemoveAt(i);
-                            buildTimes.RemoveAt(i);
-                            i--;
-                            j = buildTimes.Count;
-                            break;
+                    if (buildQueue.ElementAt(i) is Ship && ((Ship)(buildQueue.ElementAt(i))).GetShipType() is Shield)
+                    {
+                        if (this.getMaxHealth() < 4) { this.setMaxHealth(this.getMaxHealth() + 1); this.health = this.getMaxHealth();}
+                        buildQueue.RemoveAt(i);
+                        buildTimes.RemoveAt(i);
+                        i--;
+                        j = buildTimes.Count;
+                        //break;
+                    }
+                    else
+                    {
+                        foreach (Hex3D neighbor in hex.getNeighbors())
+                        {
+                            if (neighbor.GetGameObject() == null)
+                            {
+                                buildQueue.ElementAt(i).SetHex(neighbor);
+                                buildQueue.ElementAt(i).setAffiliation(affiliation);
+                                buildQueue.RemoveAt(i);
+                                buildTimes.RemoveAt(i);
+                                i--;
+                                j = buildTimes.Count;
+                                break;
+                            }
                         }
                     }
                 }
