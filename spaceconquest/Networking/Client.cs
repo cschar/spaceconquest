@@ -32,7 +32,8 @@ namespace spaceconquest
         public Client(String ipstring, SlaveDriver sd, GameScreen GS)
         {
             gs = GS;
-            ip = IPAddress.Parse(ipstring);
+            try { ip = IPAddress.Parse(ipstring); }
+            catch (Exception e) { MenuManager.ClickGlobalLobby(this, EventArgs.Empty); return; }
             end = new IPEndPoint(ip, 6112);
             end2 = new IPEndPoint(ip, 6113);
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

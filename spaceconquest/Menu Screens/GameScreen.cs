@@ -84,6 +84,7 @@ namespace spaceconquest
 
             map = driver.GetMap();
 
+            if (map == null) { MenuManager.screen = new TitleScreen(MenuManager.batch, MenuManager.font); return; }
             Player temp = map.GetInstancePlayer();
             int num = map.players.IndexOf(temp);
             map.players[num] = map.players[0];
@@ -374,6 +375,7 @@ namespace spaceconquest
 
         public void Draw()
         {
+            if (map == null || space == null) { MenuManager.screen = new TitleScreen(MenuManager.batch, MenuManager.font); return; }
             
             space.Draw(offset,xr,yr,zr,height);
 
