@@ -78,14 +78,15 @@ namespace spaceconquest
         public void Update()
         {
             MouseState mousestate = Mouse.GetState();
-            if (ipbox.Contains(mousestate.X, mousestate.Y)) { ipbox.Update(mousestate, mousestateold); }
-            else
-            {
+            //ipbox.Contains(mousestate.X, mousestate.Y)
+            if (true) { ipbox.Update(mousestate, mousestateold); }
+            //else
+           // {
                 foreach (MenuComponent mb in buttons)
                 {
                     mb.Update(mousestate, mousestateold);
                 }
-            }
+           // }
             mousestateold = mousestate;
 
             chatlist.Clear();

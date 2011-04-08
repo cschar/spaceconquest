@@ -30,6 +30,7 @@ namespace spaceconquest
         Map map;
         GameScreen gs;
         AttendanceThread at;
+        bool sentmap = false;
 
         public Host(Map m, SlaveDriver sd, int n, GameScreen GS)
         {
@@ -54,7 +55,7 @@ namespace spaceconquest
 
         }
 
-        public void cb(Socket s, Socket a) { a.Dispose(); s.Dispose(); gs.Save(); gs.Quit(); /*Console.WriteLine("foo bar baz 2");*/ return; }
+        public void cb(Socket s, Socket a) { a.Dispose(); s.Dispose(); gs.Save(); gs.Quit(); Console.WriteLine("foo bar baz 2"); return; }
         public void TakeAttendance()
         {
             at = new AttendanceThread(aSocket, end2, numclients, cb);
@@ -62,13 +63,14 @@ namespace spaceconquest
             t.Start();
         }
 
-        public void AttendClose() {
+        public void AttendClose()
+        {
             at.exit();
         }
 
         public void Close()
         {
-            //Console.WriteLine("EXIT\nEXIT\nEXIT");
+            Console.WriteLine("EXIT\nEXIT\nEXIT");
             listensocket.Dispose();
             aSocket.Dispose();
         }
@@ -92,15 +94,16 @@ namespace spaceconquest
         public void SendMap()
         {
             if (busy) { return; }
-            //busy = true;
-            //done = false;
+            busy = true;
+            done = false;
             HostThread ht = new HostThread(listensocket, end, map, ReturnCommands, numclients);
             commands = new List<Command>();
-            //Thread t = new Thread(new ThreadStart(ht.SendRecieve));
-            //t.Start();
+            Thread t = new Thread(new ThreadStart(ht.SendRecieve));
+            t.Start();
 
+            //Thread.Sleep(60000);
             //blocking!
-            ht.SendRecieve();
+            //ht.SendRecieve();
         }
 
         public void EndTurn()
@@ -111,12 +114,13 @@ namespace spaceconquest
             HostThread ht = new HostThread(listensocket, end, commands, ReturnCommands, numclients);
             commands = new List<Command>();
             Thread t = new Thread(new ThreadStart(ht.SendRecieve));
-            t.Start();         
+            t.Start();
         }
 
         private void ReturnCommands(List<Command> c)
         {
-            slavedriver.Receive(c);
+            if (c == null) { sentmap = true; }
+            else { slavedriver.Receive(c); }
             done = true;
         }
 
@@ -137,7 +141,7 @@ namespace spaceconquest
             {
                 numclients = num;
                 socko = s;
-                socko.ReceiveTimeout = 10000;   
+                socko.ReceiveTimeout = 10000;
                 ep = e;
                 concreteDCB = dcb;
             }
@@ -147,28 +151,32 @@ namespace spaceconquest
                 cont = false;
             }
 
-            public void Run() {
+            public void Run()
+            {
                 connectToClients();
                 Attendance();
             }
 
             public void connectToClients()
             {
-
-                while (socklist.Count < numclients)
+                try
                 {
-                    while (cont)
+                    while (socklist.Count < numclients)
                     {
-                        socko.Listen(1);
-                        //Console.WriteLine("Host Attendance Listening");
-                        acco = socko.Accept();
-                        //accept.Listen(10);
-                        //Console.WriteLine("Host Attendance Accepted");
-                        break;
-                    }
+                        while (cont)
+                        {
+                            socko.Listen(1);
+                            Console.WriteLine("Host Attendance Listening");
+                            acco = socko.Accept();
+                            //accept.Listen(10);
+                            Console.WriteLine("Host Attendance Accepted");
+                            break;
+                        }
 
-                    socklist.Add(acco);
+                        socklist.Add(acco);
+                    }
                 }
+                catch (Exception e) { Console.WriteLine(e.Message); }
             }
 
             public void Attendance()
@@ -180,8 +188,9 @@ namespace spaceconquest
                     Thread.Sleep(10000);
                     try
                     {
-                        //Console.WriteLine("Foo");
-                        foreach (Socket sock in socklist) {
+                        Console.WriteLine("Foo");
+                        foreach (Socket sock in socklist)
+                        {
                             sock.Receive(recBuff);
                         }
                     }
@@ -191,7 +200,8 @@ namespace spaceconquest
                         concreteDCB(socko, acco);
                         foo = true;
                     }
-                    if (foo) {
+                    if (foo)
+                    {
                         break;
                     }
                 }
@@ -232,13 +242,16 @@ namespace spaceconquest
                 action = r;
                 numclients = n;
                 sendmap = true;
-                
+
             }
 
             public void SendRecieve()
             {
-                while (streamlist.Count < numclients)
+                try
                 {
+
+                    while (streamlist.Count < numclients)
+                    {
                         while (true)
                         {
                             socket.Listen(1);
@@ -250,10 +263,9 @@ namespace spaceconquest
                         }
 
                         streamlist.Add(new NetworkStream(accept));
-                }
+                    }
 
-                try
-                {
+
                     if (sendmap)
                     {
                         //sending map
@@ -261,6 +273,7 @@ namespace spaceconquest
                         {
                             formatter.Serialize(ns, map);
                         }
+                        action(null);
                         return;
                     }
 
@@ -278,13 +291,13 @@ namespace spaceconquest
                     //i = 0;
                     //streamlist.Clear();
                     action(commands);
-               
+
                 }
                 catch (Exception e) { Console.WriteLine(e.Message); socket.Dispose(); MenuManager.ClickTitle(this, EventArgs.Empty); return; }
 
-                
+
             }
-           public delegate void Result(List<Command> c);
+            public delegate void Result(List<Command> c);
         }
     }
 }
