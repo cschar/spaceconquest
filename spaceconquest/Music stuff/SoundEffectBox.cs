@@ -66,7 +66,7 @@ namespace spaceconquest
             //SelectIcon List
 
             String[] SoundTypes = {"BuildQueueFull", "ColonyShip", "Fighter", "Hosting", 
-                                    "Joining", "Mining", "SelectIcon", "StarCruiser", 
+                                    "Joining", "MiningShip", "SelectIcon", "StarCruiser", 
                                     "Teleport", "Toggle", "Transport"};
             String [] Attempts = {DefDir, DefaultDir};
             foreach (String attempt in Attempts) {
@@ -111,13 +111,14 @@ namespace spaceconquest
         /// <param name="directory"></param>
         public void PlaySound(string name)
         {
+            Console.WriteLine("Blurb");
             try
             {
                 if (!soundHash.ContainsKey(name)) return;
                 else   //generics
                 {
                     List<SoundEffect> seList = soundHash[name];
-                    if (seList.Count == 0) { return; }
+                    if (seList.Count == 0) { Console.WriteLine("Empty list"); return; }
                     int randomIndex = rng.Next(seList.Count);
                     Console.WriteLine(" randomIndex is " + randomIndex + "  the list size is " + seList.Count);
                     seList[randomIndex].Play(volume, 0.0f, 0.0f);
