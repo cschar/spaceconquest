@@ -172,7 +172,10 @@ namespace spaceconquest
 
         private String getprefix()
         {
-            return Game1.Races[this.affiliation.id] + ".";
+            foreach (String s in Game1.Races) { Console.WriteLine(s); }
+            String foo = Game1.Races[this.affiliation.id];
+            Console.WriteLine(this.affiliation.id + " " + foo);
+            return foo + ".";
            
         }
 

@@ -80,7 +80,7 @@ namespace spaceconquest
         /// 
 
         int sorter(String[] a, String[] b) {
-            return a[0].CompareTo(b[0]);
+            return int.Parse(a[1])-int.Parse(b[1]);
         }
 
         protected override void LoadContent()
