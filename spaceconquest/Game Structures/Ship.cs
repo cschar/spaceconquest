@@ -24,13 +24,10 @@ namespace spaceconquest
         protected ShipModel shipmodel;
         protected float hoveringHeight = 7;
         protected float hoveringAcc = -0.06f;
-<<<<<<< HEAD
-        protected String modelstring = "StarCruiser";
 
-=======
-        protected String modelstring = "starcruiser";
+        protected String modelstring = "StarCruiser";
         private int miningRobots = 0;
->>>>>>> preC
+
         protected double targetangle = 0;
         protected double currentAngle = 0;
         protected Vector3 oldposition = new Vector3(0, 0, 0);
