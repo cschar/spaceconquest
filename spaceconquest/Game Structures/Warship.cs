@@ -17,11 +17,11 @@ namespace spaceconquest
         protected int damage = 1;
         protected int range = 3;
 
-        //public Warship(String s) : base(s)
-        //{
-        //    modelstring = s;
-        //    shipmodel = ShipModel.shipmodels[modelstring];
-        //}
+        private bool firinganimation = false;
+        private Vector3 firingtarget = new Vector3();
+        private Vector3 firingsource = new Vector3();
+        private Unit targetship = null;
+        protected int firingpercent = 0;
 
         public Warship(ShipType st) : base(st)
         {
@@ -32,6 +32,13 @@ namespace spaceconquest
         public void Attack(Unit u)
         {
             u.hit(damage);
+            targetship = null;
+            if (u.hex.GetGameObject() != u) { targetship = u; }
+
+            firingsource = this.getCenter();
+            firingpercent = 0;
+            firingtarget = u.getCenter();
+            firinganimation = true;
         }
 
         public List<Hex3D> GetShootable()
@@ -54,17 +61,29 @@ namespace spaceconquest
 
         //public int GetDamage() { return damage; }
         public int GetRange() { return range; }
-        
-        //public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
-        //{
-        //    if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
 
-        //    shipmodel.Draw(Matrix.CreateTranslation(getCenter()) * world, view, projection, affiliation.color, 1.6f, hoveringHeight);
+        public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
+        {
+            if (!firinganimation) { base.Draw(world, view, projection); }
+            else
+            {
+                Vector3 currentfiring = (firingtarget - firingsource) * (firingpercent / 100.0f) + firingsource;
+                firingpercent = firingpercent + 2;
+                if (firingpercent == 100) { firingpercent = 0; targetship = null; firinganimation = false; }
 
-        //     //create illusion that ship is hovering in space
-        //     hoveringHeight += hoveringAcc;
-        //     if (hoveringHeight > 13 || hoveringHeight < 6) { hoveringAcc *= -1; }
-        //}
+                SphereModel.Draw(Matrix.CreateTranslation(currentfiring) * world, view, projection, Color.Red, 10);
+                if (targetship != null) targetship.Draw(world, view, projection);
+
+
+                if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
+
+                shipmodel.Draw(Matrix.CreateRotationZ((float)currentAngle) * Matrix.CreateTranslation(firingsource) * world, view, projection, affiliation.color, 1.6f, hoveringHeight);
+
+                //create illusion that ship is hovering in space
+                hoveringHeight += hoveringAcc;
+                if (hoveringHeight > 13 || hoveringHeight < 6) { hoveringAcc *= -1; }
+            }
+        }
 
         
     }
