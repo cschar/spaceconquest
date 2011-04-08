@@ -54,16 +54,22 @@ namespace spaceconquest
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            //graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
-            //graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+            bool full = true;
 
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
-
+            if (full)
+            {
+                graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
+                graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+            }
+            else
+            {
+                graphics.PreferredBackBufferWidth = 800;
+                graphics.PreferredBackBufferHeight = 600;
+            }
             x = graphics.PreferredBackBufferWidth;
             y = graphics.PreferredBackBufferHeight;
 
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = full;
             graphics.ApplyChanges();
             Window.Title = ":: Space Conquest ::";
             this.IsMouseVisible = true;
