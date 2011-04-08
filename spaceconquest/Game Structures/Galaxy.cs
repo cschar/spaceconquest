@@ -82,9 +82,9 @@ namespace spaceconquest
                     if (i != j) {
                         link = link = rng.Next(int.MaxValue);
                         count++;
-                        Console.WriteLine(size + ", " + link + ", " +link%(size));
+                        //Console.WriteLine(size + ", " + link + ", " +link%(size));
                         if (link % (size+1) == 2) {
-                            Console.WriteLine("CONNECTION");
+                            //Console.WriteLine("CONNECTION");
                             s1 = systems.ElementAt(j % size);
                             s1.neighbors.Add(sTemp);
                             lines.Add(new LineModel(positions[s1.index],positions[sTemp.index])); //for drawing lines between connected galaxies
@@ -93,7 +93,7 @@ namespace spaceconquest
  
                     }
                 }
-                Console.WriteLine("Tried " + count);
+                //Console.WriteLine("Tried " + count);
             }
 
 

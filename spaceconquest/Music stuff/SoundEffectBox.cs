@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
+using System.IO;
 
 
 namespace spaceconquest
@@ -44,75 +45,59 @@ namespace spaceconquest
         /// </summary>
         /// <param name="manager"></param>
         /// <param name="directory"></param>
+        /// 
+
+
         public SoundEffectBox(ContentManager manager, string directory)
         {
-            volume = 1.0f;
+            Console.WriteLine(manager.RootDirectory);
+            Console.WriteLine(directory);
+            String dir = manager.RootDirectory+"\\"+directory;
+            ConfigParser cp = new ConfigParser(dir + "SFXConfig.txt");
+            Dictionary<String, List<String>> opts = cp.ParseConfig();
+            String DefaultDir = opts["DEFAULT"][0];
+            String DefDir = opts["DEFDIR"][0];
+
+            //Page_Load(directory);
+            volume = 1.0f; 
             soundEffectManager = manager;
             soundHash = new Dictionary<string, List<SoundEffect>>();
             rng = new Random();
             //SelectIcon List
-            List<SoundEffect> selectIconList = new List<SoundEffect>();
-            selectIconList.Add(soundEffectManager.Load<SoundEffect>(directory + "SelectIcon1"));
-            selectIconList.Add(soundEffectManager.Load<SoundEffect>(directory + "SelectIcon2"));
-            soundHash.Add("SelectIcon", selectIconList);
 
-            //Teleport list
-            List<SoundEffect> TeleportList = new List<SoundEffect>();
-            TeleportList.Add(soundEffectManager.Load<SoundEffect>(directory + "Teleport1"));
-            TeleportList.Add(soundEffectManager.Load<SoundEffect>(directory + "Teleport2"));
-            soundHash.Add("Teleport", TeleportList);
+            String[] SoundTypes = {"BuildQueueFull", "ColonyShip", "Fighter", "Hosting", 
+                                    "Joining", "Mining", "SelectIcon", "StarCruiser", 
+                                    "Teleport", "Toggle", "Transport"};
+            String [] Attempts = {DefDir, DefaultDir};
+            foreach (String attempt in Attempts) {
+                try
+                {
+                    String newDir = directory + attempt + "/";
+                    foreach (String st in SoundTypes)
+                    {
+                        List<SoundEffect> adder = new List<SoundEffect>();
+                        DirectoryInfo di = new DirectoryInfo(manager.RootDirectory+"/"+newDir + st + "/");
+                        FileInfo[] fis = di.GetFiles("*");
+                        foreach (FileInfo fi in fis)
+                        {
+                            String loc = newDir + st + "/" + (fi.Name.Split('.'))[0];
+                            //Console.WriteLine(loc);
+                            adder.Add(soundEffectManager.Load<SoundEffect>(loc));
+                        }
+                        soundHash.Add(st, adder); 
 
-            List<SoundEffect> HostingGameList = new List<SoundEffect>();
-            HostingGameList.Add(soundEffectManager.Load<SoundEffect>(directory + "Hosting1"));
-            HostingGameList.Add(soundEffectManager.Load<SoundEffect>(directory + "Hosting2"));
-            soundHash.Add("Hosting", HostingGameList);
+                    }
+                    break;
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.Message);
 
-            List<SoundEffect> JoiningGameList = new List<SoundEffect>();
-            JoiningGameList.Add(soundEffectManager.Load<SoundEffect>(directory + "Joining1"));
-            soundHash.Add("Joining", JoiningGameList);
-
-            List<SoundEffect> ToggleList = new List<SoundEffect>();
-            ToggleList.Add(soundEffectManager.Load<SoundEffect>(directory + "Toggle1"));
-            soundHash.Add("Toggle", ToggleList);
-
-            List<SoundEffect> miningShipList = new List<SoundEffect>();
-            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Mining2"));
-            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Mining3"));
-            miningShipList.Add(soundEffectManager.Load<SoundEffect>(directory + "Mining4"));
-            soundHash.Add("MiningShip", miningShipList);
-
-            List<SoundEffect> fighterShip = new List<SoundEffect>();
-            fighterShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter1"));
-            fighterShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter2"));
-            fighterShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Fighter3"));
-            soundHash.Add("Fighter", fighterShip);
-
-            List<SoundEffect> transportShip = new List<SoundEffect>();
-            transportShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Transport1"));
-            transportShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Transport2"));
-            transportShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Transport3"));
-            transportShip.Add(soundEffectManager.Load<SoundEffect>(directory + "Transport4"));
-            soundHash.Add("Transport", transportShip);
-
-            List<SoundEffect> starCruiser = new List<SoundEffect>();
-            starCruiser.Add(soundEffectManager.Load<SoundEffect>(directory + "StarCruiser1"));
-            starCruiser.Add(soundEffectManager.Load<SoundEffect>(directory + "StarCruiser2"));
-            starCruiser.Add(soundEffectManager.Load<SoundEffect>(directory + "StarCruiser3"));
-            starCruiser.Add(soundEffectManager.Load<SoundEffect>(directory + "StarCruiser4"));
-            soundHash.Add("StarCruiser", starCruiser);
-
-            List<SoundEffect> colonyShip = new List<SoundEffect>();
-            colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
-            colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
-            colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
-            colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
-            colonyShip.Add(soundEffectManager.Load<SoundEffect>(directory + "ColonyShip1"));
-            soundHash.Add("ColonyShip", colonyShip);
-
-            List<SoundEffect> buildQueueFull = new List<SoundEffect>();
-            buildQueueFull.Add(soundEffectManager.Load<SoundEffect>(directory + "BuildQueueFull1"));
-            buildQueueFull.Add(soundEffectManager.Load<SoundEffect>(directory + "BuildQueueFull2"));
-            soundHash.Add("BuildQueueFull", buildQueueFull);
+                }
+            }
+            
+           
+            
+            
         
         }
 
@@ -132,6 +117,7 @@ namespace spaceconquest
                 else   //generics
                 {
                     List<SoundEffect> seList = soundHash[name];
+                    if (seList.Count == 0) { return; }
                     int randomIndex = rng.Next(seList.Count);
                     Console.WriteLine(" randomIndex is " + randomIndex + "  the list size is " + seList.Count);
                     seList[randomIndex].Play(volume, 0.0f, 0.0f);

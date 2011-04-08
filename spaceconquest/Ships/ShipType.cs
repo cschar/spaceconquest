@@ -9,7 +9,7 @@ namespace spaceconquest
     [Serializable]
     abstract class ShipType
     {
-        public String modelstring = "starcruiser";
+        public String modelstring = "StarCruiser";
         public int speed = 3;
         public int range = 4;
         public int damage = 1;

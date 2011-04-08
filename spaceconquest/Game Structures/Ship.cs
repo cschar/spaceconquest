@@ -24,7 +24,7 @@ namespace spaceconquest
         protected ShipModel shipmodel;
         protected float hoveringHeight = 7;
         protected float hoveringAcc = -0.06f;
-        protected String modelstring = "starcruiser";
+        protected String modelstring = "StarCruiser";
 
         protected double targetangle = 0;
         protected double currentAngle = 0;
@@ -172,14 +172,13 @@ namespace spaceconquest
 
         private String getprefix()
         {
-            String prefix = "";
-            if (affiliation.id % 2 == 1) { prefix = "r2"; }
-            return prefix;
+            return Game1.Races[this.affiliation.id] + ".";
+           
         }
 
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
-            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[getprefix() + modelstring]; }
+            if (shipmodel == null) { Console.WriteLine(getprefix() + modelstring); shipmodel = ShipModel.shipmodels[getprefix() + modelstring]; }
 
             //Console.WriteLine(angle);
 
