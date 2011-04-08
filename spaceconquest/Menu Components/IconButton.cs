@@ -47,6 +47,11 @@ namespace spaceconquest
             addClickEvent(c);
         }
 
+        public Rectangle getArea()
+        {
+            return new Rectangle(area.X, area.Y, area.Width, area.Height);
+        }
+
         public IconButton(Rectangle r, String t, String t2, EventHandler c)
         {
             area = r;

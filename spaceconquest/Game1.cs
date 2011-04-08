@@ -97,9 +97,11 @@ namespace spaceconquest
 
             //Building a hex
             HexModel.InitializePrimitive(device);
-
+            ProtonBeamModel.InitializePrimitive(Content.Load<Model>("protonbeam"));
             //Loading the sphere
             SphereModel.InitializePrimitive(Content.Load<Model>("sphere"));
+            //Loadng the beam
+
             //Loading the sphere
             StarField.LoadStarModel(Content.Load<Model>("thing"));
             

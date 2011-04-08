@@ -21,7 +21,7 @@ namespace spaceconquest
             this.shield = 2;
             this.buildTime = 3;
             this.capacity = 0;
-
+            this.miningRobots = 3;
             this.cancolonize = true;
 
             Ship newship = new Ship(this);

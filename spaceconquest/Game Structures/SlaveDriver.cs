@@ -318,9 +318,17 @@ namespace spaceconquest
                     {
                         if (((Asteroid)c.targetHex.GetGameObject()).getAffiliation() != null) { return false; }
                         if (!c.targetHex.getNeighbors().Contains(c.agent.hex)) { return false; }
-                        ((Asteroid)c.targetHex.GetGameObject()).setAffiliation(((Ship)c.agent).getAffiliation());
-                        c.agent.kill();
-                        return true;
+
+                        Ship s = (Ship)c.agent;
+                        int robots = s.GetMiningRobots();
+                        if (robots > 0)
+                        {
+                            ((Asteroid)c.targetHex.GetGameObject()).setAffiliation(((Ship)c.agent).getAffiliation());
+                            s.SetMiningRobots(robots - 1);
+                            //don't kill, just decrease mining bot
+                            //c.agent.kill();
+                            return true;
+                        }
                     }
                 }
             }

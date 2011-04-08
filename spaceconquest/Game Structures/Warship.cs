@@ -61,7 +61,7 @@ namespace spaceconquest
 
         //public int GetDamage() { return damage; }
         public int GetRange() { return range; }
-
+        int c1 = 200;
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
             if (!firinganimation) { base.Draw(world, view, projection); }
@@ -72,6 +72,11 @@ namespace spaceconquest
                 if (firingpercent == 100) { firingpercent = 0; targetship = null; firinganimation = false; }
 
                 SphereModel.Draw(Matrix.CreateTranslation(currentfiring) * world, view, projection, Color.Red, 10);
+                //ProtonBeamModel.Draw(Matrix.CreateTranslation(currentfiring) * world, view, projection, Color.FromNonPremultiplied(c1, 200,200,255), 2);
+                //update shifting hue of beam
+                c1++;
+                if (c1 > 255) c1 = 0;
+
                 if (targetship != null) targetship.Draw(world, view, projection);
 
 

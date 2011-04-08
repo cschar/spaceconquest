@@ -24,8 +24,13 @@ namespace spaceconquest
         protected ShipModel shipmodel;
         protected float hoveringHeight = 7;
         protected float hoveringAcc = -0.06f;
+<<<<<<< HEAD
         protected String modelstring = "StarCruiser";
 
+=======
+        protected String modelstring = "starcruiser";
+        private int miningRobots = 0;
+>>>>>>> preC
         protected double targetangle = 0;
         protected double currentAngle = 0;
         protected Vector3 oldposition = new Vector3(0, 0, 0);
@@ -73,7 +78,18 @@ namespace spaceconquest
             buildTime = st.buildTime;
             buildCost = st.cost;
             maxHealth = st.shield;
+            miningRobots = st.miningRobots;
             
+        }
+
+        public void SetMiningRobots(int n)
+        {
+            this.miningRobots = n;
+        }
+
+        public int GetMiningRobots()
+        {
+            return this.miningRobots;
         }
 
         public int GetBuildTime()
@@ -228,8 +244,14 @@ namespace spaceconquest
             //Console.WriteLine("current vector :: {0} \n target vector :: {1} ", currentvector, targetvector);
 
             //Create translation gets hex world coordinates 
-            shipmodel.Draw(Matrix.CreateRotationZ((float)currentAngle) * Matrix.CreateTranslation(currentvector) * world, view, projection, affiliation.color, 1.6f, hoveringHeight);
-
+            if (affiliation != null)
+            {
+                shipmodel.Draw(Matrix.CreateRotationZ((float)currentAngle) * Matrix.CreateTranslation(currentvector) * world, view, projection, affiliation.color, 1.6f, hoveringHeight);
+            }
+            else
+            {
+                shipmodel.Draw(Matrix.CreateRotationZ((float)currentAngle) * Matrix.CreateTranslation(currentvector) * world, view, projection, Color.Black, 1.6f, hoveringHeight);
+            }
             //create illusion that ship is hovering in space
             hoveringHeight += hoveringAcc;
             if (hoveringHeight > 13 || hoveringHeight < 6) { hoveringAcc *= -1; }

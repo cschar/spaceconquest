@@ -10,6 +10,7 @@ namespace spaceconquest
     abstract class ShipType
     {
         public String modelstring = "StarCruiser";
+        public int miningRobots = 0;
         public int speed = 3;
         public int range = 4;
         public int damage = 1;

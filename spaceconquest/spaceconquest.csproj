@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3D stuff\AsteroidModel.cs" />
+    <Compile Include="3D stuff\ProtonBeamModel.cs" />
     <Compile Include="3D stuff\ShipModel.cs" />
     <Compile Include="3D stuff\LineModel.cs" />
     <Compile Include="3D stuff\PlanetModel.cs" />

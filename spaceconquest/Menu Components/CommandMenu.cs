@@ -100,6 +100,11 @@ namespace spaceconquest
                     if (ga is Ship)
                     {
                         Ship selected = (Ship)ga;
+                        if (selected.shiptype is MiningShip)
+                        {
+                            MenuManager.batch.DrawString(MenuManager.font, selected.GetMiningRobots() + "/3 robot packs", new Vector2(colonize.getArea().X , colonize.getArea().Y - 50), Color.Yellow);
+
+                        }
                         if (selected.shiptype.canenter) { enter.Draw(); }
                         if (selected.shiptype.cancolonize) { colonize.Draw(); }
                         if (selected is Warship) { fire.Draw(); }
