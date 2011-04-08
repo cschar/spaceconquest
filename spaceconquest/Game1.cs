@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.IO;
 
 namespace spaceconquest
 {
@@ -27,6 +28,9 @@ namespace spaceconquest
         public static ContentManager contentManager;
         public static spaceconquest.Music_stuff.JukeBox jukeBox;
         public static SoundEffectBox soundEffectBox;
+        Dictionary<String, List<String>> opts;
+        ConfigParser cp;
+        public static List<String> Races = new List<String>();
 
         public static int x;
         public static int y;
@@ -73,6 +77,12 @@ namespace spaceconquest
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
+        /// 
+
+        int sorter(String[] a, String[] b) {
+            return int.Parse(a[1])-int.Parse(b[1]);
+        }
+
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -96,7 +106,96 @@ namespace spaceconquest
 
             //Loading a StarCruiser model
             //StarCruiserModel.InitializePrimitive(Content.Load<Model>("starcruiser"));
-            ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/starCruiser"), "starcruiser");
+
+            cp = new ConfigParser("Content/Models/ModelConfig.txt");
+            opts = cp.ParseConfig();
+
+            List<String[]> raceTuples = new List<String[]>();
+            List<String> racePreProc = opts["ASSIGN"];
+            foreach (String s in racePreProc) {
+                try {
+                    String[] splits = s.Split('|');
+                int index = int.Parse(splits[1]);
+                String tup = splits[0];
+                raceTuples.Add(splits);
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            raceTuples.Sort(sorter);
+
+            foreach (String[] s in raceTuples) {
+                Races.Add(s[0]);
+            }
+
+            List<String> defs = opts["DEFINE"];
+            Dictionary<String, String> raceToModel = new Dictionary<string, string>();
+            foreach (String def in defs) {
+                String[] split = def.Split('|');
+                try
+                {
+                    raceToModel.Add(split[0], split[1]);
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                }    
+            }
+
+            String[] sts = {"ColonyShip", "Fighter", "MiningRobot", "MiningShip", "StarCruiser",
+                               "Telescope", "Transport"};
+
+            foreach (String race in Races) {
+                String[] attempts = { raceToModel[race], opts["DEFAULT"][0] };
+
+                foreach (string att in attempts) {
+                    try
+                    {
+                        String raceDir = "Content/Models/" + att + "/";
+                        foreach (String st in sts)
+                        {
+                            Boolean fail = true;
+                            DirectoryInfo di = new DirectoryInfo(raceDir + st);
+                            //Console.WriteLine(di.FullName);
+                            foreach (FileInfo fi in di.GetFiles())
+                            {
+                                try
+                                {
+                                    //Console.WriteLine(Content.RootDirectory);
+                                    String loc = "Models/" + att + "/" + st + "/" + (fi.Name.Split('.'))[0];
+                                    //Console.WriteLine(race + "." + st);
+                                    ShipModel.AddShipModel(Content.Load<Model>(loc), race + "." + st);
+                                    fail = false;
+                                    break;
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                            }
+                            if (fail) { throw new Exception(); }
+
+                        }
+                        break;
+
+                    }
+                    catch (Exception e) {
+                        Console.WriteLine(e.Message);
+                    }
+                    
+                
+                }
+
+                
+
+            }
+
+            Console.WriteLine("\n\n\n\n\n");
+            foreach (String s in ShipModel.shipmodels.Keys) {
+                Console.WriteLine(s);
+            }
+
+            /*ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/starCruiser"), "starcruiser");
             ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/miningShip"), "miningship");
             ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/miningRobot"), "miningrobot");
             ShipModel.AddShipModel(Content.Load<Model>("DefaultShips/transport"), "transport");
@@ -110,7 +209,7 @@ namespace spaceconquest
             ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2transport"), "r2transport");
             ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2colonyShip"), "r2colonyship");
             ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2fighter"), "r2fightership");
-            ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2SpaceTelescope"), "r2SpaceTelescope");
+            ShipModel.AddShipModel(Content.Load<Model>("ArdusShips/r2SpaceTelescope"), "r2SpaceTelescope");*/
 
             // TODO: use this.Content to load your game content here
             mainFont = Content.Load<SpriteFont>("TitleFont");
@@ -138,7 +237,7 @@ namespace spaceconquest
             jukeBox = new Music_stuff.JukeBox(tmpTracks, contentManager);
             //jukeBox.play();    //Play the tunes
 
-            soundEffectBox = new SoundEffectBox(contentManager, "DefaultSoundEffects/");
+            soundEffectBox = new SoundEffectBox(contentManager, "SFX/");
         }
 
         /// <summary>

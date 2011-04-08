@@ -63,7 +63,8 @@ namespace spaceconquest
             t.Start();
         }
 
-        public void AttendClose() {
+        public void AttendClose()
+        {
             at.exit();
         }
 
@@ -113,7 +114,7 @@ namespace spaceconquest
             HostThread ht = new HostThread(listensocket, end, commands, ReturnCommands, numclients);
             commands = new List<Command>();
             Thread t = new Thread(new ThreadStart(ht.SendRecieve));
-            t.Start();         
+            t.Start();
         }
 
         private void ReturnCommands(List<Command> c)
@@ -140,7 +141,7 @@ namespace spaceconquest
             {
                 numclients = num;
                 socko = s;
-                socko.ReceiveTimeout = 10000;   
+                socko.ReceiveTimeout = 10000;
                 ep = e;
                 concreteDCB = dcb;
             }
@@ -150,7 +151,8 @@ namespace spaceconquest
                 cont = false;
             }
 
-            public void Run() {
+            public void Run()
+            {
                 connectToClients();
                 Attendance();
             }
@@ -187,7 +189,8 @@ namespace spaceconquest
                     try
                     {
                         Console.WriteLine("Foo");
-                        foreach (Socket sock in socklist) {
+                        foreach (Socket sock in socklist)
+                        {
                             sock.Receive(recBuff);
                         }
                     }
@@ -197,7 +200,8 @@ namespace spaceconquest
                         concreteDCB(socko, acco);
                         foo = true;
                     }
-                    if (foo) {
+                    if (foo)
+                    {
                         break;
                     }
                 }
@@ -238,7 +242,7 @@ namespace spaceconquest
                 action = r;
                 numclients = n;
                 sendmap = true;
-                
+
             }
 
             public void SendRecieve()
@@ -246,8 +250,8 @@ namespace spaceconquest
                 try
                 {
 
-                while (streamlist.Count < numclients)
-                {
+                    while (streamlist.Count < numclients)
+                    {
                         while (true)
                         {
                             socket.Listen(1);
@@ -259,9 +263,9 @@ namespace spaceconquest
                         }
 
                         streamlist.Add(new NetworkStream(accept));
-                }
+                    }
 
-                
+
                     if (sendmap)
                     {
                         //sending map
@@ -287,13 +291,13 @@ namespace spaceconquest
                     //i = 0;
                     //streamlist.Clear();
                     action(commands);
-               
+
                 }
                 catch (Exception e) { Console.WriteLine(e.Message); socket.Dispose(); MenuManager.ClickTitle(this, EventArgs.Empty); return; }
 
-                
+
             }
-           public delegate void Result(List<Command> c);
+            public delegate void Result(List<Command> c);
         }
     }
 }

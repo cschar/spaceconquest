@@ -117,6 +117,7 @@
     <Compile Include="3D stuff\StarField.cs" />
     <Compile Include="3D stuff\SphereModel.cs" />
     <Compile Include="3D stuff\HexModel.cs" />
+    <Compile Include="ConfigParser.cs" />
     <Compile Include="Game Structures\Asteroid.cs" />
     <Compile Include="Game Structures\Carrier.cs" />
     <Compile Include="Game Structures\CommonRNG.cs" />

@@ -24,7 +24,7 @@ namespace spaceconquest
         protected ShipModel shipmodel;
         protected float hoveringHeight = 7;
         protected float hoveringAcc = -0.06f;
-        protected String modelstring = "starcruiser";
+        protected String modelstring = "StarCruiser";
 
         protected double targetangle = 0;
         protected double currentAngle = 0;
@@ -49,10 +49,10 @@ namespace spaceconquest
             double x = target.getCenter().X - hex.getCenter().X;
             double y = hex.getCenter().Y - target.getCenter().Y;
             double newangle = Math.Atan(x / y);
-            Console.WriteLine(" x  " + x);
-            Console.WriteLine(" y " + y);
+            //Console.WriteLine(" x  " + x);
+            //Console.WriteLine(" y " + y);
             if (y < 0) newangle = newangle + Math.PI;
-            Console.WriteLine("angle -> " + newangle);
+            //Console.WriteLine("angle -> " + newangle);
             targetangles.Enqueue(newangle);
 
             SetHex(target);
@@ -148,22 +148,22 @@ namespace spaceconquest
 
         public void SetGhost(Hex3D target)
         {
-            Console.WriteLine("setting ghost");
+            //Console.WriteLine("setting ghost");
 
             double x = target.getCenter().X - hex.getCenter().X;
             double y = hex.getCenter().Y - target.getCenter().Y;
             targetangle = Math.Atan(x / y);
-            Console.WriteLine(" x  " + x);
-            Console.WriteLine(" y " + y);
+            //Console.WriteLine(" x  " + x);
+            //Console.WriteLine(" y " + y);
             if (y < 0) targetangle = targetangle + Math.PI;
-            Console.WriteLine("angle -> " + targetangle);
+            //Console.WriteLine("angle -> " + targetangle);
 
             if (ghosthex != null) ghosthex.SetGhostObject(null);
             ghosthex = target;
             target.SetGhostObject(this);
             if (this.hex.hexgrid == ghosthex.hexgrid)
             {
-                Console.WriteLine("creating new linemodel");
+                //Console.WriteLine("creating new linemodel");
                 line = new LineModel(getCenter(), ghosthex.getCenter());
             }
         }
@@ -172,14 +172,16 @@ namespace spaceconquest
 
         private String getprefix()
         {
-            String prefix = "";
-            if (affiliation.id % 2 == 1) { prefix = "r2"; }
-            return prefix;
+            foreach (String s in Game1.Races) { Console.WriteLine(s); }
+            String foo = Game1.Races[this.affiliation.id];
+            //Console.WriteLine(this.affiliation.id + " " + foo);
+            return foo + ".";
+           
         }
 
         public override void Draw(Microsoft.Xna.Framework.Matrix world, Microsoft.Xna.Framework.Matrix view, Microsoft.Xna.Framework.Matrix projection)
         {
-            if (shipmodel == null) { shipmodel = ShipModel.shipmodels[getprefix() + modelstring]; }
+            if (shipmodel == null) { Console.WriteLine(getprefix() + modelstring); shipmodel = ShipModel.shipmodels[getprefix() + modelstring]; }
 
             //Console.WriteLine(angle);
 

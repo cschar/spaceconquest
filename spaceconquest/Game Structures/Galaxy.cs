@@ -41,7 +41,7 @@ namespace spaceconquest
                 Red = Red % 150;
                 Green = Green % 150;
                 Blue = Blue % 150;
-                Console.WriteLine("RGB = " + (float)Red + ", " + (float)Green + ", " + (byte)Blue);
+                //Console.WriteLine("RGB = " + (float)Red + ", " + (float)Green + ", " + (byte)Blue);
                 int iRed = ((int)Red);
                 int iBlue = ((int)Blue);
                 int iGreen = ((int)Green);
@@ -54,8 +54,8 @@ namespace spaceconquest
                 iS1 %= 3;
                 iS2 %= 3;
 
-                Console.WriteLine("P1, P2 = " + iP1 + ", " + iP2);
-                Console.WriteLine("R1, R2 = " + iS1 + ", " + iS2);
+                //Console.WriteLine("P1, P2 = " + iP1 + ", " + iP2);
+                //Console.WriteLine("R1, R2 = " + iS1 + ", " + iS2);
 
                 systems.Add(new SolarSystem3D((int)(5+iS1+iS2), (int)(1+iP1+iP2), new Color(iRed, iBlue, iGreen), i, P2));
                 positions.Add(new Vector3((float)(300*Math.Cos(i * radialIncrement)), (float)(300*Math.Sin(i* radialIncrement)), 0));
@@ -82,9 +82,9 @@ namespace spaceconquest
                     if (i != j) {
                         link = link = rng.Next(int.MaxValue);
                         count++;
-                        Console.WriteLine(size + ", " + link + ", " +link%(size));
+                        //Console.WriteLine(size + ", " + link + ", " +link%(size));
                         if (link % (size+1) == 2) {
-                            Console.WriteLine("CONNECTION");
+                            //Console.WriteLine("CONNECTION");
                             s1 = systems.ElementAt(j % size);
                             s1.neighbors.Add(sTemp);
                             lines.Add(new LineModel(positions[s1.index],positions[sTemp.index])); //for drawing lines between connected galaxies
@@ -93,7 +93,7 @@ namespace spaceconquest
  
                     }
                 }
-                Console.WriteLine("Tried " + count);
+                //Console.WriteLine("Tried " + count);
             }
 
 

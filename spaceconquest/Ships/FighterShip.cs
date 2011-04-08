@@ -11,7 +11,7 @@ namespace spaceconquest
         
         public override Ship CreateShip()
         {
-            this.modelstring = "fightership";
+            this.modelstring = "Fighter";
             this.speed = 3;
             this.range = 4;
             this.damage = 1;
