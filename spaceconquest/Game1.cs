@@ -163,7 +163,7 @@ namespace spaceconquest
                                 {
                                     //Console.WriteLine(Content.RootDirectory);
                                     String loc = "Models/" + att + "/" + st + "/" + (fi.Name.Split('.'))[0];
-                                    Console.WriteLine(race + "." + st);
+                                    //Console.WriteLine(race + "." + st);
                                     ShipModel.AddShipModel(Content.Load<Model>(loc), race + "." + st);
                                     fail = false;
                                     break;

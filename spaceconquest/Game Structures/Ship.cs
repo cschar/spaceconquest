@@ -49,10 +49,10 @@ namespace spaceconquest
             double x = target.getCenter().X - hex.getCenter().X;
             double y = hex.getCenter().Y - target.getCenter().Y;
             double newangle = Math.Atan(x / y);
-            Console.WriteLine(" x  " + x);
-            Console.WriteLine(" y " + y);
+            //Console.WriteLine(" x  " + x);
+            //Console.WriteLine(" y " + y);
             if (y < 0) newangle = newangle + Math.PI;
-            Console.WriteLine("angle -> " + newangle);
+            //Console.WriteLine("angle -> " + newangle);
             targetangles.Enqueue(newangle);
 
             SetHex(target);
@@ -148,22 +148,22 @@ namespace spaceconquest
 
         public void SetGhost(Hex3D target)
         {
-            Console.WriteLine("setting ghost");
+            //Console.WriteLine("setting ghost");
 
             double x = target.getCenter().X - hex.getCenter().X;
             double y = hex.getCenter().Y - target.getCenter().Y;
             targetangle = Math.Atan(x / y);
-            Console.WriteLine(" x  " + x);
-            Console.WriteLine(" y " + y);
+            //Console.WriteLine(" x  " + x);
+            //Console.WriteLine(" y " + y);
             if (y < 0) targetangle = targetangle + Math.PI;
-            Console.WriteLine("angle -> " + targetangle);
+            //Console.WriteLine("angle -> " + targetangle);
 
             if (ghosthex != null) ghosthex.SetGhostObject(null);
             ghosthex = target;
             target.SetGhostObject(this);
             if (this.hex.hexgrid == ghosthex.hexgrid)
             {
-                Console.WriteLine("creating new linemodel");
+                //Console.WriteLine("creating new linemodel");
                 line = new LineModel(getCenter(), ghosthex.getCenter());
             }
         }
@@ -174,7 +174,7 @@ namespace spaceconquest
         {
             foreach (String s in Game1.Races) { Console.WriteLine(s); }
             String foo = Game1.Races[this.affiliation.id];
-            Console.WriteLine(this.affiliation.id + " " + foo);
+            //Console.WriteLine(this.affiliation.id + " " + foo);
             return foo + ".";
            
         }

@@ -54,7 +54,7 @@ namespace spaceconquest
 
         }
 
-        public void cb(Socket s, Socket a) { a.Dispose(); s.Dispose(); gs.Save(); gs.Quit(); Console.WriteLine("foo bar baz 2"); return; }
+        public void cb(Socket s, Socket a) { a.Dispose(); s.Dispose(); gs.Save(); gs.Quit(); /*Console.WriteLine("foo bar baz 2");*/ return; }
         public void TakeAttendance()
         {
             at = new AttendanceThread(aSocket, end2, numclients, cb);
@@ -68,7 +68,7 @@ namespace spaceconquest
 
         public void Close()
         {
-            Console.WriteLine("EXIT\nEXIT\nEXIT");
+            //Console.WriteLine("EXIT\nEXIT\nEXIT");
             listensocket.Dispose();
             aSocket.Dispose();
         }
@@ -160,10 +160,10 @@ namespace spaceconquest
                     while (cont)
                     {
                         socko.Listen(1);
-                        Console.WriteLine("Host Attendance Listening");
+                        //Console.WriteLine("Host Attendance Listening");
                         acco = socko.Accept();
                         //accept.Listen(10);
-                        Console.WriteLine("Host Attendance Accepted");
+                        //Console.WriteLine("Host Attendance Accepted");
                         break;
                     }
 
@@ -180,7 +180,7 @@ namespace spaceconquest
                     Thread.Sleep(10000);
                     try
                     {
-                        Console.WriteLine("Foo");
+                        //Console.WriteLine("Foo");
                         foreach (Socket sock in socklist) {
                             sock.Receive(recBuff);
                         }
