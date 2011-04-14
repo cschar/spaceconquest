@@ -53,7 +53,6 @@ namespace spaceconquest
         public override void upkeep()
         {
             base.upkeep();
-            //this.UnloadAll();
         }
 
         public Boolean UnloadShip(Ship s)

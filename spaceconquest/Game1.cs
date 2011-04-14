@@ -54,7 +54,7 @@ namespace spaceconquest
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            bool full = true;
+            bool full = false;
 
             if (full)
             {

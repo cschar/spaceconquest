@@ -21,6 +21,7 @@ namespace spaceconquest
         protected int health = 1;
         protected int maxHealth = 1;
         //protected Model model = null;
+        protected bool hitthisturn = false;
 
         public Unit(Player p) {
             affiliation = p;
@@ -42,6 +43,7 @@ namespace spaceconquest
 
         public void hit(int damage){
             if (damage >= 0) {
+                this.hitthisturn = true;
                 this.setHealth(this.health - damage);
             }
         }
@@ -73,7 +75,8 @@ namespace spaceconquest
 
         public virtual void upkeep()
         {
-            if (health < maxHealth) { health++; }
+            if (!hitthisturn && health < maxHealth) { health++; }
+            hitthisturn = false;
         }
 
         //public abstract void upkeep();

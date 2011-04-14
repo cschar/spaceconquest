@@ -76,16 +76,17 @@ namespace spaceconquest
                 s1.neighbors.Add(sTemp);
                 lines.Add(new LineModel(positions[s2.index], positions[sTemp.index]));
 
-                System.Random rng = new System.Random(123456789);
+                Random rng = CommonRNG.rand;
                 int link = rng.Next(int.MaxValue);
-                for (int j = i+2; j <= size; j++) {
+                for (int j = 0; j < size-1; j++) {
                     if (i != j) {
-                        link = link = rng.Next(int.MaxValue);
+                        //link = link = rng.Next(int.MaxValue);
+                        link = rng.Next(size);
                         count++;
                         //Console.WriteLine(size + ", " + link + ", " +link%(size));
-                        if (link % (size+1) == 2) {
+                        s1 = systems.ElementAt(j);
+                        if (link == size-1 && !sTemp.neighbors.Contains(s1)) {
                             //Console.WriteLine("CONNECTION");
-                            s1 = systems.ElementAt(j % size);
                             s1.neighbors.Add(sTemp);
                             lines.Add(new LineModel(positions[s1.index],positions[sTemp.index])); //for drawing lines between connected galaxies
                             nTemp.Add(s1);

@@ -36,6 +36,8 @@ namespace spaceconquest
         protected Vector3 targetvector = new Vector3(0, 0, 0);
         private int percenttraveled = 0;
 
+        public bool dead = false;
+
         public void move(Hex3D target)
         {
             hex.RemoveObject();
@@ -45,8 +47,6 @@ namespace spaceconquest
             if (ghosthex != null) ghosthex.ClearGhostObject();
             line = null;
             targetpositions.Enqueue(target.getCenter());
-
-
 
             double x = target.getCenter().X - hex.getCenter().X;
             double y = hex.getCenter().Y - target.getCenter().Y;
@@ -60,11 +60,6 @@ namespace spaceconquest
             SetHex(target);
 
         }
-
-        //public Ship(String s)
-        //{
-        //    modelstring = s;
-        //}
 
         public Ship(ShipType st)
         {
@@ -106,7 +101,7 @@ namespace spaceconquest
 
         public override void upkeep()
         {
-            if (health < maxHealth) { health++; }
+            base.upkeep();
         }
 
         public void HopOn(Ship c)
@@ -118,7 +113,9 @@ namespace spaceconquest
         public override void kill()
         {
             hex.RemoveObject();
+            if (ghosthex != null) ghosthex.ClearGhostObject();
             if (affiliation != null) { affiliation.army.Remove(this); affiliation = null; }
+            Console.WriteLine("killed");
         }
 
         public List<Hex3D> GetReachable()

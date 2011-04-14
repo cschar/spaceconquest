@@ -24,7 +24,7 @@ namespace spaceconquest
 
             Point center = Point.Zero;
 
-            m.Root.Transform = Matrix.CreateScale(50f);
+            m.Root.Transform = Matrix.CreateScale(80f);
 
             basicEffect = new BasicEffect(Game1.device);
 

@@ -20,7 +20,7 @@ namespace spaceconquest
         private bool firinganimation = false;
         private Vector3 firingtarget = new Vector3();
         private Vector3 firingsource = new Vector3();
-        private Unit targetship = null;
+        private float firingangle = 0;
         protected int firingpercent = 0;
 
         public Warship(ShipType st) : base(st)
@@ -31,9 +31,12 @@ namespace spaceconquest
 
         public void Attack(Unit u)
         {
+            double x = u.getCenter().X - hex.getCenter().X;
+            double y = hex.getCenter().Y - u.getCenter().Y;
+            targetangle = Math.Atan(x / y);
+            if (y < 0) targetangle = targetangle + Math.PI;
+
             u.hit(damage);
-            targetship = null;
-            if (u.hex.GetGameObject() != u) { targetship = u; }
 
             firingsource = this.getCenter();
             firingpercent = 0;
@@ -68,18 +71,16 @@ namespace spaceconquest
             else
             {
                 Vector3 currentfiring = (firingtarget - firingsource) * (firingpercent / 100.0f) + firingsource;
-                firingpercent = firingpercent + 2;
-                if (firingpercent == 100) { firingpercent = 0; targetship = null; firinganimation = false; }
+                firingpercent = firingpercent + 10;
+                if (firingpercent == 100) { firingpercent = 0; firinganimation = false; }
 
-                SphereModel.Draw(Matrix.CreateTranslation(currentfiring) * world, view, projection, Color.Red, 10);
+                ProtonBeamModel.Draw(Matrix.CreateRotationZ((float)targetangle) * Matrix.CreateTranslation(currentfiring) * world, view, projection, Color.Red, 10);
                 //ProtonBeamModel.Draw(Matrix.CreateTranslation(currentfiring) * world, view, projection, Color.FromNonPremultiplied(c1, 200,200,255), 2);
                 //update shifting hue of beam
                 c1++;
                 if (c1 > 255) c1 = 0;
 
-                if (targetship != null) targetship.Draw(world, view, projection);
-
-
+               
                 if (shipmodel == null) { shipmodel = ShipModel.shipmodels[modelstring]; }
 
                 shipmodel.Draw(Matrix.CreateRotationZ((float)currentAngle) * Matrix.CreateTranslation(firingsource) * world, view, projection, affiliation.color, 1.6f, hoveringHeight);

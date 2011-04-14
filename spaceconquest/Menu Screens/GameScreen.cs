@@ -65,7 +65,7 @@ namespace spaceconquest
             selectedhex = nullhex;
             if (m == null)
             {
-                if (h) { map = new Map(2, 0, "test galaxy", (long)1); }
+                if (h) { map = new Map(2, 0, "test galaxy", (long)CommonRNG.rand.NextDouble()); }
                 //else { map = new Map(2, numclients, "test galaxy", (long)1); }
             }
             else { map = m; }
